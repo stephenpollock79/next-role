@@ -63,14 +63,19 @@
   function reset(){ try{ localStorage.removeItem(KEY); }catch(e){} location.reload(); }
   window.addEventListener("load",function(){
     var nice=new RealDate(+p[0], +p[1]-1, +p[2]).toLocaleDateString("en-GB",{weekday:"short", day:"numeric", month:"short", year:"numeric"});
+    /* A slim strip across the top of the page, in the page's flow so it covers nothing. */
     var b=document.createElement("div"); b.id="demo-banner";
-    b.setAttribute("style","position:fixed;left:16px;bottom:16px;z-index:9999;max-width:360px;background:#1f2a2e;color:#fff;border-radius:10px;padding:10px 14px;font:13px/1.45 'IBM Plex Sans',system-ui,sans-serif;box-shadow:0 6px 24px rgba(0,0,0,.25)");
-    b.innerHTML='<b>Next Role demo</b> · made-up data for a made-up designer. The date is fixed to '+nice+'. Your changes stay in this browser only. '+
-      '<button type="button" id="demo-reset" style="margin-left:6px;background:#fff;color:#1f2a2e;border:0;border-radius:6px;padding:3px 9px;font:inherit;cursor:pointer">Reset</button> '+
-      '<button type="button" id="demo-hide" style="background:transparent;color:#cfe3e0;border:0;font:inherit;cursor:pointer;text-decoration:underline">Hide</button>';
-    document.body.appendChild(b);
+    b.setAttribute("style","background:#1f2a2e;color:#fff;padding:7px 16px;font:13px/1.4 'IBM Plex Sans',system-ui,sans-serif;display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;justify-content:center;text-align:center");
+    b.innerHTML='<span><b>Next Role demo</b> · made-up data for a made-up designer · the date is fixed to '+nice+' · your changes stay in this browser only</span>'+
+      '<span><button type="button" id="demo-reset" style="background:#fff;color:#1f2a2e;border:0;border-radius:6px;padding:2px 10px;font:inherit;cursor:pointer">Reset</button> '+
+      '<button type="button" id="demo-hide" style="background:transparent;color:#cfe3e0;border:0;font:inherit;cursor:pointer;text-decoration:underline">Hide</button></span>';
+    document.body.insertBefore(b, document.body.firstChild);
     b.querySelector("#demo-reset").onclick=reset; b.querySelector("#demo-hide").onclick=function(){ b.remove(); };
-    /* Copy for Claude has no Claude to hand to here. */
+    /* Copy for Claude has no Claude to hand to here: copying explains that, and every Copy for Claude box says so at the top. */
     window.fxClip=function(txt,ok){ try{ toast("On your own board this copies a request for Claude to do the work. The demo has no Claude connected."); }catch(e){} };
+    var NOTE='<p class="hfi" style="background:#fff4d6;border-radius:8px;padding:8px 10px;margin:0 0 10px"><b>Demo:</b> there&rsquo;s no Claude here. On your own board you&rsquo;d paste this into a chat in your Next Role project, and Claude does the work and updates the board.</p>';
+    ["fxShow","rnShow"].forEach(function(fn){ var orig=window[fn]; if(typeof orig!=="function") return;
+      window[fn]=function(){ var r=orig.apply(this,arguments);
+        var body=document.getElementById(fn==="fxShow"? "fx-body" : "rn-body"); if(body) body.insertAdjacentHTML("afterbegin",NOTE); return r; }; });
   });
 })();

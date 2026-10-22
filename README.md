@@ -55,8 +55,6 @@ about 560 automated checks in the QA pass.
 **How it's tested.** Every change runs the real board code headless against real data with a mocked Claude,
 and compares every page before and after. A personal-data scan runs before anything is published.
 
-The full phase-by-phase story, including what didn't work: **[My project workflow](https://github.com/stephenpollock79/stephenpollock79/blob/main/playbook/project-workflow.md)**.
-
 **Tools.**
 
 | Tool | Used for |
