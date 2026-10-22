@@ -1,0 +1,732 @@
+/* ===== Deal-breakers: rows with evidence, review, change log (3 Oct) ===== */
+.rupanel .sechead{display:flex; align-items:center; gap:8px}
+.rupanel .rusp{flex:1}
+.rulede{font-size:12.5px; margin:2px 0 6px}
+.rurows{display:flex; flex-direction:column}
+.rurow{display:grid; grid-template-columns:20px 40px minmax(0,1fr) auto auto; gap:4px 10px; align-items:start; padding:10px 0; border-top:1px solid var(--line)}
+.rurow:first-child{border-top:none}
+.rurow .pid{font-family:"JetBrains Mono",ui-monospace,monospace; font-size:11.5px; color:var(--faint); padding-top:3px}
+.rurow .pn{font-weight:600; font-size:13.5px}
+.rurow .pf{font-size:11.5px; color:var(--faint); margin-left:6px; font-weight:400}
+.rurow .pr{display:block; font-size:13px; color:var(--ink-2); margin-top:2px}
+.rux{width:20px; height:20px; border:1px solid var(--line); border-radius:5px; background:var(--surface); color:var(--ink-2); font-size:10px; cursor:pointer; margin-top:1px}
+.rutop{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+.ruhint{font-size:11px; font-weight:600; padding:1px 8px; border-radius:99px; white-space:nowrap}
+.ruhint.s{background:var(--warn-soft); color:var(--warn)}
+.ruhint.l{background:color-mix(in srgb, var(--bad) 12%, transparent); color:var(--bad)}
+.rustats{display:flex; gap:14px; font-size:11.5px; color:var(--muted); white-space:nowrap; padding-top:2px}
+.rustats b{font:600 13px "IBM Plex Mono",monospace; color:var(--ink); margin-right:3px}
+.ruedit{padding-top:2px}
+.rudet{grid-column:3 / -1; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; margin-top:8px; padding:12px 14px; border-radius:12px; background:var(--surface-2); border:1px solid var(--line-2)}
+.rudet h5{margin:0 0 6px; font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); font-family:"IBM Plex Mono",monospace; font-weight:600}
+.rudet h5 small{text-transform:none; letter-spacing:0; font-family:inherit; font-weight:400; margin-left:4px}
+.rul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px}
+.rul li{display:flex; gap:10px; justify-content:space-between; align-items:flex-start; padding:7px 9px; background:var(--surface); border:1px solid var(--line-2); border-radius:9px}
+.rul li.ruempty{color:var(--muted); font-size:12.5px; background:none; border:none; padding:2px 0}
+.ruit{display:flex; flex-direction:column; min-width:0; font-size:12.5px}
+.ruit b{font-weight:600; color:var(--ink)} .ruit span{color:var(--muted); font-size:11.5px} .ruit em{font-style:normal; color:var(--ink-2); font-size:11.5px; margin-top:2px}
+.ruck{display:flex; gap:4px; flex:none}
+.ruckb{border:1px solid var(--line); background:var(--surface); border-radius:99px; padding:3px 9px; font:500 11px inherit; color:var(--ink-2); cursor:pointer; white-space:nowrap}
+.ruckb.on{background:var(--accent); border-color:var(--accent); color:#fff}
+.ruckb.w.on{background:var(--warn); border-color:var(--warn); color:#fff}
+.rulog{margin-top:12px; border-top:1px solid var(--line); padding-top:8px}
+.rulog summary{cursor:pointer; font-weight:600; font-size:13px}
+.rulog ul{list-style:none; margin:8px 0 0; padding:0; display:flex; flex-direction:column; gap:6px}
+.rulog li{display:grid; grid-template-columns:90px minmax(0,1fr) auto; gap:10px; align-items:start; font-size:12.5px}
+.rulog .d{font-family:"IBM Plex Mono",monospace; color:var(--muted); font-size:11.5px}
+.rulog .w{display:flex; flex-direction:column} .rulog small{color:var(--muted)} .rulog small.eff{color:var(--ink-2)}
+.rulog .u{font-size:11.5px; color:var(--faint)}
+.ruchks{display:flex; flex-wrap:wrap; gap:6px 14px; margin-top:4px}
+.ruchk{display:inline-flex; align-items:center; gap:6px; font-size:13px; color:var(--ink)}
+.ruhelp{color:var(--muted); font-size:11.5px; margin-top:4px; display:block}
+.rulint{padding:10px 12px; border-radius:10px; background:var(--warn-soft); font-size:12.5px} .rulint ul{margin:0 0 6px; padding-left:18px} .rulint p{margin:0 0 6px}
+.rulintok{margin:0; font-size:12.5px; color:var(--good); font-weight:600}
+@media (max-width:900px){
+  .rurow{grid-template-columns:20px 34px minmax(0,1fr)} .rustats{grid-column:3; flex-wrap:wrap} .ruedit{grid-column:3; justify-self:start}
+  .rudet{grid-template-columns:1fr; grid-column:1 / -1}
+}
+.rulog .cfmeta{margin-left:8px}
+
+/* My criteria rows (21) and Review my search (3 Oct) */
+.prrow{display:grid; grid-template-columns:40px minmax(0,1fr) auto; gap:4px 10px; align-items:start; padding:9px 0; border-top:1px solid var(--line)}
+.prrow:first-child{border-top:none} .prrow.noid{grid-template-columns:minmax(0,1fr) auto}
+.prrow .pid{font-family:"JetBrains Mono",ui-monospace,monospace; font-size:11.5px; color:var(--faint); padding-top:3px}
+.prrow .pn{font-weight:600; font-size:13.5px; display:block} .prrow .pr{display:block; font-size:13px; color:var(--ink-2); margin-top:2px}
+.prev{display:block; font-size:11.5px; color:var(--muted); margin-top:4px} .prev.warn{color:var(--warn); font-weight:600}
+.prpanel .sechead, .rupanel .sechead{display:flex; align-items:center; gap:8px}
+.srline{margin:0 0 6px; font-size:12.5px; padding:8px 12px; border-radius:10px; background:var(--accent-soft); color:var(--accent-ink)}
+.srrev{border-color:color-mix(in srgb, var(--accent) 35%, var(--line))}
+.srdiag{display:flex; gap:10px; align-items:flex-start; padding:10px 12px; border-radius:10px; background:var(--surface-2); border:1px solid var(--line-2)}
+.srdiag p{margin:0; font-size:13px; color:var(--ink)}
+.srprob{flex:none; font:600 10.5px "IBM Plex Mono",monospace; letter-spacing:.06em; text-transform:uppercase; padding:3px 9px; border-radius:99px; background:var(--warn-soft); color:var(--warn)}
+.srprob.p-healthy{background:color-mix(in srgb, var(--good) 14%, transparent); color:var(--good)}
+.srlev{font:600 10.5px "IBM Plex Mono",monospace; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-2); background:var(--line-2); padding:2px 8px; border-radius:99px}
+.ish .isr{margin-left:8px}
+.runear{font-size:10.5px; font-weight:600; color:var(--warn); background:var(--warn-soft); padding:1px 6px; border-radius:99px}
+/* 28: a source with nothing that fits in its last sweeps (Sourcing row) */
+.srcnofit{font-weight:600; color:var(--warn)}
+
+/* ===== Search review page (22, 3 Oct) ===== */
+#rv-root{display:flex; flex-direction:column; gap:14px; max-width:880px}
+.rvcard{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:18px 20px; display:flex; flex-direction:column; gap:10px}
+.rvcard h3{margin:0; font-size:17px} .rvcard h4{margin:6px 0 0; font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); font-family:"IBM Plex Mono",monospace; font-weight:600}
+.rvcard p{margin:0; font-size:13.5px; line-height:1.5; color:var(--ink)}
+.rvintro{border-color:color-mix(in srgb, var(--accent) 35%, var(--line))}
+.rvread{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:8px}
+.rvread li{font-size:12.5px; color:var(--ink-2); background:var(--surface-2); border:1px solid var(--line-2); border-radius:99px; padding:4px 11px}
+.rvread b{color:var(--ink); font-family:"IBM Plex Mono",monospace}
+.rvsafe{font-size:12.5px !important; color:var(--ink-2) !important; padding:8px 12px; border-radius:10px; background:var(--accent-soft)}
+.rvacts{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+.rvhead{display:flex; align-items:center; gap:16px; flex-wrap:wrap}
+.rvsteps{list-style:none; margin:0; padding:0; display:flex; gap:6px; counter-reset:s}
+.rvsteps li{counter-increment:s; font-size:12px; color:var(--faint); padding:4px 10px; border-radius:99px; border:1px solid var(--line)}
+.rvsteps li::before{content:counter(s) ". "} .rvsteps li.on{color:#fff; background:var(--accent); border-color:var(--accent)} .rvsteps li.done{color:var(--ink-2); border-color:var(--line-2); background:var(--surface-2)}
+.rvprog{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px}
+.rvprog li{font-size:13px; color:var(--faint); padding-left:22px; position:relative}
+.rvprog li::before{content:""; position:absolute; left:4px; top:5px; width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line)}
+.rvprog li.done{color:var(--ink-2)} .rvprog li.done::before{background:var(--good); border-color:var(--good)}
+.rvprog li.on{color:var(--ink); font-weight:500} .rvprog li.on::before{border-color:var(--accent); animation:rvp 1s infinite alternate}
+@keyframes rvp{to{background:var(--accent)}}
+.rvarea{align-self:flex-start; font:600 10.5px "IBM Plex Mono",monospace; letter-spacing:.06em; text-transform:uppercase; padding:3px 9px; border-radius:99px; background:var(--warn-soft); color:var(--warn); white-space:nowrap}
+.rvarea.a-healthy{background:color-mix(in srgb, var(--good) 14%, transparent); color:var(--good)}
+.rvsum{font-size:14.5px !important}
+.rvev{margin:0; padding-left:18px; font-size:12.5px; color:var(--ink-2)} .rvev li{margin:2px 0}
+.rvq{display:flex; flex-direction:column; gap:8px; padding-top:10px; border-top:1px solid var(--line)}
+.rvask{font-weight:600}
+.rvq textarea, .rvaskbox textarea, .rvedit textarea, .rvedit input, .rvedit select{width:100%; border:1px solid var(--line); border-radius:9px; padding:8px 10px; font:inherit; font-size:13px; background:var(--surface)}
+.rvyou{font-size:12.5px !important; color:var(--ink-2) !important; padding-top:8px; border-top:1px dashed var(--line)}
+.rvpn{display:flex; align-items:center; gap:8px; font-size:12px; color:var(--muted)}
+.rvkind{font-weight:600; padding:2px 8px; border-radius:99px; background:var(--surface-2); border:1px solid var(--line-2); color:var(--ink-2)} .rvkind.k-action{background:var(--accent-soft); color:var(--accent-ink); border-color:transparent}
+.rvdec{margin-left:auto; font-weight:600} .rvdec.d-keep,.rvdec.d-change{color:var(--good)} .rvdec.d-no{color:var(--bad)}
+.rvintro2{color:var(--ink-2) !important; font-size:12.5px !important}
+.rvrev{font-size:12px !important; color:var(--accent-ink) !important}
+.rvchg{display:flex; flex-direction:column; gap:4px; padding:10px 12px; border-radius:10px; background:var(--surface-2); border:1px solid var(--line-2); font-size:13px}
+.rvchg del{color:var(--muted)} .rvchg ins{text-decoration:none; color:var(--ink); background:color-mix(in srgb, var(--accent) 10%, transparent); padding:2px 4px; border-radius:4px} .rvchg small{color:var(--muted)}
+.rvlev{font:600 10.5px "IBM Plex Mono",monospace; letter-spacing:.05em; text-transform:uppercase; color:var(--muted)}
+.rvthread{display:flex; flex-direction:column; gap:6px; padding:10px 12px; border-radius:10px; border:1px solid var(--line-2)}
+.rvmsg{font-size:13px; line-height:1.45} .rvmsg b{margin-right:6px} .rvmsg.m-claude b{color:var(--accent-ink)}
+.rvaskbox{display:flex; flex-direction:column; gap:6px}
+.rvedit{display:flex; flex-direction:column; gap:8px}
+.rvmain{padding-top:4px}
+.rvnav{display:flex; justify-content:space-between; align-items:center; padding-top:8px; border-top:1px solid var(--line)}
+.rverr{color:var(--bad) !important; font-size:12.5px !important}
+.rvl{margin:0; padding-left:0; list-style:none; display:flex; flex-direction:column; gap:8px} .rvl li{font-size:13px; display:flex; flex-direction:column; gap:4px} .rvl.dim li{color:var(--muted)}
+.rvpast{list-style:none; margin:0; padding:0; display:flex; flex-direction:column}
+.rvpast li{display:grid; grid-template-columns:96px auto minmax(0,1fr) auto; gap:10px; align-items:center; padding:8px 0; border-top:1px solid var(--line-2); font-size:12.5px}
+.rvpast li:first-child{border-top:none} .rvps{color:var(--ink-2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis} .rvpn2{color:var(--muted); white-space:nowrap}
+@media (max-width:700px){ .rvpast li{grid-template-columns:1fr; gap:2px} }
+
+/* How to use › Running it: the loop and the stage cards (3 Oct) */
+.loopfig{margin:6px 0 0; display:flex; flex-direction:column; gap:8px}
+.loopfig svg{width:100%; max-width:820px; height:auto; color:var(--ink-2)}
+.loopfig figcaption{font-size:12.5px; color:var(--muted); max-width:760px}
+.lpbox rect{fill:var(--surface-2); stroke:var(--line); stroke-width:1.2}
+.lpbox circle{fill:var(--accent)} .lpbox .lpn{fill:#fff; font:700 12px "IBM Plex Sans",system-ui,sans-serif}
+.lpbox .lpt{fill:var(--ink); font:600 15px "IBM Plex Sans",system-ui,sans-serif} .lpbox .lps{fill:var(--muted); font:500 11.5px "IBM Plex Sans",system-ui,sans-serif}
+.lpacc2 rect{stroke:var(--accent); stroke-width:1.6}
+.loopfig a:hover rect{stroke:var(--accent); fill:var(--accent-soft)} .loopfig a{cursor:pointer}
+.lpl{stroke:currentColor; stroke-width:1.6} .lpo{stroke:var(--accent); stroke-dasharray:5 4}
+.lpacc{fill:var(--accent)}
+.lpe{fill:var(--muted); font:500 11px "IBM Plex Sans",system-ui,sans-serif} .lpacct{fill:var(--accent-ink)}
+.lpcards{display:flex; flex-direction:column; gap:12px; margin-top:16px}
+.lpcard{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:14px 18px; display:flex; flex-direction:column; gap:10px}
+.lph{display:flex; align-items:center; gap:10px; flex-wrap:wrap} .lph h4{margin:0; font-size:15px} .lph a{font-size:12.5px} .lph .chip{margin-left:auto}
+.lpnum{width:24px; height:24px; border-radius:50%; background:var(--accent); color:#fff; font:700 12px "IBM Plex Sans",system-ui,sans-serif; display:inline-flex; align-items:center; justify-content:center; flex:none}
+.lpcols{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px}
+.lpcols ul{margin:4px 0 0; padding-left:18px; font-size:13px; line-height:1.5; color:var(--ink)} .lpcols li{margin:3px 0}
+.lpwhen{margin:0; font-size:12.5px; color:var(--ink-2); padding:8px 12px; border-radius:10px; background:var(--accent-soft)}
+@media (max-width:760px){ .lpcols{grid-template-columns:1fr} .loopfig{display:none} }
+
+/* ===== Page rails (23, 3 Oct): Sourcing, Targets › Companies and Sectors ===== */
+.pgrid{display:grid; grid-template-columns:minmax(0,1fr) 350px; gap:16px; align-items:start}
+.pgmain{min-width:0}
+.pgrail{position:sticky; top:calc(var(--hdr,74px) + 12px); display:flex; flex-direction:column; gap:12px; padding-bottom:4px}
+.pgrail:empty{display:none}
+@media (max-width:1200px){ .pgrid{grid-template-columns:minmax(0,1fr)} .pgrail{position:static; max-height:none} }
+.rlc, .pgrail .rlpanel{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:12px 14px; display:flex; flex-direction:column; gap:8px; margin:0}
+.pgrail .rlpanel h3{font-size:14px; margin:0}
+.pgrail .rlpanel .row{flex-wrap:wrap; gap:4px}
+.pgrail .rlpasses{display:block} .pgrail .rlpasses .tcard{margin:0}
+.rlh{display:flex; align-items:baseline; gap:8px} .rlh h4{margin:0; font-size:14px} .rlh .rlk{margin-left:auto; font-size:12px}
+.rls{margin:0; font-size:12px; color:var(--muted); line-height:1.45}
+.rlempty{margin:0; font-size:12.5px; color:var(--muted)}
+.rlmore{margin:0; font-size:11.5px; color:var(--faint)}
+.rlwarn{margin:0; font-size:12.5px; color:var(--warn); font-weight:600}
+.rll{list-style:none; margin:0; padding:0; display:flex; flex-direction:column}
+.rll li{display:flex; align-items:center; gap:8px; padding:5px 0; border-top:1px solid var(--line-2); font-size:12.5px}
+.rll li:first-child{border-top:none} .rll li > a, .rll li > span:first-child{flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis} .rll li > span:not(:first-child){color:var(--muted); font-size:11.5px; white-space:nowrap}
+.rlchip{font-size:11px !important; font-weight:600; color:var(--accent-ink) !important; background:var(--accent-soft); padding:1px 7px; border-radius:99px}
+.rlb, .rlcv{display:grid; grid-template-columns:110px minmax(0,1fr) auto; gap:8px; align-items:center; font-size:12px}
+.rlbl{color:var(--ink-2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.rlbt, .rlbt3{position:relative; height:8px; border-radius:99px; background:var(--line-2); overflow:hidden}
+.rlbt i{display:block; height:100%; background:var(--accent); border-radius:99px}
+.rlbt3 i{position:absolute; left:0; top:0; height:100%; border-radius:99px} .rlbt3 i.a{background:color-mix(in srgb, var(--accent) 30%, var(--line-2))} .rlbt3 i.b{background:color-mix(in srgb, var(--accent) 65%, transparent)} .rlbt3 i.c{background:var(--accent)}
+.rlb b, .rlcv b{font:600 12px "IBM Plex Mono",monospace; color:var(--ink)}
+.rlkey{margin:2px 0 0; font-size:11px; color:var(--muted); display:flex; gap:10px; align-items:center} .rlkey i{display:inline-block; width:9px; height:9px; border-radius:3px; margin-right:-6px}
+.rlkey i.a{background:color-mix(in srgb, var(--accent) 30%, var(--line-2))} .rlkey i.b{background:color-mix(in srgb, var(--accent) 65%, transparent)} .rlkey i.c{background:var(--accent)}
+.rltiles{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px}
+.rltiles div{background:var(--surface-2); border:1px solid var(--line-2); border-radius:10px; padding:7px 9px; display:flex; flex-direction:column}
+.rltiles b{font:700 18px "IBM Plex Sans",system-ui,sans-serif; color:var(--ink)} .rltiles span{font-size:11px; color:var(--muted)}
+.rlst{display:grid; grid-template-columns:110px 28px minmax(0,1fr); gap:8px; align-items:baseline; font-size:12.5px; padding:4px 0; border-top:1px solid var(--line-2)}
+.rlst:first-child{border-top:none} .rlst b{font-family:"IBM Plex Mono",monospace} .rlst small{color:var(--muted)}
+.pgrail .funnel .frow{grid-template-columns:110px minmax(0,1fr) auto}
+
+/* ===== Compare header (23) ===== */
+.cmphead{display:grid; grid-template-columns:minmax(0,1fr) 270px; gap:14px; margin:0 0 14px}
+.cmpcards{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px}
+.cmpc{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:12px 14px; display:flex; flex-direction:column; gap:10px; border-top:4px solid var(--dc)}
+.cmpc.d0, .qd.d0{--dc:#0F766E} .cmpc.d1, .qd.d1{--dc:#6C5B8E} .cmpc.d2, .qd.d2{--dc:#C7A35A}
+.cmpct{display:flex; gap:10px; align-items:flex-start} .cmpct b{display:block; font-size:14px} .cmpct span{font-size:12px; color:var(--muted)}
+.cmpn{flex:none; width:24px; height:24px; border-radius:50%; background:var(--dc); color:#fff; font:700 12px "IBM Plex Sans",system-ui,sans-serif; display:inline-flex; align-items:center; justify-content:center}
+.cmpcb{display:flex; align-items:center; gap:8px; flex-wrap:wrap} .cmpfs{font-size:12px; color:var(--ink-2)}
+.cmpqwrap{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:12px 14px} .cmpqwrap h4{margin:0 0 4px; font-size:14px}
+.cmpq{width:100%; height:auto}
+.cmpq .q{stroke:var(--line); fill:var(--surface-2)} .cmpq .q.hh{fill:color-mix(in srgb, var(--good) 12%, var(--surface))} .cmpq .q.ll{fill:color-mix(in srgb, var(--bad) 8%, var(--surface))}
+.cmpq .ql{font:500 9.5px "IBM Plex Sans",system-ui,sans-serif; fill:var(--muted); text-anchor:middle} .cmpq .qa{font:600 10px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink-2); text-anchor:middle}
+.cmpq .qd circle{fill:var(--dc); stroke:var(--surface); stroke-width:2} .cmpq .qd text{fill:#fff; font:700 11px "IBM Plex Sans",system-ui,sans-serif; text-anchor:middle}
+@media (max-width:900px){ .cmphead{grid-template-columns:1fr} }
+
+/* ===== Data health (24, 3 Oct) ===== */
+.hystrip{display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:12px 16px; margin-bottom:14px}
+.hysn{display:flex; align-items:baseline; gap:6px; padding-right:12px; border-right:1px solid var(--line-2)} .hysn:last-of-type{border-right:none}
+.hysn b{font:700 20px "IBM Plex Sans",system-ui,sans-serif; color:var(--ink)} .hysn b.b{color:var(--accent-ink)} .hysn b.c{color:#6C5B8E} .hysn b.y{color:var(--warn)} .hysn span{font-size:12.5px; color:var(--muted)}
+.hystrip .btn.primary{margin-left:auto} .hyok{margin-left:auto; font-size:12.5px; color:var(--muted)}
+.hygrid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; align-items:start}
+@media (max-width:1000px){ .hygrid{grid-template-columns:1fr} }
+.hyc{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:14px 16px; display:flex; flex-direction:column; gap:10px}
+.hyc.clear{padding:10px 16px} .hych{display:flex; align-items:center; gap:8px} .hych h3{margin:0; font-size:15px}
+.hycn{font:600 12px "IBM Plex Mono",monospace; background:var(--warn-soft); color:var(--warn); padding:1px 8px; border-radius:99px} .hyokc{margin-left:auto; font-size:12.5px; color:var(--good); font-weight:600}
+.hyrow{display:flex; flex-direction:column; gap:5px; padding-top:10px; border-top:1px solid var(--line-2)} .hyrow:first-of-type{border-top:none; padding-top:0}
+.hyrt{display:flex; align-items:center; gap:8px; font-size:13.5px} .hyrt b{font-weight:600}
+.hywho{margin-left:auto; font-size:11px; font-weight:600; padding:1px 8px; border-radius:99px; white-space:nowrap}
+.hywho.w-board{background:var(--accent-soft); color:var(--accent-ink)} .hywho.w-you{background:var(--warn-soft); color:var(--warn)}
+.hyw{margin:0; font-size:12.5px; color:var(--ink-2)}
+.hyall{align-self:flex-start; font-size:12px}
+.hfdlg{max-width:680px} #hf-body{display:flex; flex-direction:column; gap:12px; max-height:70vh; overflow:auto}
+.hfi{margin:0; font-size:13px; color:var(--ink-2)}
+.hfg{border:1px solid var(--line); border-radius:12px; padding:10px 12px} .hfgh{display:flex; align-items:center; gap:8px} .hfgh h4{margin:0; font-size:14px} .hfall{margin-left:auto; font-size:12px; color:var(--muted); display:flex; gap:5px; align-items:center}
+.hfs{margin:2px 0 6px; font-size:12px; color:var(--muted)}
+.hfg ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:4px} .hfg li label{display:flex; gap:8px; align-items:flex-start; font-size:13px; cursor:pointer} .hfg li input{margin-top:3px}
+.hfy li{font-size:13px; padding:4px 0} .hfy li span{display:block; font-size:12px; color:var(--muted)}
+.hfdone{display:flex; flex-direction:column; gap:12px; align-items:flex-start} .hfdone p{margin:0; font-size:13.5px}
+.cmpc .fitgauges{display:flex; gap:10px; justify-content:center} .cmpc .fgauge{width:96px} .cmpc .fgauge svg{width:88px; height:auto}
+.cmpc .cmpn{font-size:12px; color:#fff}
+.cmphead, .cmpcards{align-items:start}
+
+/* Scrolling like the role pages (3 Oct): page header pins under the top bar, Companies' toolbar under it,
+   a strip of page background below the bar; the rail is placed by pgRailPin and never scrolls on its own. */
+@media (min-width:1100px){
+  body:is([data-tab="routine"],[data-tab="companies"],[data-tab="sectors"]) :is(#tab-routine,#tab-companies,#tab-sectors) > .pagehead{
+    position:sticky; top:calc(var(--hdr,64px) + var(--pt,22px)); z-index:20; background:var(--bg); box-shadow:0 calc(-1 * var(--pt,22px)) 0 0 var(--bg), 0 var(--phm,0px) 0 0 var(--bg)}
+  body[data-tab="companies"] #tab-companies > .toolbar{position:sticky; top:calc(var(--hdr,64px) + var(--pt,22px) + var(--ph,56px)); z-index:19;
+    background:var(--bg); margin-bottom:0; padding-bottom:14px}
+  body:is([data-tab="routine"],[data-tab="companies"],[data-tab="sectors"]) header.top::after{content:""; position:absolute; left:0; right:0; top:100%; height:var(--pt,22px); background:var(--bg); pointer-events:none}
+}
+.pgrail #dropoff-note, .pgrail #screened-detail{display:none !important}
+.pgrail .rlk{font-size:12px; align-self:flex-start}
+.pgrail .rlpanel .funnel{margin-top:2px}
+.rlruns{list-style:none; margin:0; padding:0; display:flex; flex-direction:column}
+.rlruns li{display:grid; grid-template-columns:78px auto minmax(0,1fr); gap:8px; align-items:baseline; padding:6px 0; border-top:1px solid var(--line-2); font-size:12px}
+.rlruns li:first-child{border-top:none}
+.rld{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--muted)}
+.rlk2{font-size:11px; font-weight:600; padding:1px 7px; border-radius:99px; background:var(--surface-2); color:var(--ink-2)} .rlk2.k-sweep{background:var(--accent-soft); color:var(--accent-ink)}
+.rln{color:var(--ink-2)} .rln b{color:var(--ink); font-family:"IBM Plex Mono",monospace; font-weight:600}
+
+/* Data health, one column (3 Oct, second pass) */
+.hylist{display:flex; flex-direction:column; gap:14px; max-width:1100px}
+.hylist .hyc{padding:16px 18px; gap:0}
+.hylist .hych{padding-bottom:10px; border-bottom:1px solid var(--line)}
+.hylist .hyrow{display:grid; grid-template-columns:34px minmax(0,1fr); gap:12px; padding:12px 0; border-top:1px solid var(--line-2)}
+.hylist .hyrow:first-of-type{border-top:none}
+.hylist .hyst{display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:26px; border-radius:8px; font:700 12.5px "IBM Plex Mono",monospace; background:var(--warn-soft); color:var(--warn)}
+.hylist .hyst.info{background:var(--surface-2); color:var(--ink-2)}
+.hylist .hyrm{display:flex; flex-direction:column; gap:4px; min-width:0}
+.hylist .hyrt{display:flex; align-items:center; gap:10px} .hylist .hyrt b{font-size:14px}
+.hylist .hyitems{display:flex; flex-wrap:wrap; gap:6px; margin:4px 0 0; padding:0; align-items:center}
+.hylist .hyall{font-size:12px}
+.hyclear{margin:0; font-size:13px; color:var(--ink-2); padding:12px 18px; background:var(--surface); border:1px solid var(--line); border-radius:14px}
+.hyclear span{color:var(--good); font-weight:700; margin-right:4px}
+/* the fixes pop-up */
+.hfdlg{width:min(680px,94vw); max-width:680px}
+#hf-body{display:flex; flex-direction:column; gap:14px; max-height:72vh; overflow:auto; padding-right:4px}
+.hfi{margin:0; font-size:13px; color:var(--ink-2)}
+.hfg{border:1px solid var(--line); border-radius:14px; padding:0; overflow:hidden; background:var(--surface)}
+.hfgh{display:flex; align-items:flex-start; gap:10px; padding:12px 14px; background:var(--surface-2); border-bottom:1px solid var(--line)}
+.hfgh h4{margin:0; font-size:14px; display:flex; align-items:center; gap:6px}
+.hfgn{font:600 11.5px "IBM Plex Mono",monospace; background:var(--surface); border:1px solid var(--line); padding:0 7px; border-radius:99px; color:var(--ink-2)}
+.hfgi{flex:none; width:10px; height:10px; border-radius:50%; margin-top:5px} .hfgi.k-b{background:var(--accent)} .hfgi.k-c{background:#6C5B8E} .hfgi.k-y{background:var(--warn)}
+.hfs{margin:2px 0 0; font-size:12px; color:var(--muted)}
+.hfall{margin-left:auto; font-size:12px; white-space:nowrap}
+.hfl{display:flex; flex-direction:column}
+.hfrow{display:grid !important; grid-template-columns:22px minmax(0,1fr) auto; gap:10px; align-items:start; padding:10px 14px; border-top:1px solid var(--line-2); text-align:left; cursor:pointer; margin:0; font-weight:400}
+.hfl > .hfrow:first-child{border-top:none}
+.hfrow:hover{background:var(--surface-2)}
+.hfrow input{margin:2px 0 0; width:16px; height:16px; accent-color:var(--accent)}
+.hfw{display:flex; flex-direction:column; gap:2px; min-width:0}
+.hfw b{font-size:13px; font-weight:600; color:var(--ink)}
+.hfw > span{font-size:12.5px; color:var(--ink-2)} .hfw em{font-style:normal; color:var(--muted)}
+.hfrow.ny{cursor:default} .hfrow.ny:hover{background:none}
+.hfyn{display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:6px; background:var(--warn-soft); color:var(--warn); font:700 11.5px "IBM Plex Mono",monospace}
+.hffoot{position:sticky; bottom:0; display:flex; gap:8px; align-items:center; padding:12px 0 2px; background:var(--surface)}
+#hf-body > *{flex:none}
+
+/* Suggest fixes v2 (3 Oct): problem sub-headings, now/next-morning tags, item rows for "needs you" */
+.hfp{border-top:1px solid var(--line)} .hfgh + .hfp{border-top:none}
+.hfph{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px; padding:10px 14px 4px} .hfph b{font-size:13px}
+.hfphw{flex-basis:100%; font-size:12px; color:var(--muted)}
+.hfp .hfl > .hfrow:first-child{border-top:1px solid var(--line-2)}
+.hftag{font-size:11px; font-weight:600; padding:1px 8px; border-radius:99px; white-space:nowrap; align-self:start; margin-top:1px}
+.hftag.now{background:var(--accent-soft); color:var(--accent-ink)} .hftag.later{background:color-mix(in srgb, #6C5B8E 14%, transparent); color:#6C5B8E} .hftag.you{background:var(--warn-soft); color:var(--warn)}
+.hfyou .hyi{border:none !important; background:none !important; padding:0 !important; border-radius:0 !important; display:block; font-size:13px; font-weight:600; color:var(--ink); text-decoration:none} .hfyou .hyi:hover{text-decoration:underline}
+.hyin{font-weight:400; color:var(--muted); font-size:12px}
+.hfyou .hyin{display:block; margin-top:2px}
+.hfmore{padding-top:6px; padding-bottom:8px}
+
+/* 3 Oct: strip matches the card column; per-problem action buttons */
+#hy-body .hystrip{max-width:1100px; box-sizing:border-box}
+.hyrt .hyact{margin-left:auto; white-space:nowrap}
+.hyrt{align-items:center} .hyrt .hyact{margin-top:-4px; margin-bottom:-4px}
+.hyc.hydone, .hyrow.hydone{opacity:.62} .hyc.hydone .hyrow.hydone{opacity:1}
+
+/* ===== How to use overhaul (25, 3 Oct) ===== */
+#tab-help .pagetabs{max-width:1100px}
+.hpsb{max-width:1100px; margin:0 0 16px; position:relative; z-index:30}
+.hpsrch{display:flex; align-items:center; gap:10px; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:0 14px; box-shadow:var(--shadow)}
+.hpsrch:focus-within{border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft)}
+.hpsrch svg{width:18px; height:18px; fill:none; stroke:var(--muted); stroke-width:2; stroke-linecap:round; flex:none}
+.hpsrch input{flex:1; border:0; outline:0; background:transparent; font:inherit; font-size:14px; padding:12px 0; color:var(--ink); min-width:0}
+.hpres{position:absolute; top:100%; left:0; right:0; margin-top:6px; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:6px; box-shadow:0 12px 32px rgba(20,16,30,.16), var(--shadow); max-height:min(70vh,600px); overflow:auto; overscroll-behavior:contain}
+.hpsrch input::-webkit-search-cancel-button{display:none}
+.hpclr{flex:none; border:0; background:transparent; color:var(--muted); font-size:20px; line-height:1; width:28px; height:28px; border-radius:50%; cursor:pointer}
+.hpclr:hover, .hpclr:focus-visible{background:var(--surface-2); color:var(--ink); outline:0}
+.hpall{display:block; margin:2px 12px 6px; font-size:12.5px}
+@media (max-width:700px){ .hpres{max-height:75vh; border-radius:12px} }
+.hprl{list-style:none; margin:0; padding:0; display:flex; flex-direction:column}
+.hprl a{display:grid; grid-template-columns:minmax(0,1fr); gap:2px; padding:9px 12px; border-radius:9px; text-decoration:none; color:var(--ink)}
+.hprl a:hover, .hprl a:focus{background:var(--accent-soft); outline:0}
+.hprs{font-size:11px; font-weight:600; letter-spacing:.02em; text-transform:uppercase; color:var(--accent-ink)}
+.hprl b{font-size:13.5px; font-weight:600}
+.hprx{font-size:12.5px; color:var(--muted); line-height:1.45}
+.hprx mark{background:color-mix(in srgb, var(--accent) 22%, transparent); color:inherit; border-radius:3px; padding:0 1px}
+.hpnone{margin:8px 12px; font-size:13px; color:var(--muted)}
+.hpask{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:8px 10px 6px; border-top:1px solid var(--line-2)}
+.hpask:empty{display:none}
+.hpaskn{font-size:12px; color:var(--muted)}
+.hpai{flex-basis:100%; background:var(--surface-2); border:1px solid var(--line); border-radius:10px; padding:10px 14px; font-size:13.5px; line-height:1.55; color:var(--ink)}
+.hpai p{margin:4px 0} .hpai ul{margin:4px 0; padding-left:18px} .hpthink{color:var(--muted)}
+.hpflash{animation:hpflash 1.6s ease-out}
+@keyframes hpflash{0%{box-shadow:0 0 0 4px var(--accent-soft); background:var(--accent-soft)} 100%{box-shadow:0 0 0 0 transparent}}
+.hph{margin:22px 0 10px; font-size:16px}
+.hpblock{margin-top:16px} .hpbh{display:flex; align-items:center; gap:10px; flex-wrap:wrap} .hpbh h3{margin:0} .hpbh .chip{margin-left:auto}
+.hplede{font-size:13px; margin:6px 0 14px}
+.hpcap{font-size:12.5px; color:var(--muted); margin:12px 0 0; line-height:1.5}
+/* hero */
+.hphero{display:grid; grid-template-columns:minmax(0,1.7fr) minmax(220px,1fr); gap:24px; align-items:center; padding:26px 28px;
+  background:linear-gradient(135deg, var(--accent-soft), var(--surface) 70%); border-color:color-mix(in srgb, var(--accent) 25%, var(--line))}
+.hpherot h3{font-size:24px; line-height:1.2; margin:4px 0 10px; letter-spacing:-.01em}
+.hpherot p{margin:0; font-size:14.5px; line-height:1.6; color:var(--ink-2); max-width:620px}
+.hpcta{display:flex; flex-wrap:wrap; gap:8px; margin-top:18px}
+.hpstats{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px}
+.hpstats li{display:flex; align-items:baseline; gap:10px; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:10px 14px}
+.hpstats b{font:700 20px "IBM Plex Sans",system-ui,sans-serif; color:var(--accent-ink); min-width:56px} .hpstats span{font-size:13px; color:var(--ink-2)}
+/* what it does */
+.hpdoes{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px}
+.hpdo{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:6px}
+.hpdo b{font-size:14.5px} .hpdo p{margin:0; font-size:13px; line-height:1.5; color:var(--ink-2)}
+.hpdoi{width:34px; height:34px; border-radius:10px; background:var(--accent-soft); display:inline-flex; align-items:center; justify-content:center; margin-bottom:4px}
+.hpic{width:19px; height:19px; fill:none; stroke:var(--accent-ink); stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round}
+/* journey */
+.hpj{display:grid; grid-template-columns:110px repeat(5,minmax(0,1fr)); gap:8px; align-items:stretch}
+.hpjlab{display:grid; grid-template-rows:auto 1fr 1fr; gap:8px} .hpjlab > span:first-child{height:54px}
+.hpjl{font-size:11.5px; font-weight:600; text-transform:uppercase; letter-spacing:.03em; display:flex; align-items:center}
+.hpjl.a{color:var(--accent-ink)} .hpjl.y{color:var(--warn)}
+.hpjc{display:grid; grid-template-rows:auto 1fr 1fr; gap:8px; position:relative}
+.hpjst{display:flex; align-items:center; gap:8px; height:54px; padding:0 14px 0 12px; background:var(--accent); color:#fff; font-weight:600; font-size:14px; text-decoration:none;
+  clip-path:polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%, 12px 50%); padding-left:22px; flex-wrap:wrap; align-content:center; row-gap:0}
+.hpjc:first-child .hpjst, .hpjlab + .hpjc .hpjst{clip-path:polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%); padding-left:14px; border-radius:10px 0 0 10px}
+.hpjst:hover{background:var(--accent-ink)}
+.hpjst em{flex-basis:100%; font-style:normal; font-weight:500; font-size:11px; opacity:.85; margin-left:26px}
+.hpjn{width:20px; height:20px; border-radius:50%; background:rgba(255,255,255,.22); display:inline-flex; align-items:center; justify-content:center; font-size:11.5px}
+.hpjb{border-radius:10px; padding:10px 12px; font-size:12.5px; line-height:1.45; color:var(--ink)}
+.hpjb.a{background:var(--accent-soft); border:1px solid color-mix(in srgb, var(--accent) 20%, transparent)}
+.hpjb.y{background:var(--warn-soft); border:1px solid color-mix(in srgb, var(--warn) 20%, transparent)}
+.hpjm{display:none; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; margin-bottom:3px}
+.hpjb.a .hpjm{color:var(--accent-ink)} .hpjb.y .hpjm{color:var(--warn)}
+/* week */
+.hpw{display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:6px}
+.hpwd{text-align:center; font-size:12px; color:var(--muted); padding:4px 0; border-bottom:1px solid var(--line)} .hpwd b{font-weight:600; color:var(--ink-2)}
+.hpwbar{grid-column:1 / -1; background:var(--accent-soft); border:1px dashed color-mix(in srgb, var(--accent) 45%, transparent); border-radius:10px; padding:8px 12px; font-size:12.5px; color:var(--accent-ink); font-weight:500}
+.hpwc{display:flex; flex-direction:column; gap:6px; min-height:56px}
+.hpwe{font-size:12px; line-height:1.35; padding:7px 9px; border-radius:9px; font-weight:500}
+.hpwe.a{background:var(--accent); color:#fff} .hpwe.y{background:var(--warn-soft); color:var(--warn); border:1px solid color-mix(in srgb, var(--warn) 25%, transparent)}
+.hpleg{display:flex; flex-wrap:wrap; gap:6px 16px; margin-top:12px; font-size:12.5px; color:var(--muted); align-items:center}
+.hpleg i{display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:6px; vertical-align:-1px} .hpleg i.a{background:var(--accent)} .hpleg i.y{background:var(--warn-soft); border:1px solid var(--warn)}
+/* promises */
+.hpprom{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:10px}
+.hpprom > div{border-left:3px solid var(--accent); padding:4px 0 4px 12px; display:flex; flex-direction:column; gap:4px}
+.hpprom b{font-size:14px} .hpprom span{font-size:13px; color:var(--ink-2); line-height:1.5}
+/* pages */
+.hpmap svg{max-width:820px}
+.hpmapalt{display:none}
+.hppages{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px}
+.hppg{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:14px 16px; display:flex; flex-direction:column; gap:6px}
+.hppgh{display:flex; align-items:baseline; gap:8px} .hppgh b{font-size:15px} .hppgh a{margin-left:auto; font-size:12.5px}
+.hppg p{margin:0; font-size:13px; line-height:1.5; color:var(--ink-2)}
+.hppg ul{margin:2px 0 0; padding-left:18px; font-size:12.5px; color:var(--ink-2); line-height:1.5}
+.hpkeys{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 18px; margin-top:8px}
+.hpkeys > div{display:flex; align-items:center; gap:6px; font-size:13px; flex-wrap:wrap} .hpkeys span{color:var(--ink-2); margin-left:6px}
+kbd{font:600 11.5px "IBM Plex Mono",monospace; background:var(--surface-2); border:1px solid var(--line); border-bottom-width:2px; border-radius:6px; padding:2px 7px; color:var(--ink)}
+/* faq */
+.hpfaqbar{display:flex; flex-wrap:wrap; gap:6px; position:sticky; top:calc(var(--hdr,74px) + 6px); z-index:3; background:var(--bg); padding:6px 0 10px}
+.hpfaq .hph{margin-top:14px}
+.hpfl{display:flex; flex-direction:column; background:var(--surface); border:1px solid var(--line); border-radius:14px; overflow:hidden}
+.hpq{border-top:1px solid var(--line-2)} .hpq:first-child{border-top:0}
+.hpq summary{cursor:pointer; list-style:none; padding:13px 44px 13px 18px; font-size:14px; font-weight:600; color:var(--ink); position:relative}
+.hpq summary::-webkit-details-marker{display:none}
+.hpq summary::after{content:""; position:absolute; right:18px; top:50%; width:8px; height:8px; border-right:2px solid var(--muted); border-bottom:2px solid var(--muted); transform:translateY(-70%) rotate(45deg); transition:transform .15s}
+.hpq[open] summary::after{transform:translateY(-30%) rotate(-135deg)}
+.hpq summary:hover{background:var(--surface-2)}
+.hpqa{padding:0 18px 14px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:820px}
+.hpq[open]{background:var(--surface)}
+@media (max-width:1000px){ .hpdoes{grid-template-columns:repeat(2,minmax(0,1fr))} .hphero{grid-template-columns:1fr} .hpprom{grid-template-columns:1fr} }
+@media (max-width:820px){
+  .hpj{grid-template-columns:1fr} .hpjlab{display:none} .hpjc{grid-template-rows:auto} .hpjm{display:block}
+  .hpjst, .hpjlab + .hpjc .hpjst{clip-path:none; border-radius:10px; padding-left:14px}
+  .hpw{grid-template-columns:1fr; } .hpwd{display:none} .hpwc{min-height:0}
+  .hpwc:empty{display:none} .hpwc{flex-direction:row; flex-wrap:wrap; align-items:center} .hpwc::before{content:attr(data-day); font-size:12px; font-weight:600; color:var(--ink-2); width:40px}
+  .hppages, .hpkeys{grid-template-columns:1fr}
+  .hpmap{display:none} .hpmapalt{display:flex}
+}
+@media (max-width:560px){ .hpdoes{grid-template-columns:1fr} .hphero{padding:18px} .hpherot h3{font-size:20px} }
+.hpcta .btn{text-decoration:none}
+.hpjst em{margin-left:28px; text-align:left}
+.hpmap svg{display:block; margin:0 auto} .hpmap figcaption{margin:0 auto}
+.hpmap .lpe{paint-order:stroke; stroke:var(--surface); stroke-width:5px; stroke-linejoin:round}
+
+/* ===== Phone fixes (3 Oct). Phone and tablet only; nothing here applies at 1100px+. ===== */
+/* Board/List: the board only draws at 1100px+, so the toggle does nothing below that. */
+@media (max-width:1099px){ .wkview{display:none !important} }
+@media (max-width:560px){
+  /* Top bar: one row — brand · section menu · + New. + New was absolute and sat on top of the section menu. */
+  header.top > .wrap.topbar{display:flex !important; align-items:center; gap:10px; flex-wrap:nowrap}
+  header.top .topbar .masthead{order:1; flex:0 1 auto !important; min-width:0}
+  header.top .topbar .masthead h1{font-size:23px !important; white-space:nowrap}
+  header.top .topbar .brand svg{width:26px !important; height:26px !important}
+  header.top .topsp{display:none}
+  header.top #tabselbtn{order:2; margin-left:auto !important; flex:0 1 auto; min-width:0; max-width:46%}
+  header.top .newmenu{order:3; position:relative !important; top:auto !important; right:auto !important; flex:none}
+  /* Week range: arrows only, so the range and both buttons sit on one line. */
+  .weeknav [data-act="wk_prev"], .weeknav [data-act="wk_next"]{font-size:0 !important; width:38px; padding:0 !important; justify-content:center; flex:none}
+  .weeknav [data-act="wk_prev"]::before{content:"\2190"; font-size:17px}
+  .weeknav [data-act="wk_next"]::before{content:"\2192"; font-size:17px}
+  .weeknav{margin-bottom:10px}
+  /* Filters: one row of separate chips that scrolls sideways, not a wrapped segmented pill. */
+  .wkfilter{flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; margin:0 -16px 14px !important; padding:0 16px 2px}
+  .wkfilter::-webkit-scrollbar{display:none}
+  .wkfilter .cofseg{flex-wrap:nowrap !important; gap:6px; border:0; border-radius:0; background:none; overflow:visible}
+  .wkfilter .cofseg .cof{border:1px solid var(--line) !important; border-radius:99px; background:var(--surface); padding:0 12px; min-height:32px; font-size:13px; flex:none}
+  .wkfilter .cofseg .cof.on{background:var(--accent); border-color:var(--accent) !important; color:#fff}
+}
+/* Meeting / task pop-up header on phones (3 Oct): close top right, status under it. */
+@media (max-width:560px){
+  .wkpop .modal-head{flex-wrap:nowrap; gap:12px}
+  .wkpop .modal-head > .row{flex:none; margin-left:auto; flex-direction:column-reverse; align-items:flex-end !important; flex-wrap:nowrap; gap:8px !important; width:auto}
+  .wkpop .modal-head > .row > .spx{margin:0}
+}
+/* Person card in the side panel on phones: the panel's own ✕ closes it, so the card's second ✕ goes. */
+@media (max-width:560px){ .sidepanel.sp-person .spb .ptx2{display:none !important} }
+
+/* How to use: the tabs and the search box stay put (3 Oct), each pinned exactly where it already sits (the 14px is the page header's bottom margin, so nothing moves on the first scroll), with a strip of page colour below the
+   search so the page scrolls away short of it. --hsb (the search box's height) is set by 25-help.js. */
+@media (min-width:1100px){
+  body[data-tab="help"] #tab-help > .pagehead{position:sticky; top:calc(var(--hdr,64px) + var(--pt,22px)); z-index:32;
+    background:var(--bg); box-shadow:0 calc(-1 * var(--pt,22px)) 0 0 var(--bg)}
+  body[data-tab="help"] #hp-searchbox{position:sticky; top:calc(var(--hdr,64px) + var(--pt,22px) + var(--ph,56px) + 14px); z-index:31;
+    background:var(--bg); box-shadow:0 -14px 0 0 var(--bg); margin-bottom:0; padding:0 0 18px}
+  body[data-tab="help"] #hp-searchbox .hpres{top:calc(100% - 18px)}
+  body[data-tab="help"] header.top::after{content:""; position:absolute; left:0; right:0; top:100%; height:var(--pt,22px); background:var(--bg); pointer-events:none}
+  body[data-tab="help"] .hpfaqbar{top:calc(var(--hdr,64px) + var(--pt,22px) + var(--ph,56px) + 14px + var(--hsb,66px))}
+}
+
+/* Page-header tab rows (3 Oct): the pills sat flush with the row, which scrolls sideways, so a pixel
+   of font rounding made it scrollable up and down too, and the wheel nudged it, clipping the pills' tops.
+   No vertical scroll, and 2px of headroom. Every page with header tabs. */
+.pagehead .phsw .ctabs{overflow-y:hidden !important; padding-block:2px !important; margin-block:-2px !important}
+
+/* Deal-breaker firmness chip (3 Oct) */
+.rufirm{font:600 10.5px "IBM Plex Mono",monospace; letter-spacing:.06em; text-transform:uppercase; padding:2px 7px; border-radius:99px; border:1px solid var(--line); color:var(--muted); background:var(--surface); white-space:nowrap; cursor:help}
+.rufirm.f-fixed{color:#fff; background:var(--accent-ink); border-color:var(--accent-ink)}
+.rufirm.f-firm{color:var(--accent-ink); background:var(--accent-soft); border-color:color-mix(in srgb, var(--accent) 35%, var(--line))}
+/* A rule's check note: how the sweep tests it (3 Oct) */
+.rurow .rucheck{display:block; margin-top:4px; font-size:12px; color:var(--muted)}
+.rurow .rucheck > summary{cursor:pointer; display:inline-flex; align-items:center; gap:4px; color:var(--accent-ink,var(--ink-2)); font-weight:500; list-style:none}
+.rurow .rucheck > summary::-webkit-details-marker{display:none}
+.rurow .rucheck > summary::before{content:"▸"; font-size:10px}
+.rurow .rucheck[open] > summary::before{content:"▾"}
+.rurow .rucheck > span{display:block; margin-top:4px; border-left:2px solid var(--line-2); padding-left:8px}
+.prpanel .rusp{flex:1}
+/* Search review as a ranked list, and Suggest a change (3 Oct) */
+.rvlh{display:flex; flex-direction:column; gap:4px}
+.rvlis{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px}
+.rvli{display:grid; grid-template-columns:22px 24px minmax(0,1fr); gap:8px; align-items:start; padding:10px 12px; border:1px solid var(--line); border-radius:12px; background:var(--surface)}
+.rvli.on{border-color:color-mix(in srgb, var(--accent) 45%, var(--line)); background:color-mix(in srgb, var(--accent) 4%, var(--surface))}
+.rvli.d-no{opacity:.7}
+.rvsel{padding-top:2px} .rvsel input{width:16px; height:16px; accent-color:var(--accent); cursor:pointer}
+.rvrank{font:600 12px "IBM Plex Mono",monospace; color:var(--muted); padding-top:2px; text-align:center; background:var(--surface-2); border-radius:6px; line-height:20px}
+.rvlim{display:flex; flex-direction:column; gap:8px; min-width:0}
+.rvlih{all:unset; cursor:pointer; display:grid; grid-template-columns:minmax(0,1fr) auto; gap:2px 10px; align-items:start}
+.rvlih:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:6px}
+.rvlit{display:flex; flex-wrap:wrap; align-items:center; gap:6px 8px; font-size:13.5px} .rvlit .rvkind{font-size:11px} .rvlit .rvdec{margin-left:0; font-size:12px}
+.rvlie{grid-column:1; font-size:12.5px; color:var(--ink-2)}
+.rvchev{grid-column:2; grid-row:1; color:var(--muted); font-size:12px}
+.rvlid{display:flex; flex-direction:column; gap:8px; padding-top:8px; border-top:1px dashed var(--line)}
+.rvlid p{font-size:13px}
+.rvliq{gap:6px}
+.rvlf{padding-top:10px; border-top:1px solid var(--line)}
+.rvsafe2{font-size:12px; color:var(--muted); margin-left:auto}
+.rvkind.k-skill{background:var(--warn-soft); color:var(--warn); border-color:transparent}
+.rvprompt{margin:0; white-space:pre-wrap; font:12.5px/1.45 "IBM Plex Mono",monospace; background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:8px 10px; max-height:220px; overflow:auto}
+.rvskill p{font-size:12.5px; color:var(--ink-2)}
+.hsdlg{width:min(640px, calc(100vw - 32px))}
+#hs-body{display:flex; flex-direction:column; gap:12px}
+.hshl{display:flex; flex-direction:column; gap:2px; padding:8px 12px; border-radius:10px; background:var(--surface-2); font-size:13px}
+.hsp{display:flex; flex-direction:column; gap:8px} .hsp h3{margin:0; font-size:16px} .hsp p{margin:0; font-size:13px; line-height:1.5}
+@media (max-width:700px){ .rvsafe2{margin-left:0; flex-basis:100%} }
+/* Compare: one header per role (3 Oct, later) — gauges, Fun and Shot pips, quadrant */
+.cmpt .cmpviz{display:flex; flex-direction:column; align-items:center; gap:8px; margin-top:10px; font-weight:400}
+.cmpt .cmpviz .fitgauges{display:flex; gap:10px; justify-content:center} .cmpt .cmpviz .fgauge{width:92px} .cmpt .cmpviz .fgauge svg{width:84px; height:auto}
+.cmpfsw{display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:center}
+.cmpfs{display:flex; flex-direction:column; gap:4px}
+.cmpfr{display:flex; align-items:center; gap:6px} .cmpfr .lab{font-size:11.5px; color:var(--muted); width:30px; text-align:left}
+.cmppips{display:flex; gap:3px} .cmppips i{width:22px; height:22px; border-radius:5px; border:1px solid var(--line); background:var(--surface-2); font:11px/20px "IBM Plex Mono",monospace; color:var(--muted); font-style:normal; text-align:center}
+.cmppips i.on{background:var(--accent); border-color:var(--accent); color:#fff; font-weight:500}
+/* Compare pickers in the column headers (3 Oct, later) */
+#cmp-pick:empty{display:none}
+.cmpt .cmpchg{display:flex; align-items:center; justify-content:center; gap:6px; margin:0 0 10px; font-weight:400}
+.cmpt .cmpchg span{font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; font-family:"IBM Plex Mono",monospace}
+.cmpt .cmpsel{max-width:220px; min-width:0; font-size:12px; padding:3px 6px; border:1px solid var(--line); border-radius:8px; background:var(--surface); color:var(--ink-2)}
+.cmpt col.cmpaddk{width:200px}
+.cmpt td.cmpaddc{background:color-mix(in srgb, var(--surface-2) 60%, transparent)}
+.cmpt tbody tr:not(.cmpsec):hover > td.cmpaddc{background:color-mix(in srgb, var(--surface-2) 60%, transparent)}
+.cmpadd{display:flex; flex-direction:column; align-items:center; gap:8px; padding-top:40px; font-weight:400}
+.cmpadd > span{font-size:13px; color:var(--ink-2); font-weight:600}
+.cmpadd .cmpsel{max-width:180px}
+.cmpnone{display:flex; flex-direction:column; align-items:flex-start; gap:10px} .cmpnone .cmpsel{min-width:280px}
+@media (max-width:760px){ .cmpt col.cmpaddk{width:110px} .cmpt .cmpsel{max-width:100%} .cmpt .cmpchg span{display:none} }
+
+/* Reject pickers: the specific rule or gap (4 Oct). */
+.endsub{display:flex; flex-direction:column; gap:4px; margin:6px 0 2px; font-size:12.5px; color:var(--ink-2)}
+.endsub select, .endsub input{font-size:13.5px; max-width:100%}
+.endsub input[hidden]{display:none}
+/* About me › What I don't have */
+.gaprow{display:flex; align-items:baseline; gap:10px; padding:7px 0; border-bottom:1px solid var(--line-2)}
+.gaprow > div{flex:1; min-width:0} .gaprow > div span{display:block; font-size:12px; color:var(--muted)}
+.gapn{font-size:12px; color:var(--muted); white-space:nowrap}
+.gapadd{display:flex; gap:8px; margin-top:8px} .gapadd input{flex:1; min-width:0}
+
+/* Deal-breaker editor: describe, then Claude's draft (4 Oct). */
+.ruask{display:flex; flex-direction:column; gap:10px}
+.rucur{background:var(--panel-2,var(--line-2)); border-radius:8px; padding:8px 10px; font-size:12.5px} .rucur p{margin:2px 0 0}
+.rudraft{display:flex; flex-direction:column; gap:10px; font-size:13.5px}
+.rudraft p{margin:2px 0 0}
+.rufold{padding:9px 12px; border-radius:10px; background:var(--warn-soft); font-size:13px}
+.rudiff{display:grid; grid-template-columns:1fr 1fr; gap:12px} .rudiff > div{border:1px solid var(--line-2); border-radius:8px; padding:8px 10px}
+.rudiff > div:last-child{border-color:var(--accent,#0d7a6a)}
+.rusmall{font-size:12px; color:var(--muted); margin:0}
+@media (max-width:640px){ .rudiff{grid-template-columns:1fr} }
+
+/* Weekly screen-out check (5 Oct, 27) */
+.wscdlg{width:min(720px, calc(100vw - 32px))}
+#swc-body{display:flex; flex-direction:column; gap:12px}
+.wscintro{margin:0; font-size:13px; line-height:1.5; color:var(--ink-2)} .wscintro b{color:var(--ink)}
+.wsclist{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px}
+.wscrow{border:1px solid var(--line); border-radius:10px; padding:10px 12px; display:flex; flex-direction:column; gap:6px; background:var(--surface)}
+.wscrow.done{background:var(--surface-2)}
+.wsctop{display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 8px} .wsctop b{font-size:14px; color:var(--ink)} .wsctop span{font-size:12.5px; color:var(--muted)}
+.wscpost{margin-left:auto; font-size:12px; white-space:nowrap}
+.wscmeta{display:flex; flex-wrap:wrap; gap:4px 12px; font-size:12px; color:var(--ink-2)}
+.wscrule{font-weight:600} .wscsaw{color:var(--muted)}
+.wscview{display:flex; flex-direction:column; gap:1px; font-size:12.5px; padding:6px 9px; border-radius:8px; background:var(--surface-2); border-left:3px solid var(--line-2)}
+.wscview.v-w{border-left-color:var(--warn)} .wscview.v-s{border-left-color:var(--accent)} .wscview.v-c{border-left-color:var(--good)}
+.wscvl{font-weight:600; color:var(--ink)} .wscvw{color:var(--ink-2)}
+.wscgone{margin:0; font-size:12px; color:var(--muted)}
+.wscbtns{display:flex; flex-wrap:wrap; align-items:center; gap:6px}
+.wscadded{font-size:12px; font-weight:600; color:var(--good)}
+.wscsug{display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; padding:10px 12px; border-radius:10px; background:var(--warn-soft); border:1px solid color-mix(in srgb, var(--warn) 30%, transparent)}
+.wscsug > div:first-child{flex:1 1 300px; display:flex; flex-direction:column; gap:2px; font-size:12.5px; color:var(--ink-2)} .wscsug b{font-size:13.5px; color:var(--ink)}
+.wscsugb{display:flex; align-items:center; gap:10px}
+.wscfoot{display:flex; flex-wrap:wrap; align-items:center; gap:10px; justify-content:space-between} .wscfoot .lede{margin:0; font-size:12px}
+.rusug{font-size:11.5px; margin-left:6px}
+
+/* My targets (5 Oct, 28) */
+.tgrows{display:flex; flex-direction:column}
+.tgrow{display:flex; align-items:flex-start; gap:12px; padding:10px 0; border-top:1px solid var(--line-2)}
+.tgrow:first-child{border-top:none}
+.tgmain{flex:1; display:flex; flex-direction:column; gap:2px; min-width:0}
+.tgmain .pn{font-weight:600; color:var(--ink)}
+.tgv{font-size:14px; color:var(--accent-ink, var(--ink))}
+.tgmain .pr{font-size:12.5px; color:var(--muted)}
+/* Screen-out check outcomes and flags (5 Oct, second pass) */
+.ruckb.o-wrong.on{background:var(--warn); border-color:var(--warn); color:#fff}
+.ruckb.o-other.on{background:var(--ink-2); border-color:var(--ink-2); color:#fff}
+.ruckb.o-unverified.on{background:var(--surface-2); border-color:var(--line-2); color:var(--ink)}
+.wscother{display:flex; flex-wrap:wrap; align-items:center; gap:6px; font-size:12px; color:var(--ink-2)}
+.wscother select{font:inherit; font-size:12px; padding:3px 6px; border:1px solid var(--line); border-radius:6px; background:var(--surface); max-width:100%}
+.wscflag{display:flex; flex-wrap:wrap; align-items:center; gap:6px}
+.wscflagb{display:inline-flex; align-items:center; gap:5px; border:1px solid var(--accent); background:var(--surface); border-radius:99px; padding:3px 10px; font:600 11px inherit; font-family:inherit; color:var(--accent); cursor:pointer; white-space:nowrap}
+.wscflagb::before{content:"⚑"; font-size:12px; line-height:1}
+.wscflagb:hover{background:color-mix(in srgb, var(--accent) 10%, var(--surface))}
+.wscflag.on .wscflagb{background:var(--accent); color:#fff}
+.wscflag.on .wscflagb::before{content:none}
+.wscnote{flex:1 1 220px; min-width:0; font:inherit; font-size:12px; padding:4px 8px; border:1px solid var(--line); border-radius:6px; background:var(--surface)}
+.wscrev{display:flex; flex-direction:column; gap:6px}
+.wscrevr{display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; padding:8px 12px; border-radius:10px; background:var(--surface-2); border:1px solid var(--line)}
+.wscrevr.due{background:var(--warn-soft); border-color:color-mix(in srgb, var(--warn) 30%, transparent)}
+.wscrevr > div:first-child{flex:1 1 300px; display:flex; flex-direction:column; gap:2px; font-size:12.5px; color:var(--ink-2)} .wscrevr b{font-size:13px; color:var(--ink)}
+/* Closed by the employer (5 Oct, js/30) */
+#ec-host:empty{display:none}
+.ecl{margin-bottom:16px; display:flex; flex-direction:column; gap:10px; border-left:3px solid var(--warn)}
+.eclh{display:flex; flex-wrap:wrap; align-items:flex-start; gap:8px 14px; justify-content:space-between}
+.eclh h3{margin:0 0 2px} .eclh .lede{margin:0; font-size:12.5px}
+.ecll{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px}
+.ecll li{display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; padding:9px 12px; border:1px solid var(--line); border-radius:10px; background:var(--surface)}
+.eclt{flex:1 1 260px; min-width:0; display:flex; flex-wrap:wrap; align-items:baseline; gap:2px 8px}
+.eclt a{color:var(--ink); text-decoration:none} .eclt b{font-size:14px}
+.eclt span{flex-basis:100%; font-size:12.5px; color:var(--muted)} .eclt small{flex-basis:100%; font-size:12px; color:var(--ink-2)}
+.eclb{display:flex; gap:6px}
+.stagebar .step[data-tab="rejected"] .sty.on{color:var(--warn); font-weight:600}
+.wyg.wy-rejected{--wyc:var(--muted)}
+/* Don't know on the longlist (5 Oct, js/31) */
+/* Don't know (5 Oct): the same box as the numbers, lightly tinted so it isn't skipped over; pressed fills it. */
+.unsq{background:color-mix(in srgb,var(--accent,#0f766e) 12%,transparent)!important;border-color:color-mix(in srgb,var(--accent,#0f766e) 35%,transparent)!important;color:var(--accent,#0f766e)!important;font-weight:600}
+.unsq[aria-pressed="true"]{background:var(--accent,#0f766e)!important;border-color:var(--accent,#0f766e)!important;color:#fff!important}
+.unschip{white-space:nowrap}
+
+/* Mock interview feedback (5 Oct, 13 + 32): header bar with Close, and the four-way verdict. */
+.mkfbbar{display:flex;align-items:center;gap:10px;justify-content:space-between;padding:0 0 10px;margin:0 0 4px;border-bottom:1px solid var(--line-2,#e6e3dc)}
+.mkfbmeta{font-size:12.5px;color:var(--muted,#6b6a66)}
+.chip.mkverdict{font-size:14px;font-weight:600;padding:4px 12px;border-radius:999px;border:1px solid transparent}
+.chip.mkverdict.strong{background:color-mix(in srgb,var(--good,#1f8a5b) 16%,transparent);color:var(--good,#1f8a5b);border-color:color-mix(in srgb,var(--good,#1f8a5b) 40%,transparent)}
+.chip.mkverdict.mid{background:color-mix(in srgb,var(--accent,#0f766e) 12%,transparent);color:var(--accent,#0f766e);border-color:color-mix(in srgb,var(--accent,#0f766e) 35%,transparent)}
+.chip.mkverdict.warm{background:color-mix(in srgb,var(--warn,#b45309) 14%,transparent);color:var(--warn,#b45309);border-color:color-mix(in srgb,var(--warn,#b45309) 40%,transparent)}
+.chip.mkverdict.weak{background:color-mix(in srgb,var(--bad,#b42318) 12%,transparent);color:var(--bad,#b42318);border-color:color-mix(in srgb,var(--bad,#b42318) 40%,transparent)}
+.mkprepask{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;margin:0 0 10px}
+.mkprepask>span{flex:1 1 220px}
+/* Paste links: one pick per unrecognised link (5 Oct, 07 pastePreview). */
+.pastepick{display:flex;flex-direction:column;gap:6px;margin:0 0 4px}
+.pprow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ppurl{flex:1 1 220px;min-width:0;font-size:12.5px;color:var(--ink-2,#3d3c39);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:"IBM Plex Mono",monospace}
+.pprow select{flex:0 1 260px;max-width:100%}
+.ppkeep{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:var(--muted,#6b6a66);white-space:nowrap}
+/* Came-back roles in Data health (5 Oct, 34). */
+.hycb{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;width:100%}
+.hycb .hyacts{display:inline-flex;gap:6px}
+.cbform{display:flex;flex-wrap:wrap;gap:6px;align-items:center;width:100%}
+.cbform select{flex:0 1 260px}.cbform input{flex:1 1 200px;min-width:0}
+
+/* Rating drives the sweep (5 Oct): rating colours, How it's read, Off the list section */
+.prisel.p-low{background:var(--surface-2,#f1f0ee); border-color:transparent; color:var(--ink-2)}
+.prisel.p-off{background:var(--bad-soft); border-color:transparent; color:var(--bad)}
+.coread{display:inline-block; font-size:12.5px; font-weight:600; padding:2px 8px; border-radius:999px; background:var(--surface-2,#f1f0ee); color:var(--ink-2); width:max-content}
+.coread.r-direct{background:var(--good-soft); color:var(--good)}
+.coread.r-alert{background:var(--accent-soft,var(--good-soft)); color:var(--accent,var(--good))}
+.coread.r-needs{background:var(--warn-soft); color:var(--warn)}
+.coctl-f .btn.sm[data-coalert]{width:max-content; margin-top:4px}
+.cooffwhy{color:var(--bad)}
+details.cooff{margin-top:18px; border-top:1px solid var(--line); padding-top:10px}
+details.cooff > summary{cursor:pointer; list-style:none; display:flex; flex-wrap:wrap; align-items:baseline; gap:8px; padding:6px 2px 10px; font-weight:600; color:var(--ink-2)}
+details.cooff > summary::-webkit-details-marker{display:none}
+details.cooff > summary::before{content:"▸"; color:var(--muted); font-size:12px}
+details.cooff[open] > summary::before{content:"▾"}
+.cooffn{font-size:12px; font-weight:600; padding:1px 7px; border-radius:999px; background:var(--surface-2,#f1f0ee); color:var(--muted)}
+.cooffs{flex-basis:100%; font-weight:400; font-size:12.5px; color:var(--muted)}
+details.cooff article.cocard{opacity:.82}
+/* Mock interview: blended round types (6 Oct) */
+.mktfld{display:flex;flex-direction:column;gap:6px;font-size:11.5px;color:var(--muted)}
+.mktlab small{font-size:11px;color:var(--faint,var(--muted));margin-left:4px}
+.mktypes{display:flex;flex-wrap:wrap;gap:6px}
+.mkt{font:inherit;font-size:13px;padding:5px 11px;border-radius:999px;border:1px solid var(--line,#d9d6cf);background:var(--surface,#fff);color:var(--ink-2,#3d3d3a);cursor:pointer}
+.mkt:hover{border-color:var(--accent,#0f766e)}
+.mkt.solo{border-style:dashed}
+.mkt[aria-pressed="true"]{background:var(--accent,#0f766e);border-color:var(--accent,#0f766e);border-style:solid;color:#fff}
+.mksplit{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:12.5px;color:var(--ink-2,#3d3d3a)}
+.mksplit:empty{display:none}
+.mksp{display:inline-flex;align-items:center;gap:4px}
+.mksp b{font-weight:600}
+.mksb{font:inherit;width:20px;height:20px;line-height:1;padding:0;border-radius:50%;border:1px solid var(--line,#d9d6cf);background:var(--surface,#fff);color:var(--muted);cursor:pointer}
+.mksb:disabled{opacity:.35;cursor:default}
+.mksdot{color:var(--faint,var(--muted))}
+.mkthint{color:var(--warn,#b45309);flex-basis:100%}
+.chip.mkqt{background:color-mix(in srgb,var(--accent,#0f766e) 10%,transparent);color:var(--accent,#0f766e)}
+/* Mock interview: focus drafted from the board, sharpened by Claude (6 Oct) */
+.mkfsrc{display:inline-block;margin-left:6px;font-size:11px;font-weight:500;color:var(--muted)}
+.mkfsrc:empty{display:none}
+.mkfsrc.ai{color:var(--accent,#0f766e)}
+.mkfbar{display:flex;flex-direction:column;gap:6px;margin:-4px 0 4px}
+.mkffrom{font-size:12px;color:var(--muted)}
+.mkfrow{display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.mkfrow .btn{flex:none}
+.mkfdesc{flex:1 1 280px;font-size:12px;color:var(--muted);line-height:1.45}
+.mkferr{color:var(--bad,#b91c1c);font-weight:500}
+/* Mock interview: the case box for live case and take-home (16 Oct, js/49) */
+.mkcase{display:flex;flex-direction:column;gap:6px}
+.mkcase[hidden],.mkcsave[hidden],.mkcasemode .mkfoc,.mkcasemode .mkfbar,.mkcasemode #mk-lenwrap{display:none}
+.mkcase textarea{min-height:150px}
+.mkcbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:-2px}
+.mkcsrc{flex:1 1 240px;font-size:12px;color:var(--muted)}
+.mkcsrc.err{color:var(--bad,#b91c1c);font-weight:500}
+.mkcup{flex:none;cursor:pointer}
+.mkcup.disabled{opacity:.5;pointer-events:none}
+.mkchelp{margin:0;font-size:12px}
+.mkcsave{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-2);cursor:pointer}
+
+/* ===== Targets › Companies: what each rating does (index.html #co-ratehelp) ===== */
+.corate{margin:0 0 14px; border:1px solid var(--line); border-radius:10px; background:var(--surface); font-size:13px}
+.corate > summary{list-style:none; cursor:pointer; display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 12px; padding:10px 14px; color:var(--ink-2); line-height:1.45}
+.corate > summary::-webkit-details-marker{display:none}
+.corate-t{color:var(--accent-ink); font-weight:500; white-space:nowrap}
+.corate-t::after{content:" ▾"; font-size:11px}
+.corate[open] .corate-t::after{content:" ▴"}
+.corate-tb{width:100%; min-width:0; table-layout:fixed; border-collapse:collapse; margin:0 0 6px}
+.corate-tb th:first-child{width:130px} .corate-tb th:nth-child(2){width:34%}
+.corate-tb th, .corate-tb td{text-align:left; vertical-align:top; padding:7px 14px; border-top:1px solid var(--line)}
+.corate-tb th{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-weight:500}
+.corate-tb td{color:var(--ink-2); white-space:normal; overflow-wrap:anywhere} .corate-tb td b{color:var(--ink); white-space:nowrap}
+@media (max-width:560px){
+  .corate-tb, .corate-tb thead, .corate-tb tbody{display:block}
+  .corate-tb tr{display:grid; grid-template-columns:112px minmax(0,1fr); border-top:1px solid var(--line)}
+  .corate-tb th, .corate-tb td{padding:7px 10px; border-top:none; border-bottom:none; width:auto !important}
+  .corate-tb th:nth-child(3){display:none}
+  .corate-tb td:nth-child(3){grid-column:2; padding-top:0; font-size:12px; color:var(--muted)}
+}
+
+/* ===== Compare: column header on phones only (desktop untouched). Two gauges and five-pip rows don't fit an
+   ~80 px column, so below 760 px the gauges hide (the My criteria and Their criteria rows just below say the
+   same), Fun and Shot show only the chosen number, and the Fun × Shot chip wraps small. ===== */
+@media (max-width:760px){
+  .cmpt .cmpviz{gap:6px; margin-top:8px; min-width:0; max-width:100%}
+  .cmpt .cmpviz .fitgauges{display:none}
+  .cmpt .cmpfsw{flex-direction:column; gap:5px; max-width:100%}
+  .cmpt .cmpfs{align-items:center}
+  .cmpt .cmpfr{gap:5px} .cmpt .cmpfr .lab{width:30px; text-align:right; font-size:11px}
+  /* Line things up across columns: the role picker pins to the top of the cell, the company name starts right under
+     it, and the chip and scores sit on the cell's bottom edge (the cell is height:1px so the header can fill it), with
+     the Fun × Shot chip above the scores, so the score rows are always the last thing. */
+  .cmpt thead td:not(.cmpaddc){position:relative; vertical-align:top; padding-top:46px; height:1px}
+  .cmpt thead td:not(.cmpaddc) .cmph{height:100%; justify-content:flex-start}
+  .cmpt thead td:not(.cmpaddc) .cmpviz{margin-top:auto; padding-top:10px}
+  /* Company name: always two lines tall (clipped at two), so the status starts at the same height in every column. */
+  .cmpt thead td:not(.cmpaddc) .cmpco{display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; line-height:1.2; min-height:2.4em; flex:none}
+  .cmpt thead td:not(.cmpaddc) .cmpchg{position:absolute; top:4px; left:6px; right:6px; margin:0}
+  .cmpt .cmpfsw .chip{order:-1}
+  .cmpt .cmppips i:not(.on){display:none}
+  .cmpt .cmppips:not(:has(.on))::after{content:"–"; font-size:12px; color:var(--faint)}
+  .cmpt .cmpfsw .chip{white-space:normal; font-size:11px; line-height:1.25; padding:3px 7px; max-width:100%; text-align:center}
+}
+
+/* 13: mock feedback, short form (16 Oct) — headline, keep / improve, folded details, rating chips. */
+.mkfb2 .mkhead{margin:0;font-size:15px;line-height:1.5;color:var(--ink)}
+.mkfb2 .mkrate{align-self:flex-start}
+.mkfbdet{border-top:1px solid var(--line);padding-top:10px}
+.mkfbdet>summary{cursor:pointer;font-weight:500;color:var(--ink);list-style:revert}
+.mkfbdet .mkfbdetb{display:flex;flex-direction:column;gap:14px;margin-top:12px}

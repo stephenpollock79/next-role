@@ -1,0 +1,827 @@
+/* ===== v2 shell (2 Oct): left sidebar, the funnel in the top bar, a right rail on list pages, Overview and
+   Data health pages. Desktop-first: sidebar from 1100px, rail beside the list from 1600px (below the list
+   under that), phones keep the existing section menu. Everything earlier in the file still applies;
+   these rules only override layout. */
+:root{--side-w:232px; --rail-w:328px; --side-bg:#2B2238}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--side-bg:#1E1828} }
+:root[data-theme="dark"]{--side-bg:#1E1828}
+
+/* ---- sidebar ---- */
+.sidenav{position:fixed; top:0; left:0; bottom:0; width:var(--side-w); z-index:40; display:none; flex-direction:column; gap:1px;
+  padding:calc(14px + env(safe-area-inset-top,0px)) 12px calc(14px + env(safe-area-inset-bottom,0px));
+  background:var(--side-bg); color:#EFEAF6; overflow-y:auto; scrollbar-width:thin}
+.sidenav .sbrand{display:flex; align-items:center; gap:12px; padding:12px 8px 30px; text-decoration:none; color:#fff}
+.sidenav .sbrand span{font:400 32px/1 "DM Serif Display",Georgia,serif; letter-spacing:-.005em}
+.sidenav .sbrand svg{width:36px; height:36px; flex:none}
+.sidenav .nv{display:flex; align-items:center; gap:10px; width:100%; padding:8px 10px; border-radius:8px; color:#C9C0D6;
+  font-size:13.5px; font-weight:500; text-align:left; background:none; border:0; cursor:pointer}
+.sidenav .nv svg{width:16px; height:16px; flex:none; opacity:.9}
+.sidenav .nv:hover{background:rgba(255,255,255,.07); color:#fff}
+.sidenav .nv[aria-selected="true"]{background:rgba(255,255,255,.15); color:#fff; font-weight:600}
+.sidenav .nv .tcount{margin-left:auto; font:600 10.5px/1.6 "IBM Plex Mono",monospace; padding:0 7px; border-radius:99px; background:rgba(255,255,255,.16); color:#fff}
+.sidenav .nv .tcount:empty{display:none}
+.sidenav .nv .tcount.hot{background:#F2A41C; color:#1B1426}
+.sidenav .sg{font:600 10px "IBM Plex Mono",monospace; letter-spacing:.09em; text-transform:uppercase; color:rgba(255,255,255,.42); padding:16px 10px 5px}
+.sidenav .sp{flex:1 1 auto; min-height:16px}
+.sidenav :focus-visible{outline-color:#2DD4BF}
+
+/* ---- top bar: the funnel, always ---- */
+header.top{border-bottom:none}
+header.top > .wrap.topbar{max-width:1680px; margin:0 auto}
+@media (min-width:561px){
+  header.top > .wrap.topbar{display:flex !important; align-items:center; gap:18px; flex-wrap:wrap; padding-inline:28px; padding-block:10px}
+  header.top .topbar .masthead{display:flex !important; padding:0 !important; flex:0 0 auto}
+  header.top .topbar .brand{grid-column:auto; grid-row:auto}
+  header.top .topbar nav.tabs{padding:0 !important; justify-content:flex-start !important; flex:0 1 auto; min-width:0}
+}
+.topsp{flex:1 1 auto}
+.pvbadge{font:600 10.5px "IBM Plex Mono",monospace; letter-spacing:.06em; text-transform:uppercase; color:#1B1426; background:#F2A41C;
+  padding:3px 8px; border-radius:5px; white-space:nowrap}
+@media (max-width:560px){ .pvbadge{display:none} }
+@media (min-width:561px) and (max-width:1099px){
+  header.top #tabselbtn{display:inline-flex !important; align-items:center; margin-left:0; color:#fff; background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.28); border-radius:8px; padding:6px 12px; font-size:13px; font-weight:600; max-width:240px;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; cursor:pointer}
+  header.top #tabselbtn::before{content:"\2630"; margin-right:7px; opacity:.85}
+}
+
+/* ---- the shell ---- */
+.shell{min-width:0}
+@media (min-width:1100px){
+  .sidenav{display:flex}
+  .shell{margin-left:var(--side-w)}
+  header.top .topbar .masthead{display:none !important}
+}
+.mainwrap{display:grid; grid-template-columns:minmax(0,1fr); gap:24px; max-width:1680px; margin:0 auto; padding:22px 28px 64px; align-items:start}
+.mainwrap > main.wrap{max-width:none; margin:0; padding:0; min-width:0}
+body[data-page="text"] .mainwrap{max-width:1240px}
+@media (max-width:560px){ .mainwrap{padding:16px 16px 48px} }
+/* The Week ahead pipeline columns are replaced by the rail's Needs you. */
+#pipew, #pw-strip{display:none !important}
+
+/* ---- the rail ---- */
+.wrail{display:none}
+body[data-page="rail"] .wrail{display:grid; gap:14px; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); min-width:0}
+@media (min-width:1600px){
+  body[data-page="rail"] .mainwrap{grid-template-columns:minmax(0,1fr) var(--rail-w)}
+  body[data-page="rail"] .wrail{display:flex; flex-direction:column; position:sticky; top:calc(env(safe-area-inset-top,0px) + 74px);
+    max-height:calc(100vh - 92px); overflow-y:auto; padding-bottom:6px; scrollbar-width:thin}
+}
+.rw{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:14px 16px; display:flex; flex-direction:column; gap:8px; min-width:0}
+.rwh{display:flex; align-items:baseline; gap:8px}
+.rwh h3{margin:0; font:600 14px "IBM Plex Sans",system-ui,sans-serif !important; letter-spacing:0}
+.rwh a{margin-left:auto; font-size:12px; text-decoration:none; white-space:nowrap}
+.rwn{margin-left:auto; font:600 11px "IBM Plex Mono",monospace; padding:1px 8px; border-radius:99px; background:var(--surface-2); color:var(--muted)}
+.rwn.hot{background:var(--warn-soft); color:var(--warn)}
+.rwday{font:600 10.5px "IBM Plex Mono",monospace; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); margin-top:4px}
+.dl{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:5px}
+.dl li{display:grid; grid-template-columns:44px minmax(0,1fr); gap:8px; font-size:13px; align-items:baseline; color:var(--ink)}
+.dl .dt{font:500 11.5px "IBM Plex Mono",monospace; color:var(--muted); font-variant-numeric:tabular-nums}
+.dl .dn{min-width:0; overflow-wrap:anywhere}
+.dl li.done{opacity:.55} .dl li.done .dn{text-decoration:line-through}
+.dl .tag{font-size:10.5px; font-weight:600; padding:0 6px; border-radius:4px; background:var(--bad-soft); color:var(--bad)}
+.rwempty{margin:0; font-size:12.5px; color:var(--faint)}
+.rwmore{margin:0; font-size:12px; color:var(--muted)}
+.nyl{list-style:none; margin:0; padding:0; display:flex; flex-direction:column}
+.nyl li{display:grid; grid-template-columns:minmax(0,1fr) auto auto; gap:2px 10px; padding:7px 0; border-top:1px solid var(--line-2); align-items:center}
+.nyl li:first-child{border-top:none}
+.nyl a{display:flex; flex-direction:column; min-width:0; text-decoration:none; color:var(--ink)}
+.nyl a:hover .nyt{color:var(--accent)}
+.nyt{font-size:13px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.nyc{font-size:12px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.nys{font-size:11.5px; color:var(--warn); font-weight:600; white-space:nowrap}
+.nya{font:500 11.5px "IBM Plex Mono",monospace; color:var(--muted); min-width:28px; text-align:right; font-variant-numeric:tabular-nums}
+.rwline{margin:0; font-size:12.5px; color:var(--ink-2)}
+.rwline a{text-decoration:none}
+.rwline.ld{padding:8px 10px; border-radius:8px; background:var(--surface-2)}
+.rwline.ld.mid{background:var(--warn-soft); color:var(--warn)}
+.rwline.ld.weak{background:var(--bad-soft); color:var(--bad)}
+.rwline.ld.strong{background:var(--good-soft); color:var(--good)}
+.v2pill{font-size:12px; font-weight:600; padding:2px 9px; border-radius:6px; background:var(--surface-2); color:var(--ink-2)}
+.v2pill.strong{background:var(--good-soft); color:var(--good)} .v2pill.mid{background:var(--warn-soft); color:var(--warn)} .v2pill.weak{background:var(--bad-soft); color:var(--bad)}
+/* Fun & Shot mini grid */
+.qm{border:1px solid var(--line); border-radius:7px; padding:7px 9px; display:flex; flex-direction:column; gap:1px; min-width:0}
+.qm b{font:600 18px "IBM Plex Mono",monospace; color:var(--ink); line-height:1.1}
+.qm span{font-size:11px; color:var(--ink-2)}
+.qm.focus{border-color:var(--accent)}
+
+/* ---- Overview ---- */
+.v2note{font-size:12.5px; padding:9px 12px; border-radius:8px; background:var(--accent-soft); color:var(--accent-ink); margin:0 0 14px}
+#ov-body > .ovc{margin-bottom:16px}
+.ovc{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:16px 18px; display:flex; flex-direction:column; gap:10px; min-width:0}
+.ovh{display:flex; align-items:baseline; gap:6px 12px; flex-wrap:wrap}
+.ovh h3{margin:0; font:600 16px "IBM Plex Sans",system-ui,sans-serif !important}
+.ovsub{font-size:12.5px; color:var(--muted)}
+.ovh .seg, .ovh .ovmore, .ovh .tbsel{margin-left:auto}
+.ovmore{font-size:12.5px; text-decoration:none; white-space:nowrap}
+.ovsplit{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px 22px}
+@media (max-width:1500px){ .ovsplit{grid-template-columns:minmax(0,1fr)} }
+.ovload{display:grid; grid-template-columns:auto minmax(0,1fr); gap:18px; align-items:center; padding:11px 13px; border-radius:10px; background:var(--surface-2)}
+.ovlt{display:flex; flex-direction:column; gap:2px; max-width:240px}
+.ovlt b{font:600 26px "IBM Plex Mono",monospace; line-height:1; color:var(--ink)}
+.ovlm{font-size:12px} .ovlm.mid{color:var(--warn)} .ovlm.weak{color:var(--bad)} .ovlm.strong{color:var(--good)}
+.ldscale{position:absolute; left:0; right:0; bottom:0; height:14px; font:500 10.5px "IBM Plex Mono",monospace; color:var(--muted)}
+.ldscale span{position:absolute; transform:translateX(-50%)} .ldscale span:first-child{left:0; transform:none}
+.ovtiles{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px}
+@media (max-width:640px){ .ovtiles{grid-template-columns:repeat(2,minmax(0,1fr))} }
+
+/* ---- Data health ---- */
+.hysum{display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:10px; margin-bottom:16px}
+@media (max-width:1000px){ .hysum{grid-template-columns:repeat(3,minmax(0,1fr))} }
+@media (max-width:520px){ .hysum{grid-template-columns:repeat(2,minmax(0,1fr))} }
+.hyt{border:1px solid var(--line); border-radius:10px; background:var(--surface); padding:10px 12px; display:flex; flex-direction:column; gap:2px; min-width:0}
+.hyt span{font:600 10.5px "IBM Plex Mono",monospace; letter-spacing:.06em; text-transform:uppercase; color:var(--muted)}
+.hyt b{font:600 22px "IBM Plex Mono",monospace; line-height:1.15}
+.hyt b.warn{color:var(--warn)} .hyt b.ok{color:var(--good)}
+.hyt small{font-size:11.5px; color:var(--muted)}
+#hy-body > .ovc{margin-bottom:14px}
+.hyr{border-top:1px solid var(--line-2); padding:10px 0 4px; display:flex; flex-direction:column; gap:8px}
+.hyr:first-of-type{border-top:none; padding-top:0}
+.hyrh{display:flex; align-items:baseline; gap:6px 10px; flex-wrap:wrap}
+.hyst{font:600 11px "IBM Plex Mono",monospace; min-width:26px; text-align:center; padding:1px 7px; border-radius:99px}
+.hyst.fix{background:var(--warn-soft); color:var(--warn)} .hyst.info{background:var(--surface-2); color:var(--muted)} .hyst.ok{background:var(--good-soft); color:var(--good)}
+.hytt{font-size:13.5px; font-weight:600; color:var(--ink)}
+.hyr.clear .hytt{color:var(--muted); font-weight:500}
+.hywhy{font-size:12px; color:var(--muted)}
+.hyitems{display:flex; flex-wrap:wrap; gap:6px; padding-left:36px}
+.hyitems:has(.hypair){flex-direction:column}
+@media (max-width:560px){ .hyitems{padding-left:0} }
+.hyi{font-size:12px; padding:3px 9px; border:1px solid var(--line); border-radius:99px; text-decoration:none; color:var(--ink-2); background:var(--surface); max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.hyi:hover{border-color:var(--accent); color:var(--accent-ink)}
+.hymore{font-size:12px; color:var(--faint); align-self:center}
+
+/* Long titles stop before the job-ad icon, so it never sits under the Me gauge (2 Oct test pass). */
+@media (min-width:761px){
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay) details.rcard:not([open]) > summary .rsum-title{max-width:calc(100% - 226px)}
+}
+
+/* Bigger funnel in the top bar, plus the All / On me count toggle (2 Oct). */
+@media (min-width:561px){
+  header.top .stagebar{padding:4px !important}
+  header.top nav.tabs.stepper .step{padding:9px 24px 9px 19px !important; font-size:15px; gap:4px}
+  header.top nav.tabs.stepper .step:not(.last)::after{font-size:20px; right:-5px}
+  header.top nav.tabs .tcount{font-size:12.5px; padding:1px 8px; margin-left:8px; line-height:1.5}
+}
+.ftog{display:inline-flex; flex:none; border:1px solid rgba(255,255,255,.24); border-radius:99px; padding:3px; background:rgba(255,255,255,.08)}
+.ftog button{border:0; background:none; color:#E6DFF0; font:600 13px "IBM Plex Sans",system-ui,sans-serif; padding:7px 15px; border-radius:99px; cursor:pointer; white-space:nowrap}
+.ftog button:hover{color:#fff; background:rgba(255,255,255,.12)}
+.ftog button[aria-pressed="true"]{background:#fff; color:#1B1426}
+.ftog button:focus-visible{outline:2px solid #2DD4BF; outline-offset:1px}
+@media (max-width:560px){ .ftog{display:none} }
+
+/* Rail, 2 Oct evening: Funnel health (verdict, volume, mix, inflow) and To chase. */
+.rw.fh{gap:10px}
+.fhsec{display:flex; flex-direction:column; gap:7px; border-top:1px solid var(--line-2); padding-top:10px}
+.fhh{display:flex; align-items:baseline; gap:8px; font:600 10.5px "IBM Plex Mono",monospace; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-2)}
+.fhh span{font:500 11.5px "IBM Plex Sans",system-ui,sans-serif; letter-spacing:0; text-transform:none; color:var(--muted)}
+.fhh a{margin-left:auto; font:500 12px "IBM Plex Sans",system-ui,sans-serif; letter-spacing:0; text-transform:none; text-decoration:none}
+.fhi.strong{color:var(--good)} .fhi.mid{color:var(--warn)} .fhi.weak{color:var(--bad)}
+.rbar{position:relative; padding:20px 0 16px; min-width:0}
+.rbtrack{position:relative; height:8px; border-radius:99px; background:var(--line-2)}
+.rbband{position:absolute; top:0; bottom:0; border-radius:99px; background:color-mix(in srgb, var(--good) 35%, transparent)}
+.rbptr{position:absolute; top:-5px; width:3px; height:18px; margin-left:-1.5px; border-radius:2px; background:var(--ink)}
+.rbptr i{position:absolute; bottom:calc(100% + 2px); left:50%; transform:translateX(-50%); font:600 11.5px "IBM Plex Mono",monospace; font-style:normal; color:var(--ink); white-space:nowrap}
+.rbptr.mid{background:var(--warn)} .rbptr.mid i{color:var(--warn)}
+.rbptr.weak{background:var(--bad)} .rbptr.weak i{color:var(--bad)}
+.rbptr.strong{background:var(--good)} .rbptr.strong i{color:var(--good)}
+.rbar .ldscale span:last-child{transform:translateX(-100%)}
+.tcl{list-style:none; margin:0; padding:0; display:flex; flex-direction:column}
+.tcl li{display:grid; grid-template-columns:minmax(0,1fr) auto auto; gap:2px 10px; padding:7px 0; border-top:1px solid var(--line-2); align-items:center}
+.tcl li:first-child{border-top:none}
+.tcl a{display:flex; flex-direction:column; min-width:0; text-decoration:none; color:var(--ink)}
+.tcl a:hover .nyt{color:var(--accent)}
+.tcl .btn.sm{white-space:nowrap}
+
+/* No sideways jump between stages (2 Oct): the rail scrolls on its own and the page scrolls too; on a
+   stage where either is just tall enough to need a scrollbar, the bar used to take space and nudge the
+   content over. Reserve the gutter on both so the width never changes. */
+html{scrollbar-gutter:stable}
+body[data-page="rail"] .wrail{scrollbar-gutter:stable}
+.fhwarn{color:var(--warn); font-weight:600}
+
+/* Mix filter (2 Oct): rail boxes as shortcuts, the note above a filtered list. */
+.qm.click{cursor:pointer}
+.qm.click:hover{border-color:var(--accent)}
+.qm.on{outline:2px solid var(--accent); outline-offset:1px}
+.qm.click:focus-visible{outline:2px solid var(--accent); outline-offset:1px}
+.mixnote{margin:0 0 12px; padding:8px 12px; border-radius:8px; background:var(--accent-soft); color:var(--accent-ink); font-size:13px}
+.mixnote .linkbtn{margin-left:6px}
+.tabmix{display:inline-flex}
+.mixempty .mixalt{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; align-items:center; margin-top:12px}
+.qm:not(.click){cursor:default}
+.mixalt .cof{border:1px solid var(--line); border-radius:99px; background:var(--surface)} .mixalt .cof:hover{border-color:var(--accent); color:var(--accent-ink)}
+
+/* Fun and Shot pips on the collapsed row (2 Oct): desktop only, hidden when the card is open. */
+.fspips{display:none; flex-direction:column; gap:4px}
+.fsr{display:flex; align-items:center; gap:6px}
+.fsr .lab{font-size:11.5px; color:var(--muted); width:30px}
+.fspips .pips{gap:3px}
+.fspips .pips button{width:22px; height:22px; min-height:0; padding:0; font-size:11px; line-height:1}
+details.rcard[open] > summary .fspips{display:none}
+@media (max-width:760px){ .fspips{display:none !important} }
+@media (min-width:761px){
+  .scorechip.mobonly{display:none !important}
+  /* Anchored from the right, like the fit gauges (right: --rp + 20px, two 74px gauges + 14px gap), so the
+     pips stay beside them at any width. */
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay) details.rcard{container:rcard / inline-size}
+
+}
+
+/* Pips only where the card is wide enough for them and a readable title (2 Oct): below 1100px of card the
+   row goes back to title + gauges. The title stops 410px short so its ad link never meets the pips.
+   Only while the rail sits beside the list (1600px+): when the rail drops below, the card widens again,
+   and the pips must not come back (2 Oct). */
+@media (min-width:1600px){
+  @container rcard (min-width:1100px){
+    :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay) details.rcard:not([open]) > summary .fspips{
+      display:flex; position:absolute; right:calc(var(--rp) + 200px); top:50%; transform:translateY(-50%)}
+    :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay) details.rcard:not([open]) > summary .rsum-title,
+    :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay) details.rcard:not([open]) > summary .rsum-sub .rsum-co{max-width:calc(100% - 410px)}
+  }
+}
+
+/* Vertical scroll (2 Oct): one page scroll. The top bar is already pinned; the page header (title,
+   Mix, Sort, the main button) and the Longlist's toolbar pin under it, and the list scrolls beneath. The
+   rail never scrolls on its own: when it fits it stays put; when it's taller than the window it moves with
+   the page until its bottom (scrolling down) or its top (scrolling up) is in view, then stays (railPin). */
+@media (min-width:1100px){
+  body[data-page="rail"] :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-week,#tab-rejected) > .pagehead{
+    position:sticky; top:calc(var(--hdr,64px) + var(--pt,22px)); z-index:20; background:var(--bg);
+    box-shadow:0 calc(-1 * var(--pt,22px)) 0 0 var(--bg), 0 var(--phm,0px) 0 0 var(--bg)}   /* pinned where it already sits: no nudge; the shadow covers the gap above */
+  body[data-page="rail"] #tab-gate1 > .toolbar{position:sticky; top:calc(var(--hdr,64px) + var(--pt,22px) + var(--ph,56px)); z-index:19;
+    background:var(--bg); margin-bottom:0; padding-bottom:14px}
+}
+@media (min-width:1600px){
+  body[data-page="rail"] .wrail{max-height:none; overflow:visible; scrollbar-gutter:auto}
+}
+
+/* Today & tomorrow rows (2 Oct): soft row, left bar in the type colour (as Week ahead), quiet type label. */
+.dl{gap:4px}
+.dl li.dli{display:flex; flex-direction:column; justify-content:center; gap:2px; height:48px; box-sizing:border-box; padding:0 10px 0 13px; border-radius:7px;
+  background:var(--surface-2); box-shadow:inset 3px 0 0 var(--dkc,var(--faint)); --dkc:var(--faint)}
+.dl li.k-interview{--dkc:var(--bad)} .dl li.k-meeting{--dkc:var(--accent)}
+.dl li.k-prep, .dl li.k-deadline{--dkc:var(--warn)}
+.dl li.dli .dn{font-size:13px; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0}
+.dl li.dli .dm{font-size:11.5px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0}
+.dl li.dli .dt{font:500 11.5px "IBM Plex Mono",monospace; color:var(--muted)}
+.dk{font-weight:500; color:var(--dkc,var(--muted))}
+.dl li.k-task .dk, .dl li.k-recurring .dk{color:var(--muted)}
+.dl li.dli.done{opacity:1; box-shadow:inset 3px 0 0 color-mix(in srgb, var(--dkc) 35%, transparent)}
+.dl li.dli.done .dn, .dl li.dli.done .dm, .dl li.dli.done .dt, .dl li.dli.done .dk{color:var(--faint)}
+.dl li.dli.done .dn{text-decoration:line-through}
+.dlempty{margin:0; height:48px; box-sizing:border-box; display:flex; align-items:center; padding:0 11px; border:1px dashed var(--line); border-radius:7px; font-size:12.5px; color:var(--faint)}
+
+/* Closed page (2 Oct): compact bar charts (fixed label column, no full-width track, count at the bar's
+   end), three endings side by side, and the filterable table. */
+.clgrid2{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px}
+.clgrid3{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin-bottom:16px; align-items:stretch}   /* equal-height cards in a row */
+@media (max-width:1100px){ .clgrid3{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:760px){ .clgrid2{grid-template-columns:minmax(0,1fr)} }
+.clcard{display:flex; flex-direction:column; gap:10px}
+.clh{display:flex; align-items:baseline; gap:10px} .clh h3{margin:0} .clh .eyebrow{margin-left:auto}
+.cbars{display:flex; flex-direction:column; gap:3px}
+/* Bars in the funnel explorer's style (2 Oct): a soft full-width track, a solid fill, count at the end. */
+.cbar{display:grid; grid-template-columns:minmax(96px,150px) minmax(0,1fr) 34px; gap:12px; align-items:center; width:100%; padding:4px 6px; margin:0 -6px;
+  border:0; border-radius:6px; background:none; cursor:pointer; text-align:left; font:inherit; color:var(--ink-2)}
+.cbar:hover:not(:disabled){background:var(--surface-2)}
+.cbar:disabled{cursor:default}
+.cbar.on{background:var(--accent-soft)}
+.cbar.on .cbt{background:color-mix(in srgb, var(--accent) 22%, var(--surface))}
+.cbl{font-size:13px; line-height:1.25}
+.cbt{position:relative; display:block; height:20px; border-radius:4px; background:var(--accent-soft); overflow:hidden; min-width:0}
+.cbf{position:absolute; left:0; top:0; bottom:0; border-radius:4px; background:var(--accent)}
+.cbn{font:600 13px "IBM Plex Mono",monospace; color:var(--ink); text-align:right; font-variant-numeric:tabular-nums}
+/* The read, promoted above the charts as a callout (2 Oct). */
+.cltake{margin:0 0 16px; padding:12px 16px 12px 18px; border-radius:10px; background:var(--accent-soft); color:var(--accent-ink);
+  box-shadow:inset 4px 0 0 var(--accent); font-size:14px; line-height:1.5; font-weight:500}
+.cltake:empty{display:none}
+.clgrid2{margin-bottom:16px}
+.clempty{margin:0; padding:10px 12px; border:1px dashed var(--line); border-radius:8px; font-size:12.5px; color:var(--faint)}
+.clfil{display:flex; flex-wrap:wrap; gap:10px 14px; align-items:center; margin:12px 0}
+.cltable td, .cltable th{font-size:12.5px; vertical-align:middle}
+.cltable td.num{white-space:nowrap}
+.cltable tr.fold td{color:var(--muted)}
+.clmix{margin:auto 0 0; padding-top:8px; border-top:1px solid var(--line-2); font-size:12.5px; color:var(--ink-2)}
+.clmix.ok{color:var(--good)} .clmix.weak{color:var(--bad)}
+
+/* + New menu in the top bar, the action row on role cards, the first-run prompt (2 Oct). */
+.newmenu{position:relative; flex:none}
+.nmbtn{border:0; border-radius:99px; padding:9px 18px; background:#2DD4BF; color:#1B1426; font:600 14px "IBM Plex Sans",system-ui,sans-serif; cursor:pointer; white-space:nowrap}
+.nmbtn:hover{background:#5EE3D2}
+.nmbtn:focus-visible{outline:2px solid #fff; outline-offset:2px}
+.nmlist{position:absolute; right:0; top:calc(100% + 10px); z-index:50; width:340px; padding:8px; border-radius:14px; background:var(--surface);
+  border:1px solid var(--line); box-shadow:0 18px 40px rgba(20,14,30,.24), 0 2px 6px rgba(20,14,30,.08); display:flex; flex-direction:column; gap:2px}
+.nmlist::before{content:""; position:absolute; top:-6px; right:30px; width:12px; height:12px; background:var(--surface); border-left:1px solid var(--line); border-top:1px solid var(--line); transform:rotate(45deg)}
+.nmlist[hidden]{display:none}
+.nmgrp{font:600 10px "IBM Plex Mono",monospace; letter-spacing:.09em; text-transform:uppercase; color:var(--faint); padding:8px 10px 3px}
+.nmgrp:first-child{padding-top:4px}
+.nmit{display:flex; align-items:center; gap:12px; width:100%; padding:8px 10px; border:0; border-radius:10px; background:none; text-align:left; cursor:pointer; color:var(--ink);
+  --nmc:var(--accent); --nmbg:var(--accent-soft); transition:background .12s}
+.nmit:hover, .nmit:focus-visible{background:var(--surface-2); outline:none}
+.nmit:hover .nmi, .nmit:focus-visible .nmi{background:var(--nmc); color:#fff}
+.nmi{flex:none; display:grid; place-items:center; width:34px; height:34px; border-radius:9px; background:var(--nmbg); color:var(--nmc); transition:background .12s, color .12s}
+.nmi svg{width:17px; height:17px}
+.nmt{display:flex; flex-direction:column; gap:1px; min-width:0}
+.nmt b{font:600 13.5px "IBM Plex Sans",system-ui,sans-serif}
+.nmt small{font-size:12px; color:var(--muted); line-height:1.3}
+.nmit.k-roles{--nmc:#0F766E; --nmbg:#CCF3EE}
+.nmit.k-meet{--nmc:var(--bad); --nmbg:var(--bad-soft)}
+.nmit.k-task{--nmc:#5B5468; --nmbg:var(--surface-2)}
+.nmit.k-log{--nmc:#6B4E9B; --nmbg:#ECE4F7}
+.nmit.k-co, .nmit.k-pp{--nmc:var(--warn); --nmbg:var(--warn-soft)}
+.nmrow{display:grid; grid-template-columns:1fr 1fr; gap:2px}
+.nmrow .nmit{padding:8px}
+@media (max-width:560px){ .newmenu{position:absolute; right:16px; top:calc(env(safe-area-inset-top,0px) + 12px)} .nmbtn{padding:7px 13px; font-size:13px} .nmlist{min-width:260px} }
+/* Card actions on the tab row (2 Oct): the row carries the divider; actions are clearly buttons. */
+.ctabrow{display:flex; align-items:flex-end; gap:12px; margin-top:14px; border-bottom:1px solid var(--line)}
+.ctabrow > .ctabs{flex:1 1 auto; min-width:0; margin-top:0 !important; border-bottom:none !important}
+.cardacts{display:flex; flex-wrap:wrap; gap:6px; justify-content:flex-end; flex:none; padding-bottom:7px}
+.cabtn{display:inline-flex; align-items:center; gap:6px; height:30px; padding:0 12px; border-radius:8px; cursor:pointer; white-space:nowrap;
+  border:1px solid color-mix(in srgb, var(--accent) 45%, var(--line)); background:var(--accent-soft); color:var(--accent-ink);
+  font:600 12.5px "IBM Plex Sans",system-ui,sans-serif; transition:background .12s, color .12s, border-color .12s}
+.cabtn svg{width:14px; height:14px; flex:none}
+.cabtn:hover{background:var(--accent); border-color:var(--accent); color:#fff}
+.cabtn:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+/* Below 1100px the tabs need the full width: actions drop to their own line under the tab row. */
+@media (max-width:1099px){ .ctabrow{flex-direction:column; align-items:stretch; border-bottom:none}
+  .ctabrow > .ctabs{border-bottom:1px solid var(--line) !important; overflow-x:auto; scrollbar-width:none}
+  .cardacts{justify-content:flex-start; padding:10px 0 0} }
+.ovfirst{border-color:var(--accent); background:var(--accent-soft); margin-bottom:16px}
+.ovfirst h3{margin:0} .ovfirst p{margin:0; color:var(--ink-2)}
+.ovfirst .row{display:flex; gap:14px; align-items:center; flex-wrap:wrap}
+
+/* Top bar between phone and desktop (561–1099px, no sidebar), 2 Oct: it wrapped into a big brand,
+   a cut-off funnel, a stray "+ New" row and a section button hanging off the header. Now two tidy rows:
+   1) small brand · section menu · + New on the right;  2) the funnel (scrolls sideways if it must) · All/On me. */
+@media (min-width:561px) and (max-width:1099px){
+  header.top > .wrap.topbar{flex-wrap:wrap !important; row-gap:10px; column-gap:12px; padding-block:10px 12px !important}
+  header.top .topbar .masthead{order:1; flex:0 0 auto !important; padding:0 !important}
+  header.top .topbar .masthead h1{font-size:24px !important}
+  header.top .topbar .brand svg{width:26px !important; height:26px !important}
+  header.top #tabselbtn{order:2; position:static !important; margin:0 !important; max-width:200px}
+  header.top .topsp{order:3; flex:1 1 auto}
+  header.top .newmenu{order:4}
+  header.top nav.tabs.stepper{order:5; flex:1 1 62% !important; min-width:0; padding:0 !important; justify-content:flex-start !important}
+  header.top nav.tabs.stepper .stagebar{max-width:100%; overflow-x:auto; scrollbar-width:none; flex-wrap:nowrap}
+  header.top nav.tabs.stepper .stagebar::-webkit-scrollbar{display:none}
+  header.top nav.tabs.stepper .step{padding:7px 18px 7px 14px !important; font-size:14px; white-space:nowrap; flex:none}
+  header.top .ftog{order:6}
+  header.top .ftog button{padding:6px 12px}
+}
+/* Narrow tablets (561–820px): All / On me moves up beside + New, so the funnel gets the whole second row
+   and every stage stays reachable. */
+@media (min-width:561px) and (max-width:820px){
+  header.top .ftog{order:4}
+  header.top .newmenu{order:5}
+  header.top nav.tabs.stepper{order:6; flex:1 1 100% !important}
+  header.top nav.tabs.stepper .step{padding:6px 14px 6px 11px !important; font-size:13.5px}
+  header.top nav.tabs.stepper .stagebar{width:max-content; max-width:100%}
+}
+/* With the sidebar (1100px+): one row always. Between 1100 and 1450px the steps tighten; if the funnel still
+   can't fit, it scrolls sideways rather than pushing + New onto a second line. */
+@media (min-width:1100px){
+  header.top > .wrap.topbar{flex-wrap:nowrap !important}
+  header.top nav.tabs.stepper{flex:0 1 auto !important; min-width:0}
+  header.top nav.tabs.stepper .stagebar{max-width:100%; overflow-x:auto; scrollbar-width:none}
+  header.top nav.tabs.stepper .stagebar::-webkit-scrollbar{display:none}
+  header.top nav.tabs.stepper .step{flex:none; white-space:nowrap}
+  header.top .ftog, header.top .newmenu{flex:none}
+}
+@media (min-width:1100px) and (max-width:1449px){
+  header.top nav.tabs.stepper .step{padding:7px 17px 7px 13px !important; font-size:14px}
+  header.top .ftog button{padding:6px 12px}
+}
+/* A strip of page background under the pinned top bar (2 Oct): the list and the rail both scroll away at the
+   same clean line, with the same gap, instead of the rail sliding straight under the purple bar. */
+@media (min-width:1100px){
+  body[data-page="rail"] header.top::after{content:""; position:absolute; left:0; right:0; top:100%; height:var(--pt,22px);
+    background:var(--bg); pointer-events:none}
+}
+/* Funnel keeps a fixed width (2 Oct): every badge reserves the same room (up to three digits), and an empty
+   one keeps its space invisibly, so switching All / On me or a count changing never shifts the toggle. */
+header.top nav.tabs.stepper .tcount{display:inline-block !important; min-width:2.6em; box-sizing:border-box; text-align:center; font-variant-numeric:tabular-nums}
+header.top nav.tabs.stepper .tcount:empty{visibility:hidden}
+
+/* ===== Chevron funnel (2 Oct): replaces the pill tabs and the All / On me toggle. One arrow of
+   stages, count first and large, label, then what is on you; the active stage fills teal; Closed sits apart
+   as a dashed exit. Specificity is deliberate: it has to beat the older stepper rules in base and theme. */
+header.top nav.tabs.stepper .stagebar.chev{display:flex; align-items:stretch; gap:3px; background:none !important; border:0 !important; padding:0 !important; border-radius:0}
+header.top nav.tabs.stepper .stagebar.chev > .step.step{position:relative; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:0;
+  min-width:128px; padding:8px 24px 9px 26px !important; border-radius:0 !important; background:rgba(255,255,255,.10) !important; color:#fff !important;
+  box-shadow:none !important; font-weight:500; text-align:left; white-space:nowrap; flex:none;
+  clip-path:polygon(0 0,calc(100% - 14px) 0,100% 50%,calc(100% - 14px) 100%,0 100%,14px 50%)}
+header.top nav.tabs.stepper .stagebar.chev > .step.step::after{content:none !important}
+header.top nav.tabs.stepper .stagebar.chev > .step.c-first{padding-left:16px !important; border-radius:10px 0 0 10px !important;
+  clip-path:polygon(0 0,calc(100% - 14px) 0,100% 50%,calc(100% - 14px) 100%,0 100%)}
+header.top nav.tabs.stepper .stagebar.chev > .step.c-last{padding-right:18px !important; border-radius:0 10px 10px 0 !important;
+  clip-path:polygon(0 0,100% 0,100% 100%,0 100%,14px 50%)}
+header.top nav.tabs.stepper .stagebar.chev > .step.step:hover{background:rgba(255,255,255,.18) !important}
+header.top nav.tabs.stepper .stagebar.chev > .step.step[aria-selected="true"]{background:#2DD4BF !important; color:#1B1426 !important}
+header.top nav.tabs.stepper .stagebar.chev > .step.c-exit{clip-path:none; margin-left:12px; min-width:0; padding:8px 14px !important; border-radius:10px !important;
+  background:transparent !important; outline:1px dashed rgba(255,255,255,.32); outline-offset:-1px; color:#CFC6DA !important}
+header.top nav.tabs.stepper .stagebar.chev > .step.c-exit:hover{background:rgba(255,255,255,.08) !important}
+header.top nav.tabs.stepper .stagebar.chev > .step.c-exit[aria-selected="true"]{background:#fff !important; color:#1B1426 !important; outline-color:#fff}
+header.top nav.tabs.stepper .stagebar.chev .stc.tcount{display:block !important; visibility:visible !important; min-width:0; margin:0 !important; padding:0 !important;
+  background:none !important; border:0 !important; color:inherit !important; font:500 22px/1.1 "IBM Plex Sans",system-ui,sans-serif !important; text-align:left}
+header.top nav.tabs.stepper .stagebar.chev .stl{font-size:12.5px; font-weight:600; opacity:.9}
+header.top nav.tabs.stepper .stagebar.chev .sty{font-size:11px; font-weight:500; color:rgba(255,255,255,.55); margin-top:1px}
+header.top nav.tabs.stepper .stagebar.chev .sty.on{color:#7EE8D8}
+header.top nav.tabs.stepper .stagebar.chev > .step[aria-selected="true"] .sty{color:rgba(27,20,38,.6)}
+header.top nav.tabs.stepper .stagebar.chev > .step[aria-selected="true"] .sty.on{color:#0B4F47}
+header.top nav.tabs.stepper .stagebar.chev > .step.c-exit .sty{color:rgba(255,255,255,.45)}
+header.top nav.tabs.stepper .stagebar.chev > .step.c-exit[aria-selected="true"] .sty{color:#5B5468}
+@media (min-width:1100px) and (max-width:1449px){
+  header.top nav.tabs.stepper .stagebar.chev > .step.step{min-width:108px; padding:7px 20px 8px 22px !important}
+  header.top nav.tabs.stepper .stagebar.chev > .step.c-first{padding-left:14px !important}
+  header.top nav.tabs.stepper .stagebar.chev .stc.tcount{font-size:20px !important}
+}
+@media (min-width:561px) and (max-width:1099px){
+  header.top nav.tabs.stepper .stagebar.chev > .step.step{min-width:104px; padding:6px 18px 7px 21px !important}
+  header.top nav.tabs.stepper .stagebar.chev > .step.c-first{padding-left:13px !important}
+  header.top nav.tabs.stepper .stagebar.chev .stc.tcount{font-size:19px !important}
+}
+
+/* + New matches the chevron tiles (2 Oct): same height and corner radius, a big plus where the
+   tiles have their count, and a hint line under the label. */
+@media (min-width:1100px){
+  .nmbtn{display:flex; align-items:center; gap:10px; height:52px; padding:0 18px 0 10px; border-radius:10px; text-align:left}
+  .nmplus{display:grid; place-items:center; width:30px; height:30px; border-radius:8px; background:rgba(27,20,38,.12); font:500 21px/1 "IBM Plex Sans",system-ui,sans-serif}
+  .nml{display:flex; flex-direction:column; line-height:1.15}
+  .nml b{font-size:15px; font-weight:600}
+  .nml small{display:none}
+}
+@media (max-width:1099px){ .nml small{display:none} .nml b{font-weight:600} .nmbtn{display:inline-flex; align-items:center; gap:4px} .nmplus{font-weight:600} }
+
+/* Overview first row (2 Oct): This week · Waiting on you · Funnel health. */
+.ovrow3{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin-bottom:16px; align-items:stretch}
+/* Equal heights (2 Oct): the footer links sit at the bottom of each card, so any spare room falls
+   above them rather than as a gap under the card. */
+.ovweek > .rwmore, .ovwait > .rwline:last-child{margin-top:auto; padding-top:8px}
+@media (max-width:1400px){ .ovrow3{grid-template-columns:repeat(2,minmax(0,1fr))} .ovrow3 > .rw.fh{grid-column:1 / -1} }
+@media (max-width:900px){ .ovrow3{grid-template-columns:minmax(0,1fr)} }
+.ovrow3 > .rw.fh{border-radius:12px; padding:16px 18px}
+.ovrow3 > .rw.fh .rwh h3{font-size:16px !important}
+.ovday{display:flex; flex-direction:column; gap:5px; padding:6px 0}
+.ovday.today{padding:10px 12px; margin:0 -6px 4px; border-radius:10px; background:var(--accent-soft)}
+.ovday.today .rwday{color:var(--accent-ink)}
+.ovday.today .dl li.dli{background:var(--surface)}
+.ovrep{margin:0; font-size:12px; color:var(--muted); padding-left:2px}
+.ovwait .ovh .rwn{margin-left:auto}
+.wyg{border-top:1px solid var(--line-2)}
+.wyg:first-of-type{border-top:none}
+.wyg > summary{display:flex; align-items:baseline; gap:8px; padding:9px 2px; cursor:pointer; list-style:none; font-size:13.5px; color:var(--ink)}
+.wyg > summary::-webkit-details-marker{display:none}
+.wyg > summary::before{content:"\25B8"; font-size:11px; color:var(--faint); transition:transform .12s}
+.wyg[open] > summary::before{transform:rotate(90deg)}
+.wyg > summary b{font:600 18px "IBM Plex Mono",monospace; color:var(--warn); min-width:22px}
+.wyg > summary:hover span:first-of-type{color:var(--accent)}
+.wyage{margin-left:auto; font:500 11.5px "IBM Plex Mono",monospace; color:var(--muted)}
+.wyg .nyl{padding:0 0 8px 22px}
+.ovtiles{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.wymore{margin:0 0 8px 22px}
+
+/* Looking back as a funnel (2 Oct): light chevrons, count first, change on the period before, Ended apart. */
+.lbchev{display:flex; align-items:stretch; gap:3px; min-width:0}
+.lbs{position:relative; flex:1 1 0; min-width:0; display:flex; flex-direction:column; justify-content:center; gap:1px; padding:12px 26px 13px 30px;
+  background:var(--accent-soft); color:var(--accent-ink);
+  clip-path:polygon(0 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,0 100%,16px 50%)}
+.lbs:nth-child(2){background:color-mix(in srgb, var(--accent) 16%, var(--surface))}
+.lbs:nth-child(3){background:color-mix(in srgb, var(--accent) 22%, var(--surface))}
+.lbs:nth-child(4){background:color-mix(in srgb, var(--accent) 28%, var(--surface))}
+.lbs:nth-child(5){background:color-mix(in srgb, var(--accent) 34%, var(--surface))}
+.lbs.c-first{padding-left:18px; border-radius:12px 0 0 12px; clip-path:polygon(0 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,0 100%)}
+.lbs.c-last{padding-right:18px; border-radius:0 12px 12px 0; clip-path:polygon(0 0,100% 0,100% 100%,0 100%,16px 50%)}
+.lbs.c-exit{flex:0 1 210px; margin-left:14px; clip-path:none; padding:12px 16px; border-radius:12px; background:transparent; border:1px dashed var(--line); color:var(--ink-2)}
+.lbs b{font:600 30px/1.05 "IBM Plex Sans",system-ui,sans-serif; color:var(--ink); font-variant-numeric:tabular-nums}
+.lbl{font-size:13px; font-weight:600}
+.lbx{font-size:11.5px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.lbd{font:600 11.5px "IBM Plex Mono",monospace}
+.lbd.up{color:var(--good)} .lbd.down{color:var(--bad)}
+.lbsub{font-size:11.5px; color:var(--ink-2)}
+@media (max-width:1000px){ .lbchev{flex-wrap:wrap; gap:8px} .lbs, .lbs.c-first, .lbs.c-last{flex:1 1 30%; clip-path:none; border-radius:10px; padding:10px 14px} .lbs.c-exit{flex:1 1 100%; margin-left:0} }
+.lbs.c-exit .lbd{color:var(--ink-2)}   /* more endings is neither good nor bad */
+
+/* Week board (2 Oct). */
+#week-board[hidden]{display:none}
+.wboard{display:grid; gap:10px; align-items:stretch; margin-top:12px}
+.wbcol{display:flex; flex-direction:column; gap:6px; min-width:0; padding:10px; border-radius:12px; background:var(--surface-2); border:1px solid var(--line-2); min-height:220px}
+.wbcol.today{background:var(--accent-soft); border-color:color-mix(in srgb, var(--accent) 40%, var(--line))}
+.wbcol.we{background:transparent; border-style:dashed}
+.wbh{display:flex; flex-direction:column; gap:1px; padding:2px 2px 6px; border-bottom:1px solid var(--line-2); margin-bottom:2px}
+.wbh b{font-size:14px; font-weight:600; color:var(--ink)}
+.wbh span{font:500 11px "IBM Plex Mono",monospace; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; min-height:13px}
+.wbcol.today .wbh b, .wbcol.today .wbh span{color:var(--accent-ink)}
+.wbe{margin:4px 2px; font-size:12px; color:var(--faint)}
+.wbc{position:relative; border-radius:8px; background:var(--surface); box-shadow:inset 3px 0 0 var(--wbc,var(--faint)); border:1px solid var(--line-2); --wbc:var(--faint)}
+.wbc.k-interview{--wbc:var(--bad)} .wbc.k-meeting{--wbc:var(--accent)} .wbc.k-prep{--wbc:var(--warn)} .wbc.k-recurring{background:transparent}
+.wbo{display:flex; flex-direction:column; gap:1px; width:100%; padding:7px 9px 7px 12px; border:0; background:none; text-align:left; cursor:pointer; font:inherit; color:var(--ink); border-radius:8px}
+.wbo:hover{background:color-mix(in srgb, var(--accent) 6%, transparent)}
+.wbt{font:500 11px "IBM Plex Mono",monospace; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.wbt b{color:var(--ink-2)}
+.wbk{color:var(--wbc)} .wbc.k-task:not(.k-prep) .wbk, .wbc.k-recurring .wbk{color:var(--muted)}
+.wbl{color:var(--bad); font-weight:600}
+.wbn{font-size:13px; font-weight:500; line-height:1.3; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden}
+.wbs{font-size:11.5px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.wbc.k-recurring .wbn{font-weight:400; color:var(--ink-2)}
+.wbc.done{opacity:.6} .wbc.done .wbn{text-decoration:line-through}
+.wba{display:flex; justify-content:flex-end; padding:0 8px 7px}
+.wba .btn{min-height:24px !important; padding:0 9px !important; font-size:11.5px !important}
+.wkview{margin-left:auto}
+.wkfilter{display:flex; align-items:center; gap:10px}
+
+/* Side panel (2 Oct): opens from the right over the page; the list stays visible on the left. */
+.sidepanel{position:fixed; top:var(--hdr,74px); right:0; bottom:0; z-index:35; width:var(--spw, min(62vw, 1000px)); display:flex; flex-direction:column;
+  background:var(--bg); border-left:1px solid var(--line); box-shadow:-18px 0 40px rgba(20,14,30,.16)}
+.sidepanel[hidden]{display:none}
+.spgrip{position:absolute; left:-5px; top:0; bottom:0; width:10px; cursor:col-resize; z-index:2}
+.spgrip:hover{background:color-mix(in srgb, var(--accent) 25%, transparent)}
+.sph{display:flex; align-items:center; gap:6px; padding:12px 16px 12px 22px; border-bottom:1px solid var(--line); background:var(--surface)}
+.spht{display:flex; flex-direction:column; min-width:0; flex:1 1 auto}
+.spht b{font-size:16px; font-weight:600; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.spht span{font-size:12.5px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+/* Panel title: text ellipsises, the posting link beside it never does (3 Oct). */
+.spht b{display:flex; align-items:center; gap:2px}
+.spht b .sptt{font-style:normal; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.spht b .sppost{flex:none; display:inline-flex; align-items:center}
+.spnav{width:32px; height:32px; border-radius:8px; border:1px solid var(--line); background:var(--surface); color:var(--ink-2); cursor:pointer; font-size:14px; flex:none}
+.spnav:hover{border-color:var(--accent); color:var(--accent-ink)}
+.spx{margin-left:6px}
+.spb{flex:1 1 auto; overflow-y:auto; padding:16px 22px 40px}
+.spb > .rbody{display:block}
+article.role.sp-on > .role-body, article.role.sp-on{outline:2px solid var(--accent); outline-offset:-2px; border-radius:12px}
+.ptcard.sp-on{outline:2px solid var(--accent); outline-offset:-2px}
+.spb .ptcard.open{border:0; box-shadow:none; padding:0; background:transparent}
+@media (max-width:1099px){ .sidepanel{top:0; width:100%; z-index:60; box-shadow:none} .spgrip{display:none} }
+/* Meeting / task pop-up. */
+.wkpop{width:min(760px, 94vw)}
+.wkpopb > .rbody{display:flex; flex-direction:column; gap:16px}
+/* Meeting pop-up, polished (2 Oct): header with type and who; one action bar; labelled fields; notes as a section. */
+.wkpop{padding:22px 24px 24px}
+.wkpop .modal-head{align-items:flex-start; margin-bottom:18px}
+.wkph{margin-right:auto; min-width:0; display:flex; flex-direction:column; align-items:flex-start; gap:5px}
+.wkph .wktype{margin:0; vertical-align:0}
+.wkph h3{margin:0; font-size:19px; line-height:1.25}
+#wkpop-sub{margin:0; font-size:13px; color:var(--muted)}
+#wkpop-sub:empty{display:none}
+.wkpopb .shead{background:none; border:none; border-radius:0; padding:0 0 16px; border-bottom:1px solid var(--line)}
+.wkpopb .shead .srow{gap:8px}
+.wkpopb .shead .srow > .eyebrow{display:none}
+.wkpopb .shead .srow > .spill{margin-right:auto; font-size:12.5px; padding:4px 11px 4px 9px; display:inline-flex; align-items:center; gap:6px; border:none; cursor:default}
+.wkpopb .shead .srow > .spill::before{content:""; width:7px; height:7px; border-radius:50%; background:currentColor; opacity:.85}
+.wkpopb .shead .srow > .bgroup{order:2; display:flex; gap:6px}
+.wkpopb .shead .srow > .btn{order:3}
+.wkpopb .shead .srow > .btn.primary{order:4}
+#wkpop:focus{outline:none}
+.wkpopb .srow .btn{padding:7px 14px; font-size:13px}
+.wkfacts{display:flex; flex-direction:column; gap:10px}
+.wkf{display:grid; grid-template-columns:110px minmax(0,1fr); align-items:center; column-gap:14px; min-height:34px; font-size:14px; color:var(--ink)}
+.wkfl{font-size:12.5px; color:var(--muted); font-weight:500}
+.wkfv{display:flex; flex-wrap:wrap; align-items:center; gap:8px; min-width:0; line-height:1.45}
+.wkfaint{color:var(--muted)}
+.wkf input[type="date"]{width:160px; padding:7px 10px; font-size:13.5px}
+.wkf .mvtime{width:88px !important; padding:7px 10px; font-size:13.5px}
+.wkf input:not([type]){width:220px; padding:7px 10px; font-size:13.5px}
+.wkpopb .wkdet{margin:0}
+.wkpopb .wkdet:empty{display:none}
+.wkp-sec{border-top:1px solid var(--line); padding-top:16px}
+.wkp-sh{display:flex; align-items:center; gap:8px; margin-bottom:10px}
+.wkp-st{font-size:14px; font-weight:600; color:var(--ink)}
+.wkp-sh .secacts .btn{padding:6px 12px; font-size:12.5px}
+@media (max-width:560px){ .wkpop{padding:16px} .wkf{grid-template-columns:1fr; row-gap:4px} .wkpopb .shead .srow > .spill{flex:0 0 100%} }
+.wkpopb{max-height:70vh; overflow-y:auto}
+.sidepanel.sp-person .spht{visibility:hidden}   /* the person card carries its own header */
+.sidepanel.sp-person .spb .ptx2{display:none}
+.ctabrow ~ .cpanel{margin-top:14px}   /* breathing room under the tab row (2 Oct) */
+/* Pending group headers (2 Oct). */
+.pband h3{display:flex; align-items:baseline; gap:8px; margin:18px 0 10px !important; font-size:15px}
+.pband:first-child h3{margin-top:14px !important}
+.pbn{font:600 11px "IBM Plex Mono",monospace; padding:1px 8px; border-radius:99px; background:var(--surface-2); color:var(--ink-2); border:1px solid var(--line)}
+.pbwho{font-size:12.5px; font-weight:400; color:var(--muted)}
+
+/* Diary rows open their pop-up (2 Oct). */
+.dl li.dli[data-wkopen]{cursor:pointer}
+.dl li.dli[data-wkopen]:hover .dn{color:var(--accent-ink); text-decoration:underline; text-underline-offset:2px}
+.dl li.dli[data-wkopen]:focus-visible{outline:2px solid var(--accent); outline-offset:1px}
+
+/* Loose ends on This week; stage breakdown on Waiting on you (2 Oct). */
+.lends{padding:4px 0 10px; margin-bottom:6px; border-bottom:1px solid var(--line-2)}
+.lends .rwday{display:flex; align-items:center; gap:6px; color:var(--warn)}
+.lends .rwn{font-size:10.5px}
+.nyl.le li{grid-template-columns:minmax(0,1fr) auto auto}
+.nyl.le li[data-wkopen]{cursor:pointer}
+.nyl.le li[data-wkopen]:hover .nyt{color:var(--accent)}
+.ley{display:flex; flex-direction:column; min-width:0}
+.ley .nyt, .ley .nyc{white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.wyg > summary{flex-wrap:wrap}
+.wybk{flex:1 1 100%; padding-left:30px; margin-top:-2px; font-size:12px; color:var(--muted)}
+.wybk em{font-style:normal; font-family:"IBM Plex Mono",monospace; color:var(--ink-2)}
+
+/* Side panel: card actions in the header; a steady, quiet scroll bar (2 Oct). */
+.spacts{display:flex; gap:6px; padding-right:8px; margin-right:4px; border-right:1px solid var(--line)}
+.spacts[hidden]{display:none}
+.spact{display:inline-flex; align-items:center; justify-content:center; color:var(--accent-ink)}
+.spact svg{width:15px; height:15px}
+.spact:hover{background:var(--accent); border-color:var(--accent); color:#fff}
+.sidepanel .cardacts{display:none}
+.sidepanel .ctabs{overflow-x:auto; scrollbar-width:none}
+.sidepanel .ctabs::-webkit-scrollbar{display:none}
+.spb{scrollbar-gutter:stable; scrollbar-width:thin; scrollbar-color:var(--line) transparent}
+.spb::-webkit-scrollbar{width:8px}
+.spb::-webkit-scrollbar-thumb{background:var(--line); border-radius:8px}
+.spb::-webkit-scrollbar-thumb:hover{background:var(--muted)}
+
+/* Role "+ Add" menu (2 Oct). */
+.ramenu{position:relative}
+.ra-list.nmlist{width:310px; top:calc(100% + 8px)}
+.ra-list.nmlist::before{right:14px}
+.ra-btn[aria-expanded="true"]{background:var(--accent); border-color:var(--accent); color:#fff}
+.spacts .ramenu{display:flex}
+.spacts .ralab{display:none}
+.spacts .ra-list.nmlist{right:-2px}
+.linkbtn + .linkbtn{margin-left:8px}
+.emptyline .linkbtn{margin-left:4px}
+
+/* My criteria columns, polished (2 Oct): one pill size, one name style, one evidence style,
+   dividers between rows; Concerns and Pluses drop the repeated pill for a coloured dot. */
+.critwrap .critcols > .critsec{padding:14px 16px}
+.critwrap .critcols > .critsec h4{font-size:15px; padding-bottom:10px; margin-bottom:2px}
+.critwrap .critcols .fitlist{gap:0 !important; padding-top:0}
+.critwrap .critcols .fitlist .fitreq{grid-template-columns:66px minmax(0,1fr); column-gap:12px; row-gap:3px; padding:10px 0 !important;
+  border-top:1px solid var(--line-2) !important; align-items:start}
+.critwrap .critcols .fitlist .fitreq:first-child{border-top:none !important}
+.critwrap .critcols .fitlist .fitreq .fst{width:66px; height:22px; display:inline-flex; align-items:center; justify-content:center; padding:0;
+  font:600 11px "IBM Plex Sans",system-ui,sans-serif; letter-spacing:.01em; border-radius:6px; text-decoration:none; margin-top:0}
+.critwrap .critcols .fitlist .fitreq .fst.na{background:transparent; border:1px dashed var(--line); color:var(--muted); text-decoration:none}
+.critwrap .critcols .fitlist .fitreq .ftx{font-size:13.5px; line-height:1.4; padding-top:2px; color:var(--ink); font-weight:500}
+.critwrap .critcols .fitlist .fitreq .fev{font-size:12.5px; line-height:1.45; color:var(--muted)}
+.fcode{font:500 10.5px "IBM Plex Mono",monospace; color:var(--faint); margin-left:7px; letter-spacing:.02em; vertical-align:1px}
+.critwrap .critcols .fitlist .fitreq.fnote{grid-template-columns:8px minmax(0,1fr)}
+.critwrap .critcols .fitlist .fitreq.fnote .ftx{font-weight:400; line-height:1.5}
+.critwrap .critcols .fitlist .fitreq.fnote.fsplit .ftx{font-weight:500; line-height:1.4}
+/* The detail line runs the full width, under the pill as well as the name (2 Oct). */
+.critwrap .critcols .fitlist .fitreq .fev{grid-column:1 / -1; grid-row:2; margin-top:2px}
+.fdot{width:7px; height:7px; border-radius:50%; margin-top:7px; background:var(--muted)}
+.fdot.neg{background:var(--bad)}
+.fdot.pos{background:var(--good, #1F8A5B)}
+.critwrap .critcols .fitlist .fitreq .fev::first-letter{text-transform:uppercase}
+
+/* Task rows on a role card, boxed like meetings and materials (2 Oct). */
+.stage.taskrow{border:1px solid var(--line); border-radius:9px; background:var(--surface); cursor:pointer}
+.stage.taskrow:hover{border-color:var(--muted)}
+.stage.taskrow:focus-visible{outline:2px solid var(--accent); outline-offset:1px}
+.stage.taskrow.st-done{background:var(--surface-2)}
+.stage.taskrow.st-done .stname{color:var(--muted); text-decoration:line-through}
+.taskrow > .stsum{display:grid; grid-template-columns:auto minmax(0,1fr) auto auto; column-gap:9px; row-gap:7px; align-items:center; padding:10px 13px}
+.taskrow > .stsum::before{content:"\25B8"; font-size:12px; color:var(--ink-2); grid-column:1; grid-row:1}
+.taskrow .stname{grid-column:2; grid-row:1; min-width:0}
+.taskrow .ststat{grid-column:3; grid-row:1; justify-self:end}
+.taskrow .sttype{grid-column:2; grid-row:2; display:flex; gap:6px}
+.taskrow .stwhen{grid-column:3; grid-row:2; justify-self:end}
+.tktick{grid-column:4; grid-row:1 / span 2; width:30px; height:30px; border-radius:50%; border:1.5px solid var(--line); background:var(--surface);
+  color:transparent; font-size:14px; font-weight:700; cursor:pointer; display:grid; place-items:center; transition:all .12s}
+.tktick:hover{border-color:var(--good); color:var(--good)}
+.tktick.on{background:var(--good); border-color:var(--good); color:#fff}
+.tasklist{display:flex; flex-direction:column; gap:8px}
+.mawait{font-size:11.5px; color:var(--muted); font-style:italic; white-space:nowrap}
+
+/* Meeting/task pop-up, round 2 (2 Oct): status top right; actions in a footer, quiet ones left, the
+   main one right; the "prep lives on" row hides when opened from that card. */
+.wkpst{font-size:12.5px; padding:4px 11px 4px 9px; display:inline-flex; align-items:center; gap:6px; border:none}
+.wkpst::before{content:""; width:7px; height:7px; border-radius:50%; background:currentColor; opacity:.85}
+.wkpopb .shead .srow > .spill{display:none}
+.wkpopb .shead{order:99; border-bottom:none; border-top:1px solid var(--line); padding:16px 0 0}
+.wkpopb .shead .srow{justify-content:flex-end}
+.wkpopb .shead .srow > .bgroup{order:1; margin-left:0 !important; margin-right:auto !important}
+.wkpopb .shead .srow > .btn{order:2}
+.wkpopb .shead .srow > .btn.primary{order:3}
+.wkpop.from-panel .wkf-where{display:none}
+
+/* Meeting row, opened (2 Oct): one action bar, a Details field, notes as a section. */
+details.stage.mt > .stbody{gap:14px; padding:14px 16px 16px}
+.mtbar{display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap}
+.mtq, .mtp{display:flex; gap:6px; flex-wrap:wrap; align-items:center}
+.mtbar .btn{padding:6px 13px; font-size:12.5px}
+details.stage.mt .mtnotes{padding-top:14px}
+details.stage.mt .stbody > .stsec{border-top:1px solid var(--line); padding-top:14px; margin-top:0}
+details.stage.mt .stbody > .stsec > .sechead > .eyebrow{font:600 14px "IBM Plex Sans",system-ui,sans-serif; letter-spacing:0; text-transform:none; color:var(--ink)}
+details.stage.mt .stbody > .stsec > .sechead{border-bottom:none; padding-bottom:4px}
+.mtbar .btn.edbtn{padding:6px 13px !important; font-size:12.5px !important; height:auto}
+
+/* File preview for uploaded assets (2 Oct). */
+.pvtext{margin:0; padding:22px 26px; background:var(--surface); border:1px solid var(--line); border-radius:10px; font-size:14px; line-height:1.6; color:var(--ink); white-space:pre-wrap; overflow-wrap:anywhere}
+.pvtext.md{white-space:normal; max-width:760px; margin:0 auto}
+.pvtext.md h1{font-size:22px; margin:0 0 12px} .pvtext.md h2{font-size:18px; margin:20px 0 8px} .pvtext.md h3{font-size:15px; margin:16px 0 6px}
+.pvtext.md p{margin:0 0 10px} .pvtext.md ul, .pvtext.md ol{margin:0 0 10px; padding-left:22px} .pvtext.md li{margin:3px 0}
+.pvtext.md table{border-collapse:collapse; margin:8px 0} .pvtext.md td, .pvtext.md th{border:1px solid var(--line); padding:5px 8px}
+.pvimg{max-width:100%; display:block; margin:0 auto; border-radius:8px}
+.pvpdf{width:100%; height:70vh; border:1px solid var(--line); border-radius:8px; background:#fff}
+
+/* Notes inside a meeting, polished (2 Oct): the meeting already says when and who, so the note's own date,
+   type and person chips hide there; bullets instead of blank-line gaps; a proper Next step line. */
+.wkp-sec .conv-head > .chip, .wkp-sec .conv-head > .conv-who{display:none}
+.wkp-sec .conv{padding:12px 14px}
+.wkp-sec .conv-head{justify-content:flex-end; margin-bottom:-6px}
+.conv-head .conv-del{border:1px solid var(--line) !important; border-radius:7px; padding:3px 10px !important; color:var(--ink-2) !important; background:var(--surface) !important}
+.conv-head .conv-del:hover{border-color:var(--muted) !important; color:var(--ink) !important}
+.conv-col{margin-top:10px}
+.conv-col p{white-space:normal; line-height:1.5; font-size:13.5px; color:var(--ink)}
+.convlist{margin:4px 0 0; padding-left:18px; font-size:13.5px; line-height:1.5; color:var(--ink)}
+.convlist li{margin:2px 0}
+.convnext{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-top:12px; padding:9px 12px; border-radius:8px; background:var(--surface-2); font-size:13.5px; color:var(--ink)}
+.convnext .eyebrow{flex:none}
+.convby{margin-left:auto; font:500 12px "IBM Plex Mono",monospace; color:var(--muted)}
+details.stage.mt.st-done .stname{color:var(--ink)}
+.wkp-sec .conv{position:relative}
+.wkp-sec .conv-head{position:absolute; top:10px; right:12px; margin:0; z-index:1}
+.wkp-sec .conv > .conv-col:first-of-type{margin-top:0}
+.wkp-sec .conv > *:nth-child(2){margin-top:0}
+
+.toastbtn{margin-left:10px; background:none; border:none; color:inherit; font:600 13px inherit; text-decoration:underline; cursor:pointer; padding:0}
+.toast.on{pointer-events:auto}
+.edfoot{margin-top:14px; padding-top:12px; border-top:1px solid var(--line); display:flex; justify-content:flex-start}
+.edrm{color:var(--bad) !important}
+
+/* Notes list with Edit (2 Oct). */
+.notelist{list-style:none; margin:0; padding:0; display:flex; flex-direction:column}
+.notelist li{display:grid; grid-template-columns:minmax(0,1fr) auto auto; align-items:center; gap:4px 12px; padding:9px 0; border-top:1px solid var(--line-2)}
+.notelist li:first-child{border-top:none}
+.nlt{font-size:13.5px; color:var(--ink); line-height:1.5; white-space:pre-wrap; overflow-wrap:anywhere}
+.nld{font:500 11.5px "IBM Plex Mono",monospace; color:var(--faint); white-space:nowrap}
+
+/* Sourcing page strip (3 Oct) */
+.srcstrip{margin:-4px 0 12px; font-size:12.5px; color:var(--muted)}
+.coctl-f .seg{max-width:100%; flex-wrap:nowrap} .coctl-f .seg button{white-space:nowrap; padding-left:10px; padding-right:10px}
+
+/* Quick tooltips (3 Oct, js/26-tooltips.js): shown after 250 ms instead of the browser's ~1 s. */
+.qtip{position:fixed; z-index:10000; max-width:300px; padding:6px 9px; border-radius:7px; background:var(--ink,#1b1426); color:#fff;
+  font:500 12px/1.4 "IBM Plex Sans",system-ui,sans-serif; white-space:pre-line; pointer-events:none;
+  box-shadow:0 4px 14px rgba(0,0,0,.18); animation:qtipin .12s ease-out}
+@keyframes qtipin{from{opacity:0; transform:translateY(2px)} to{opacity:1; transform:none}}
+@media (prefers-reduced-motion:reduce){.qtip{animation:none}}
+/* Rail day rows never run past the card (4 Oct): a long title was stretching its row, because a flex
+   item's minimum width defaults to its content's width. */
+.dl li.dli{min-width:0; max-width:100%}
+.dl li.dli .dn, .dl li.dli .dm{display:block; max-width:100%}
+
+/* App headline in the header, right of the funnel (4 Oct). Desktop only. */
+.apphl{display:flex; flex-direction:column; justify-content:center; margin-left:28px; color:#2DD4BF; text-decoration:none; line-height:1.15; flex:none}
+.apphl b{font:600 32px/1.1 "IBM Plex Sans",system-ui,sans-serif; letter-spacing:-0.01em}
+.apphl small{font-size:12.5px; opacity:.75; margin-top:4px}
+.apphl:hover b{text-decoration:underline; text-underline-offset:4px; text-decoration-thickness:2px}
+.apphl[hidden]{display:none}
+@media (max-width:1399px){ .apphl{display:none !important} }
+
+/* Longlist search in the page header (4 Oct). */
+#tab-gate1 > .pagehead .phsearch{flex:0 1 240px; min-width:150px; margin:0 0 0 auto; height:34px; min-height:0; padding:0 12px; font-size:14px; align-self:center; box-sizing:border-box}
+
+/* Waiting on you rows as soft cards (4 Oct): grey background, a stage colour on the left, like Today & tomorrow. */
+.wyg .nyl{gap:4px; padding:0 0 10px 0}
+.wyg .nyl li{border-top:none; background:var(--surface-2); border-radius:7px; padding:8px 10px 8px 13px; box-shadow:inset 3px 0 0 var(--wyc,var(--faint))}
+.wyg .nyl a .nyt{font-size:13px; font-weight:500}
+.wyg .nyl a .nyc{font-size:11.5px; color:var(--muted)}
+.wyg.wy-gate2{--wyc:var(--warn)} .wyg.wy-toapply{--wyc:var(--accent)} .wyg.wy-inplay{--wyc:var(--bad)}
+.wyg .wymore{margin:0 0 8px 0}
+/* Closing soon (4 Oct): red circle with a white ! before the role title; the date is in the hover. */
+.closebang{display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; border-radius:50%; background:#DC2626; color:#fff; font:700 11px/1 "IBM Plex Sans",system-ui,sans-serif; margin-right:6px; vertical-align:2px; flex:none; cursor:help}
+.nyt .closebang{width:14px; height:14px; font-size:10px; margin-right:5px; vertical-align:1px}
+
+/* Role number in its own slot (5 Oct): on a collapsed row the title text (.rtt) takes the "…" and the
+   number after it never shrinks, so "#142" stays visible at phone width. Same in the panel header (.spref). */
+details.rcard:not([open]) > summary .rsum-title:has(> .rtt){display:flex; align-items:baseline; overflow:visible; text-overflow:clip}
+details.rcard > summary .rsum-title > .rtt{min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+details.rcard > summary .rsum-title > .rref, details.rcard > summary .rsum-title > .closebang{flex:none; align-self:center}
+.spht b .spref{flex:none; font-family:"IBM Plex Mono",monospace; font-size:.8em; font-weight:500; color:var(--faint); margin-left:.4em; white-space:nowrap}
+/* A save in flight (5 Oct, 29-perf.js): the row fades and ignores taps until the change lands. */
+article.role.nrbusy{opacity:.55; transition:opacity .15s}
+article.role.nrbusy .rbody, article.role.nrbusy summary{pointer-events:none}
+button.nrbusy{pointer-events:none}
+button.nrbusy[data-saving]::after{content:"\00a0· Saving…"; font-weight:400}
+.spb.nrbusy{opacity:.55; pointer-events:none; transition:opacity .15s}
+
+/* ---- shell polish (6 Oct): one dark frame around the page (38-shell.js measures --top-h) ---- */
+.apphl, .apphl b{color:#fff}
+@media (min-width:1100px){
+  .sidenav::before{content:""; position:absolute; left:12px; right:12px; top:var(--top-h,92px); height:1px; background:rgba(255,255,255,.1); pointer-events:none}
+  .sidenav .sbrand{padding-bottom:40px}
+  header.top::after{content:""; position:absolute; left:0; top:100%; width:16px; height:16px; pointer-events:none;
+    background:radial-gradient(circle at 100% 100%, transparent 15.5px, var(--side-bg) 16px)}
+}
+
+/* Week ahead › Further out (12 Oct): clear gap below the week, cards at day-column width. */
+#tab-week #band-later{margin-top:34px}
+#tab-week #band-later .band h3{margin-bottom:10px}
+#tab-week #band-later .stack{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,320px)); gap:10px; align-items:start}
+@media (max-width:560px){ #tab-week #band-later .stack{grid-template-columns:1fr} }
+
+/* Week ahead › Further out cards, tidied (12 Oct): no chevron row, no status pill (everything here is booked),
+   title in full across the card (up to three lines), then date · who on one line with Done at the end. */
+#tab-week #band-later details.rcard:not([open]) > summary{display:grid; grid-template-columns:minmax(0,1fr); gap:6px; align-items:start}
+#tab-week #band-later details.rcard > summary::before{display:none}
+#tab-week #band-later details.rcard > summary .rsum-status{display:none}
+#tab-week #band-later details.rcard:not([open]) > summary .rsum-title{order:0; max-width:none; white-space:normal; overflow:hidden; text-overflow:clip;
+  display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3; line-clamp:3; font-size:15px; line-height:1.3}
+#tab-week #band-later details.rcard > summary .rsum-title .wktype{vertical-align:1px; margin-right:6px}
+#tab-week #band-later details.rcard > summary .rsum-sub{display:flex; order:1; padding:0; margin:0; gap:8px; align-items:center; flex-wrap:nowrap}
+#tab-week #band-later details.rcard > summary .rsum-sub .rsum-co{flex:1 1 0; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:12.5px}
+#tab-week #band-later details.rcard > summary .wkwhen{font-size:12px; margin-right:6px; color:var(--ink-2)}
+#tab-week #band-later details.rcard > summary .qacts{margin:0 0 0 auto; flex:0 0 auto}

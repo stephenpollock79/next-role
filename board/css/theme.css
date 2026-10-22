@@ -1,0 +1,803 @@
+/* ---- Theme (30 Sep): Picked 'bold header' with an aubergine band, IBM Plex, teal accent ---- */
+
+/* C — Bold header: dark band, teal accent, status stripes on cards */
+:root{--bg:#F3F5F4;--surface:#FFFFFF;--surface-2:#F8FAF9;--ink:#0E1716;--ink-2:#34403E;--muted:#66736F;--faint:#95A19D;
+ --line:#DFE5E3;--line-2:#EDF1EF;--accent:#0F766E;--accent-ink:#0B5550;--accent-soft:#E3F3F1;
+ --good:#15803D;--good-soft:#E6F5EC;--warn:#B45309;--warn-soft:#FDF1E0;--bad:#C2410C;--bad-soft:#FDECE5;
+ --shadow:0 1px 2px rgba(14,23,22,.06),0 8px 24px -16px rgba(14,23,22,.25)}
+body{font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:14px}
+h1,h2,h3,.rsum-title{font-family:'IBM Plex Sans',system-ui,sans-serif;letter-spacing:-.01em}
+header.top{background:#0E1716;border-bottom:none;backdrop-filter:none}
+.masthead h1{color:#fff;font-size:21px;font-weight:700}
+nav.tabs.stepper > button.home{background:transparent;border-color:rgba(255,255,255,.18) !important;color:#CFE1DD}
+nav.tabs.stepper > button.home[aria-selected="true"]{background:#2DD4BF;border-color:#2DD4BF !important;color:#0E1716}
+.stagebar{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12)}
+nav.tabs.stepper .step{color:#A7BDB8}
+nav.tabs.stepper .step:hover{background:rgba(255,255,255,.08);color:#fff}
+nav.tabs.stepper .step[aria-selected="true"]{background:#2DD4BF;color:#0E1716;font-weight:600}
+nav.tabs .tcount{background:rgba(255,255,255,.1);border-color:transparent;color:#CFE1DD}
+nav.tabs .tabgap{background:rgba(255,255,255,.2)}
+.role,.card{border-radius:8px}
+.role{grid-template-columns:4px 1fr}
+.rsum-title{font-size:16px;font-weight:600}
+.chip{border-radius:5px}
+.spill{border-radius:5px;font-weight:600}
+.spillsel{border-radius:6px}
+.btn{border-radius:6px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.shead{border-radius:8px;background:var(--surface-2)}
+.ctabs > button[aria-selected="true"]{color:var(--accent-ink) !important;background:none !important}
+.ctabs > button[aria-selected="true"]::after{background:var(--accent)}
+/* A little bolder and darker so category labels stand out (1 Oct). */
+.eyebrow,.fact .k{font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--ink-2)}
+.sec-head .eyebrow{font-weight:500;color:var(--muted)}   /* page subtitles stay quiet */
+
+header.top{background:var(--side-bg) !important}
+/* Tidy-ups that go with the theme */
+details.rcard[open] > summary .rsum-status{display:none}
+/* Gate 1 decisions on the collapsed row (30 Sep): some roles are a no from the title alone.
+   Hidden once open — the full controls are in the status bar then. */
+.qacts{display:inline-flex; gap:6px; align-items:center; align-self:center; flex-wrap:wrap}
+.qacts .btn{padding:3px 9px; font-size:11.5px}
+.rsum-sub .qacts{margin-left:auto; flex:0 0 auto; flex-wrap:nowrap}
+details.rcard[open] > summary .qacts{display:none}
+/* Phone: the "Keep searching <company>…" select sized itself to its longest option and ran off the
+   right edge. Let it shrink to the box; the browser truncates the shown text. */
+@media (max-width:560px){ .rejbox .setwrap select{width:100%; max-width:100%; min-width:0} }
+/* Company name a little bigger on collapsed role cards (30 Sep). The line box stays at the
+   old 18.75px (12.5px x 1.5) so the collapsed row does not get any taller. */
+:is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay) details.rcard > summary .rsum-sub .rsum-co{
+  font-size:13.5px; line-height:18.75px; color:var(--ink-2)}
+/* The Overview Edit button floats top right, so the summary starts right under the tabs (30 Sep). */
+.cpanel{position:relative}
+/* Floated, not absolute (1 Oct): the text beside it wraps round the button instead of running under it. */
+.sechead.bare{float:right; position:relative; border:none; padding:0; margin:0 0 6px 12px; z-index:1}
+.sechead.bare .eyebrow{display:none}
+.sechead.bare + .editbox{clear:both; margin-top:0}
+.ctabs ~ .cpanel{padding-top:10px !important}   /* the open card's status bar says it; no second STATUS */
+.sec-head h2{font-size:18px; font-weight:600}
+.sec-head .eyebrow{font-family:'IBM Plex Sans',system-ui,sans-serif; letter-spacing:.04em}
+.role-body{padding:16px 18px}
+.cpanel{gap:14px}
+/* Dark mode, same identity */
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--bg:#121615;--surface:#1A1F1E;--surface-2:#1F2524;--ink:#E8EEEC;--ink-2:#C4CFCB;--muted:#93A19C;--faint:#6F7D78;
+   --line:#2A3230;--line-2:#232A29;--accent:#2DD4BF;--accent-ink:#8FE9DC;--accent-soft:#16302C;
+   --good:#4ADE80;--good-soft:#16281C;--warn:#FBBF24;--warn-soft:#2B2312;--bad:#FB923C;--bad-soft:#2E1C12;--shadow:0 1px 2px rgba(0,0,0,.4)}
+  :root:not([data-theme="light"]) header.top{background:var(--side-bg) !important}
+  :root:not([data-theme="light"]) .btn.primary{color:#0E1716}
+}
+:root[data-theme="dark"]{--bg:#121615;--surface:#1A1F1E;--surface-2:#1F2524;--ink:#E8EEEC;--ink-2:#C4CFCB;--muted:#93A19C;--faint:#6F7D78;
+   --line:#2A3230;--line-2:#232A29;--accent:#2DD4BF;--accent-ink:#8FE9DC;--accent-soft:#16302C;
+   --good:#4ADE80;--good-soft:#16281C;--warn:#FBBF24;--warn-soft:#2B2312;--bad:#FB923C;--bad-soft:#2E1C12}
+/* H2 — same dark band{background:rgba(255,255,255,.12) !important;border-color:rgba(255,255,255,.22) !important;color:#fff !important;font-weight:600}
+nav.tabs.stepper > button.home{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.22) !important;color:#fff;font-weight:600}
+.stagebar{background:rgba(255,255,255,.10) !important;border-color:rgba(255,255,255,.22) !important;padding:4px}
+nav.tabs.stepper .step{color:#fff !important;font-weight:600;padding:7px 18px 7px 15px}
+nav.tabs.stepper .step:hover{background:rgba(255,255,255,.14) !important}
+nav.tabs.stepper .step:not(.last)::after{color:rgba(255,255,255,.6)}
+nav.tabs.stepper .step[aria-selected="true"],nav.tabs.stepper > button.home[aria-selected="true"]{background:#2DD4BF !important;color:#1B1426 !important;box-shadow:0 0 0 3px rgba(45,212,191,.25)}
+nav.tabs .tcount{background:#fff !important;color:#3A2F4A !important;font-weight:700}
+nav.tabs [aria-selected="true"] .tcount{background:#1B1426 !important;color:#2DD4BF !important}
+
+nav.tabs.stepper{justify-content:flex-end}
+@media (max-width:760px){ nav.tabs.stepper{justify-content:flex-start} .masthead h1{font-size:42px !important} .brand svg{width:40px;height:40px} }
+/* Slimmer stage bar, with air between it and the tools row (30 Sep). */
+header.top .stagebar{padding:2px !important}
+header.top nav.tabs.stepper .step{padding:4px 16px 4px 13px !important; font-size:12.5px}
+header.top nav.tabs.stepper > button.home{padding:5px 14px !important; font-size:12.5px}
+header.top nav.tabs.stepper{padding:8px 0 12px}
+header.top nav.tabs .tcount{line-height:1.45}
+header.top nav.tabs .tcount.quiet{background:rgba(255,255,255,.14) !important; color:#CFC6DA !important; font-weight:500}
+header.top nav.tabs [aria-selected="true"] .tcount.quiet{background:rgba(27,20,38,.18) !important; color:#1B1426 !important}
+/* Wordmark spans both header rows; the band stays the height of the two button rows (30 Sep). */
+@media (min-width:761px){
+  header.top > .wrap{display:grid; grid-template-columns:auto 1fr; column-gap:28px; align-items:center}
+  header.top .masthead{display:contents}
+  header.top .brand{grid-column:1; grid-row:1 / span 2; align-self:center}
+  header.top .tools{grid-column:2; grid-row:1; justify-self:end; padding-top:12px}
+  header.top nav.tabs{grid-column:2; grid-row:2}
+}
+.brand{display:inline-flex; align-items:center; gap:16px; text-decoration:none}
+.masthead h1{font-family:"DM Serif Display",Georgia,serif !important; font-weight:400 !important; font-size:60px !important; letter-spacing:-.005em; color:#fff !important; line-height:1}
+/* Phone (30 Sep): the 60px wordmark filled an iPhone and pushed the tools onto a row of
+   their own. Smaller title and logo so wordmark and tools share one row. Desktop is untouched. */
+@media (max-width:560px){
+  header.top .masthead{flex-wrap:nowrap; padding-block:10px 4px}
+  header.top .masthead h1{font-size:26px !important}
+  header.top .brand{gap:9px}
+  header.top .brand svg{width:26px; height:26px}
+}
+/* Phone (30 Sep): the stage tabs and the in-card tabs ran off the screen. Below 560px each
+   tab row becomes a dropdown that clicks the real (hidden) tab, so behaviour is unchanged. */
+.rref{font-family:"IBM Plex Mono",monospace; font-size:.78em; font-weight:500; color:var(--faint); margin-left:.45em; white-space:nowrap; letter-spacing:0}
+.pvmodal{width:min(900px,calc(100vw - 24px)); max-width:none}
+.pvbody{max-height:72vh; overflow:auto; background:#e9ebe8; border-radius:8px; padding:12px; margin-top:8px}
+.pvbody .docx-wrapper{background:transparent !important; padding:0 !important}
+.pvbody .docx-wrapper{transform-origin:top left}
+.pvbody .docx-wrapper > section.docx{box-shadow:0 1px 6px rgba(0,0,0,.15); margin:0 0 12px !important}
+.pvbody.fit{overflow-x:hidden}
+@media (max-width:560px){
+  .pvbody{padding:6px; max-height:66vh}
+  .pvmodal .modal-head{flex-direction:column; align-items:stretch; gap:8px}
+  .pvmodal #pv-title{font-size:15px; line-height:1.3; word-break:break-word}
+  .pvmodal .modal-head .row{justify-content:flex-start}
+}
+.docrow{display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding:10px 0; border-bottom:1px solid var(--line-2)}
+.docrow:last-child{border-bottom:0}
+.docrow .dn{flex:1 1 220px; min-width:0}
+.docrow .dn b{display:block; font-size:14px; color:var(--ink); font-weight:600}
+.docrow .dn span{font-size:12px; color:var(--muted)}
+.docrow .row{gap:6px}
+.finalbox{display:flex; flex-direction:column; gap:4px; border-top:1px solid var(--line-2); padding-top:10px}
+.packgrp{display:flex; flex-direction:column; gap:8px; padding-bottom:12px; border-bottom:1px solid var(--line-2)}
+.packgrp .docrow{border-bottom:0; padding-bottom:2px}
+.tabsel, .ctabsel{display:none}
+/* Phone section menu, always opens at the top (1 Oct). */
+#tabselbtn{text-align:left; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-family:inherit}
+@media (max-width:560px){ header.top #tabsel{display:none !important} }
+/* Phone pill shows the section name and the number on you, not the total (4 Oct); the full label stays above 560px. */
+#tabselbtn .tsbn{display:none}
+@media (max-width:560px){
+  header.top #tabselbtn .tsbf{display:none}
+  header.top #tabselbtn .tsbn{display:inline}
+  header.top #tabselbtn{flex:0 1 auto !important; max-width:52% !important; min-width:0}
+}
+.tabsheet{position:fixed; right:12px; z-index:70; width:min(272px, calc(100vw - 24px)); max-height:min(72vh, 560px); overflow-y:auto; overscroll-behavior:contain;
+  background:var(--surface); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow), 0 16px 40px -12px rgba(19,24,26,.35); padding:4px 6px 6px;
+  transform-origin:top right; animation:tsIn .14s ease-out}
+@keyframes tsIn{from{opacity:0; transform:translateY(-4px) scale(.98)} to{opacity:1; transform:none}}
+.tabsheet[hidden]{display:none}
+.tabsheet .tsg{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--faint); padding:10px 10px 4px}
+.tabsheet .tsg + button{margin-top:0}
+.tabsheet .tsg:not(:first-child){border-top:1px solid var(--line-2); margin-top:4px}
+.tabsheet button{position:relative; display:flex; align-items:center; justify-content:space-between; gap:10px; width:100%; min-height:38px; padding:0 10px; border:0; border-radius:8px; background:none;
+  font:inherit; font-family:"IBM Plex Sans",sans-serif; font-size:14px; color:var(--ink-2); text-align:left; cursor:pointer}
+.tabsheet button:active{background:var(--surface-2)}
+.tabsheet button[aria-current="true"]{background:var(--accent-soft); color:var(--accent-ink); font-weight:600}
+.tabsheet .ct{font-family:"IBM Plex Mono",monospace; font-size:11px; line-height:18px; min-width:20px; text-align:center; padding:0 6px; border-radius:99px; background:var(--surface-2); border:1px solid var(--line); color:var(--muted); font-weight:500}
+.tabsheet .ct.hot{background:var(--warn-soft); border-color:transparent; color:var(--warn); font-weight:600}
+
+@media (max-width:560px){
+  header.top nav.tabs.stepper{display:none !important}
+  header.top .tabsel{display:block; width:100%; margin:4px 0 12px; appearance:none; -webkit-appearance:none;
+    padding:8px 34px 8px 13px; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer;
+    color:#fff; background-color:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.28);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 13px center; background-size:10px 6px}
+  header.top .tabsel option{color:#0E1716; background:#fff; font-weight:400}
+  .ctabs{display:none !important}
+  .ctabs.wtabs{display:flex !important}
+  /* Targets sub-tabs were hidden on phones with no dropdown in their place (1 Oct). */
+  .targets-nav .ctabs{display:flex !important}
+  .pagetabs > .ctabs{display:flex !important}
+  .pagetabs > .ctabsel{display:none !important}
+  .pagetabs > .ctabs > button{flex:1 1 auto; justify-content:center; padding:8px 6px !important; font-size:12.5px !important}
+  .targets-nav .ctabs > button{flex:1 1 auto; justify-content:center; padding:8px 6px !important; font-size:12.5px !important}
+  .ctabsel{display:block; width:100%; margin-top:12px; appearance:none; -webkit-appearance:none;
+    padding:7px 32px 7px 12px; border-radius:8px; font-size:13.5px; font-weight:600; cursor:pointer;
+    color:var(--accent-ink); background-color:var(--accent-soft); border:1px solid var(--accent);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%238B9693' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 12px center; background-size:10px 6px}
+  .ctabsel.sub{margin-top:0; padding:5px 30px 5px 11px; font-size:12.5px; font-weight:500;
+    color:var(--ink-2); background-color:var(--surface); border-color:var(--line)}
+  .ctabsel option{color:var(--ink); background:var(--surface); font-weight:400}
+  /* One header row (30 Sep: "Put the drop down top right ... doesn't need full width").
+     The tool icons go — the dropdown's Tools group reaches the same three tabs. */
+  header.top > .wrap{display:flex; align-items:center; gap:12px}
+  header.top .masthead{flex:1 1 auto; min-width:0; padding-block:10px}
+  header.top .tools{display:none}
+  header.top .tabsel{flex:0 1 auto; width:auto; max-width:55%; min-width:0; margin:0 0 0 auto;
+    padding:6px 30px 6px 12px; font-size:13.5px; border-radius:8px; text-overflow:ellipsis;
+    background-position:right 11px center}
+  /* Slimmer pill, a touch more header (1 Oct: too close in height to the bar).
+     Font stays 16px or iOS zooms on tap; the padding and line height carry the change. */
+  header.top .tabsel{padding-top:3px !important; padding-bottom:3px !important; line-height:1.25 !important; min-height:0 !important; height:auto !important}
+  header.top .masthead{padding-block:13px}
+}
+/* Phone collapsed row (30 Sep): packed, not a vertical list. Line 1: title + Job ad icon.
+   Line 2: company, status and tags flowing together. Line 3: Gate 1 buttons. Phone only. */
+@media (max-width:560px){
+  details.rcard > summary{display:flex; flex-wrap:wrap; align-items:center; gap:6px 6px; position:relative; padding-left:16px}
+  details.rcard > summary::before{position:absolute; left:0; top:6px}
+  details.rcard > summary .role-idx{display:none}
+  details.rcard > summary .rsum-title{order:2; flex:1 1 0; min-width:0; font-size:16px; line-height:1.3}
+  details.rcard > summary .postlink{order:3; margin-left:4px; padding:5px 7px; align-self:flex-start}
+  details.rcard > summary .postlink span{display:none}
+  details.rcard > summary .rsum-sub{display:contents}
+  details.rcard > summary .rsum-sub .rsum-co{order:5; flex:1 1 0; min-width:0; max-width:100%; padding:0; margin-right:2px;
+    font-size:13px !important; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  details.rcard > summary .rsum-status{order:6; flex:0 0 auto; margin-left:auto; gap:6px}
+  details.rcard > summary .rsum-status .eyebrow{font-size:10px}
+  details.rcard > summary .rsum-status .spill{font-size:11.5px; padding:2px 8px}
+  details.rcard > summary .rsum-meta{order:7; flex:0 1 auto; width:auto; margin-left:0; gap:4px}
+  details.rcard > summary .rsum-meta .chip{font-size:11px; padding:1px 7px}
+  details.rcard > summary::after{content:""; order:4; flex:0 0 100%; height:0}
+  details.rcard > summary .qacts{order:8; flex:1 1 100%; display:flex; gap:8px; margin-top:2px}
+  details.rcard > summary .qacts .btn{flex:1 1 0; padding:6px 8px; font-size:12.5px; white-space:nowrap}
+  details.rcard[open] > summary .qacts{display:none}
+  /* A lone quick button is sized to its label and sits right, not full width (1 Oct). */
+  details.rcard > summary .qacts{justify-content:flex-end}
+  details.rcard > summary .qacts .btn:only-child{flex:0 0 auto; min-width:104px; padding:6px 16px}
+}
+/* Week ahead cards on a phone: status top right beside the title, title wraps before it (1 Oct). */
+@media (max-width:560px){
+  article.wk details.rcard > summary .rsum-status{order:3; align-self:flex-start; margin-left:6px; flex:0 0 auto}
+  article.wk details.rcard > summary .rsum-sub .rsum-co{flex:1 1 0; min-width:0; white-space:normal}
+  article.wk details.rcard > summary .qacts{flex:0 0 auto; margin-top:0}
+}
+@media (max-width:380px){
+  header.top .masthead h1{font-size:22px !important}
+  header.top .brand svg{width:22px; height:22px}
+  header.top .brand{gap:7px}
+}
+
+/* ===== Button system (1 Oct) — three kinds, two sizes, sized up on phones =====
+   Primary: filled teal, the one forward move in a section. Secondary: white with a grey outline.
+   Destructive: white with red text. Regular 32px (38px on a phone); Small 26px (32px on a phone)
+   inside lists and rows. Everything here overrides the older per-place paddings. Toggles (score
+   pills, filters, tab bars) and Mass review's thumb buttons are not part of it. */
+.btn, .conv-del{display:inline-flex !important; align-items:center; justify-content:center; gap:0; box-sizing:border-box;
+  min-height:32px; padding:0 12px !important; font-size:13px !important; font-weight:500; line-height:1.2; border-radius:8px !important;
+  border:1px solid var(--line) !important; background:var(--surface) !important; color:var(--ink) !important; cursor:pointer}
+.btn:hover, .conv-del:hover{border-color:var(--muted) !important}
+/* Flex buttons drop the spaces around inline spans ("Previous 7 days"); put them back. */
+.btn > span.lg{margin:0 .28em}
+.btn[data-act="wk_prev"] > span.lg{margin-right:0}
+#cm-open > span.lg{margin:0}
+.btn.primary{background:var(--accent) !important; border-color:var(--accent) !important; color:#fff !important}
+.btn.primary:hover{filter:brightness(1.06)}
+.btn.danger, .conv-del[data-act="convdel"]{color:var(--bad) !important}
+.btn.danger:hover, .conv-del[data-act="convdel"]:hover{border-color:var(--bad) !important}
+.btn:disabled, .btn[disabled]{opacity:.45; cursor:not-allowed; filter:none}
+.btn.sm, .btn.edbtn, .conv-del, .chsrc .btn, .qacts .btn, .cmpt .btn, .sechead .btn{min-height:26px; padding:0 9px !important; font-size:12px !important}
+/* Edit and Offer details carry a pencil, so they read at a glance. */
+.btn[data-act="ed_open"]::before, .conv-del[data-act="ed_open"]::before, .btn[data-act="offer_open"]::before{content:""; width:12px; height:12px; flex:none; margin-right:6px; background:currentColor;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M11.3 1.7a1.6 1.6 0 0 1 2.3 0l.7.7a1.6 1.6 0 0 1 0 2.3L5.6 13.4 2 14l.6-3.6z' fill='black'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M11.3 1.7a1.6 1.6 0 0 1 2.3 0l.7.7a1.6 1.6 0 0 1 0 2.3L5.6 13.4 2 14l.6-3.6z' fill='black'/%3E%3C/svg%3E") center/contain no-repeat}
+@media (max-width:560px){
+  .btn{min-height:38px; font-size:14px !important; padding:0 12px !important}
+  .btn.sm, .btn.edbtn, .conv-del, .chsrc .btn, .qacts .btn, .cmpt .btn, .sechead .btn{min-height:32px; padding:0 10px !important; font-size:13px !important}
+}
+
+/* ===== Visual polish pass (1 Oct) ===== */
+/* One page header everywhere: title, one line on what the page is for, its main button on the right. */
+.tabhead{align-items:center}
+.phead-t{display:flex; flex-direction:column; gap:3px; min-width:0; flex:1 1 auto}
+.tabhead h2, section > .sec-head:first-child h2{font-family:"IBM Plex Sans",system-ui,sans-serif !important; font-size:20px !important; font-weight:600 !important; letter-spacing:-.01em; color:var(--ink); line-height:1.2}
+.tabhead .phead-t p{margin:0; font-size:13px; color:var(--muted)}
+.wkhead{margin-bottom:6px !important; padding-bottom:0 !important; border-bottom:none !important}
+.wkhead #cm-open{margin-left:auto; flex:none; white-space:nowrap}
+@media (max-width:560px){ .wkhead #cm-open .lg{display:none} }
+section > .sec-head:first-child{display:flex !important; flex-direction:column; align-items:flex-start !important; gap:3px !important; margin-bottom:14px}
+section > .sec-head:first-child .eyebrow{font-family:"IBM Plex Sans",system-ui,sans-serif !important; text-transform:none !important; letter-spacing:0 !important; font-size:13px !important; color:var(--muted) !important}
+@media (max-width:560px){ .tabhead h2, section > .sec-head:first-child h2{font-size:18px !important} .tabhead .phead-t p{font-size:12.5px} }
+/* The serif is the brand's alone. */
+.empty b, .dayhead .dnum, .weeknav .range, details > summary[style*="Newsreader"], #mk-title{font-family:"IBM Plex Sans",system-ui,sans-serif !important; font-weight:600 !important; letter-spacing:-.005em}
+.dayhead .dnum{font-size:16px}
+.weeknav .range{font-size:14px !important; white-space:nowrap}
+@media (max-width:560px){ .weeknav{flex-wrap:nowrap !important; gap:6px} .weeknav .btn{min-height:32px; padding:0 10px !important; font-size:13px !important} }
+/* Pills: grey is the neutral, filled, not a white outline. */
+.spill:not(.warm):not(.mid):not(.strong):not(.weak), .spillsel:not(.warm):not(.mid):not(.strong):not(.weak){background-color:var(--surface-2) !important; border-color:transparent !important; color:var(--ink-2) !important}
+/* Fewer tiny capital labels: the pill already says it is a status. */
+details.rcard > summary .rsum-status > .eyebrow{display:none}
+/* Job ad: an icon, not a button, next to every title. */
+.postlink{border:none !important; background:none !important; padding:2px 4px !important; color:var(--accent) !important}
+.postlink span{display:none !important}
+.postlink svg{width:15px; height:15px}
+/* One corner and one shadow for every card. */
+.card, article.role{border-radius:12px !important}
+/* Search boxes on the long lists. */
+.search{display:block; width:100%; box-sizing:border-box; margin:0 0 14px; padding:9px 12px; border:1px solid var(--line); border-radius:10px; background:var(--surface); font-size:14px; color:var(--ink)}
+.search:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft)}
+/* Saved / Not saved. */
+.toast{position:fixed; left:50%; bottom:calc(20px + env(safe-area-inset-bottom)); transform:translate(-50%,12px); z-index:80; opacity:0; pointer-events:none;
+  background:#1B1426; color:#fff; font-size:13px; font-weight:500; padding:8px 14px; border-radius:999px; box-shadow:0 6px 20px rgba(0,0,0,.25); transition:opacity .18s, transform .18s}
+.toast.on{opacity:1; transform:translate(-50%,0)}
+.toast.bad{background:var(--bad)}
+/* Header: active tab is white like the active tool, not a glowing turquoise. */
+nav.tabs.stepper .step[aria-selected="true"], nav.tabs.stepper > button.home[aria-selected="true"]{background:#fff !important; color:#1B1426 !important; box-shadow:none !important}
+nav.tabs [aria-selected="true"] .tcount{background:#1B1426 !important; color:#fff !important}
+/* Desktop: a slimmer header — smaller wordmark, and on wide screens one row. */
+@media (min-width:761px){
+  .masthead h1{font-size:34px !important}
+  header.top .brand svg{width:34px; height:34px}
+  header.top .brand{gap:10px}
+}
+
+
+/* ---------- Role Fit (1 Oct) ---------- */
+.fitchip{font-family:'IBM Plex Mono',monospace; font-size:11px; padding:2px 8px; white-space:nowrap; flex:0 0 auto; align-self:center}
+.fitchip.rough{border-style:dashed !important; border-color:currentColor !important; background:transparent !important}
+.fitchip.none{color:var(--faint)}
+/* Good (60-74%) is a light green, between High and Stretch (1 Oct, night): grey read as "missing".
+   Grey on fit chips now only ever means "not scored yet". */
+.chip.good, .fitchip.good{background:var(--surface); border-color:color-mix(in srgb, var(--good) 45%, transparent); color:var(--good)}
+/* One line for the title on a collapsed card, so the fit chip never makes it taller. Full title when open. */
+details.rcard:not([open]) > summary .rsum-title{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; flex:0 1 auto}
+details.rcard[open] > summary .fitchip{display:none}
+.fitpanel .fithead{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+.fitpanel .fitbig{font-family:'IBM Plex Mono',monospace; font-size:20px; font-weight:600; color:var(--ink)}
+.fitreq{display:grid; grid-template-columns:auto 1fr; gap:4px 10px; padding:8px 0; border-top:1px solid var(--line)}
+.fitreq:first-child{border-top:none}
+.fitreq .fst{width:86px; justify-content:center; cursor:pointer; font-size:11px; padding:3px 6px; white-space:nowrap}
+.fitreq .fst.na{background:transparent; color:var(--faint); text-decoration:line-through}
+.fitreq .ftx{font-size:13.5px; color:var(--ink); line-height:1.35}
+.fitreq .ftx .tag{font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); margin-left:6px; text-transform:uppercase; letter-spacing:.04em}
+.fitreq .fev{grid-column:2; font-size:12px; color:var(--muted); line-height:1.35}
+.fitreq .frm{grid-column:2; justify-self:start; font-size:11.5px; color:var(--faint); background:none; border:none; padding:0; cursor:pointer}
+.fitadd{display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin-top:8px}
+.fitadd input[type=text]{flex:1 1 220px; min-width:0}
+.fitadd label{font-size:12.5px; color:var(--ink-2); display:inline-flex; gap:4px; align-items:center}
+.fitadd label input{width:auto !important; flex:none; margin:0}
+.fitadd label{white-space:nowrap}
+.skrow{display:grid; grid-template-columns:1fr auto; gap:2px 10px; padding:9px 0; border-top:1px solid var(--line)}
+.skrow:first-of-type{border-top:none}
+.skrow .skn{font-size:14px; color:var(--ink); font-weight:500}
+.skrow .ske{grid-column:1 / -1; font-size:12.5px; color:var(--muted); line-height:1.35}
+.skrow .skl select{font-size:12.5px; padding:2px 6px}
+.skrow .skedit{grid-column:1 / -1; display:flex; gap:6px; flex-wrap:wrap; align-items:center}
+.skrow .skedit input{flex:1 1 260px; min-width:0}
+@media (max-width:560px){
+  details.rcard:not([open]) > summary .rsum-title{flex:1 1 0}
+  details.rcard > summary .fitchip{order:3; font-size:10.5px; padding:2px 6px}
+  .skrow .skl select, .fitadd input[type=text]{font-size:16px}
+}
+
+/* ---------- Two-way fit (1 Oct) ---------- */
+.fitheads{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.fithd{border:1px solid var(--line); border-radius:10px; padding:10px 12px; background:var(--surface-2); display:flex; flex-direction:column; gap:5px}
+.fithd .fhtop{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+.fithd .fhline{font-size:13px; color:var(--ink-2); line-height:1.35}
+.fithd .fhline b{font-weight:500; color:var(--ink)}
+.fithd a{font-size:12px; align-self:flex-start}
+/* Criteria boxes with a header row (1 Oct, night). */
+.ovboxes{display:grid; grid-template-columns:1fr; gap:10px}
+@media (min-width:820px){ .ovboxes{grid-template-columns:minmax(0,1fr) minmax(0,2fr)} }
+.fithd.scard .scores{flex-direction:column; align-items:flex-start; gap:10px}
+.fithd.scard .scores .spill{white-space:normal; line-height:1.35}
+.fithd.ccard .facts.core{grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px 16px; margin:0; padding:0; border:none}
+.fithd .fhtop:only-child{border-bottom:none}
+.fithd .fhtop.solo{border-bottom:none; padding-bottom:0}
+.cogrid{display:grid; grid-template-columns:1fr; gap:10px}
+@media (min-width:820px){ .cogrid{grid-template-columns:repeat(2,minmax(0,1fr))} }
+.cogrid > .fithd{gap:10px; padding:12px 14px}
+.cogrid .codet .facts{grid-template-columns:repeat(2,minmax(0,1fr)); border:none; padding:0; gap:12px 16px}
+.cogrid .cores > div + div{margin-top:2px}
+/* Details and research full width, pluses and concerns side by side (1 Oct, night). */
+@media (min-width:820px){
+  .cogrid .codet, .cogrid .cores{grid-column:1 / -1}
+  .cogrid .codet .facts{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+  .cogrid .cores{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px 28px; align-items:start}
+  .cogrid .cores > .fhtop{grid-column:1 / -1}
+  .cogrid .cores > div + div{margin-top:0}
+}
+.cogrid .cobul{margin:0; padding-left:18px; display:flex; flex-direction:column; gap:6px; font-size:13.5px; color:var(--ink)}
+.cogrid .cobul.neg li::marker{color:var(--bad)}
+.cogrid .coplus .cobul li::marker{color:var(--good)}
+.critwrap{display:flex; flex-direction:column; gap:10px}
+/* Targets card grid (2 Oct): full width unless a card is marked half. */
+.tcards{display:grid; grid-template-columns:1fr; gap:10px}
+.tcards > *{grid-column:1 / -1; min-width:0}
+@media (min-width:820px){ .tcards{grid-template-columns:repeat(2,minmax(0,1fr))} .tcards > .half{grid-column:auto} }
+.tcards > .fithd{gap:10px; padding:12px 14px}
+.tcards .facts{border:none; padding:0; margin:0; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px 16px}
+.tcols{display:grid; grid-template-columns:1fr; gap:12px 28px; align-items:start}
+@media (min-width:820px){ .tcols{grid-template-columns:repeat(2,minmax(0,1fr))} }
+.tcards .tbul{margin:0; padding-left:18px; display:flex; flex-direction:column; gap:6px; font-size:13.5px; color:var(--ink)}
+.tcards .tbul.pos li::marker{color:var(--good)}
+.tcards .tbul.neg li::marker{color:var(--bad)}
+.tcards .tbul.warn li::marker{color:var(--warn)}
+.tcards .editbox{margin:0}
+.tcards .qlist{margin:0}
+/* Company controls (2 Oct) */
+.coctl{display:grid; grid-template-columns:1fr; gap:12px}
+@media (min-width:820px){ .coctl{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) auto; align-items:start; column-gap:22px} .coctl > .rejbox{grid-column:1 / -1} }
+.coctl-f{display:flex; flex-wrap:wrap; align-items:center; gap:6px 10px; min-width:0}
+.coctl-f > .eyebrow{flex:0 0 100%}
+.coctl-why{flex:0 0 100%; font-size:12px; color:var(--muted); line-height:1.35}
+.coctl-why .cowarm{color:var(--warn); font-weight:500}
+.seg{display:inline-flex; border:1px solid var(--line); border-radius:8px; overflow:hidden; background:var(--surface)}
+.seg button{border:0; background:none; padding:5px 16px; font:inherit; font-size:12.5px; font-weight:500; color:var(--muted); cursor:pointer}
+.seg button + button{border-left:1px solid var(--line)}
+.seg button.on{background:var(--accent); color:#fff}
+.seg button:not(.on):hover{background:var(--surface-2); color:var(--ink)}
+.cochart{display:flex; gap:6px; align-items:flex-end}
+.cobar{display:flex; flex-direction:column; align-items:center; gap:3px; width:54px; background:none; border:0; padding:2px 0; border-radius:6px; cursor:pointer; font:inherit}
+.cobar:hover:not([disabled]){background:var(--surface-2)}
+.cobar[disabled]{cursor:default}
+.cobar .cbn{font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; color:var(--ink); line-height:1}
+.cobar.zero .cbn{color:var(--faint); font-weight:500}
+.cobar .cbb{height:34px; width:22px; display:flex; align-items:flex-end; border-bottom:1px solid var(--line)}
+.cobar .cbb i{display:block; width:100%; border-radius:3px 3px 0 0; background:color-mix(in srgb, var(--accent) 55%, var(--surface))}
+.cobar.toapply .cbb i, .cobar.applied .cbb i{background:var(--good)}
+.cobar.ended .cbb i{background:var(--faint)}
+.cobar .cbl{font-size:10.5px; color:var(--muted); white-space:nowrap}
+@media (max-width:560px){ .cochart{width:100%; justify-content:space-between} .cobar{width:auto; flex:1} }
+.secpick{display:flex; flex-wrap:wrap; gap:6px 16px; margin-top:4px}
+.secpick label{display:inline-flex; align-items:center; gap:6px; font-size:13px; color:var(--ink); font-weight:400}
+.secpick input{width:auto !important; margin:0}
+.cocount{font-size:13px; color:var(--ink-2)} .cocount b{font-weight:600; color:var(--ink)}
+.spill.cs-good{color:var(--good)} .spill.cs-acc{color:var(--accent-ink)} .spill.cs-dim{color:var(--muted)}
+.pptiles{display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:10px; align-items:stretch; grid-auto-flow:row dense}
+/* Every tile the same height: the tag row and the note line are always there, the note is one line. */
+.ptcard:not(.open) .ptags{min-height:22px}
+.ptcard:not(.open) .pnote{min-height:1.4em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.ptgrp{grid-column:1 / -1; font-size:13px; font-weight:600; color:var(--ink); margin:8px 0 -2px}
+.ptgrp:first-child{margin-top:0}
+.ptgrp span{font-weight:400; color:var(--muted)}
+.ptcard{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:12px 13px; display:flex; flex-direction:column; gap:9px; cursor:pointer; min-width:0}
+.ptcard:hover{border-color:var(--muted)}
+.ptcard:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.ptcard.open{grid-column:1 / -1; cursor:default; border-color:var(--accent)}
+.ptopenhd{display:flex; flex-direction:column; gap:8px; cursor:pointer; position:relative}
+.ptclose{position:absolute; right:0; top:2px; font-size:12px; color:var(--muted)}
+.pttop{display:flex; gap:10px; align-items:flex-start; min-width:0}
+.pttop .pav{width:36px; height:36px; font-size:13px}
+.pttop .ptx{flex:1 1 auto}
+.pttop .pnm{font-size:14px}
+.pco{color:var(--accent-ink); text-decoration:none} .pco:hover{text-decoration:underline}
+.pli{flex:none; font-size:11px; font-weight:600; color:var(--accent-ink); border:1px solid var(--line); border-radius:6px; padding:1px 6px; text-decoration:none}
+.ptopenhd .pli{margin-right:44px}
+.ptags{display:flex; gap:6px; flex-wrap:wrap}
+.ptags .ptag{margin:0}
+.ptag.live{background:color-mix(in srgb, var(--accent) 12%, var(--surface)); color:var(--accent-ink)}
+.pnote{margin:0; font-size:12.5px; color:var(--ink-2); font-style:italic}
+.ptft{margin-top:auto; display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap; font-size:11.5px; color:var(--muted); border-top:1px solid var(--line-2); padding-top:7px}
+.ptft .linkbtn{font-size:11.5px}
+.pnext{color:var(--accent-ink); font-weight:500}
+.ptcols{display:grid; grid-template-columns:1fr; gap:14px}
+/* Open person card */
+.ptcard.open{padding:14px 16px; gap:12px}
+.ptoh{display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding-bottom:12px; border-bottom:1px solid var(--line)}
+.ptoh .pttop{flex:1 1 auto; cursor:pointer; align-items:center; gap:12px; flex-wrap:nowrap; min-width:0}
+.pnml{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+.pnml .ptag{margin:0}
+.ptoh .pav{width:42px; height:42px; font-size:14px}
+.ptoh .pnm{font-size:16px}
+.ptoh .ptags{align-self:center}
+.ptacts{margin-left:auto; display:flex; gap:6px; align-items:center; flex-wrap:wrap}
+.ptacts .btn{text-decoration:none}
+.ptx2{padding:0 8px !important}
+.pfdone{font-size:12px; color:var(--good); font-weight:500; padding:0 4px}
+.ptbody{display:grid; grid-template-columns:1fr; gap:18px}
+@media (min-width:900px){ .ptbody{grid-template-columns:minmax(0,1fr) minmax(0,1.5fr)} }
+.ptabout{display:flex; flex-direction:column; gap:16px; min-width:0}
+.ptabout .ivsec, .ptmt .ivsec{gap:10px}
+.ptcard.open .ivhead{min-height:30px; box-sizing:content-box}
+.ptgrid{display:grid !important; grid-template-columns:1fr; gap:10px !important}
+/* Five cards, always in the same places (2 Oct): About | Meetings, Live roles | Tasks, Note across. */
+@media (min-width:900px){
+  .ptgrid{grid-template-columns:minmax(0,1fr) minmax(0,1.3fr); grid-template-areas:"a m" "l t" "n n"; align-items:stretch}
+  .ptgrid > .ivsec:nth-child(1){grid-area:a} .ptgrid > .ivsec:nth-child(2){grid-area:l} .ptgrid > .ivsec:nth-child(3){grid-area:n}
+  .ptgrid > .ivsec:nth-child(4){grid-area:m} .ptgrid > .ivsec:nth-child(5){grid-area:t}
+}
+@media (max-width:899px){ .ptgrid > .ivsec:nth-child(4){order:2} .ptgrid > .ivsec:nth-child(5){order:3} .ptgrid > .ivsec:nth-child(2){order:4} .ptgrid > .ivsec:nth-child(3){order:5} }
+.ptright{display:flex; flex-direction:column; gap:10px; min-width:0}
+.ptright > .ivsec{border:1px solid var(--line); border-radius:10px; background:var(--surface); padding:12px 14px; gap:10px}
+.ptright > .ivsec > .sechead{border-bottom:1px solid var(--line); padding-bottom:9px}
+.ptright > .ivsec > .sechead > .eyebrow{font-family:'IBM Plex Sans',system-ui,sans-serif; font-size:15.5px; font-weight:600; letter-spacing:0; text-transform:none; color:var(--ink)}
+.pfblock{display:flex; flex-direction:column; gap:6px; padding-top:10px; border-top:1px solid var(--line-2)}
+.pfk{font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-2); font-weight:600}
+.ptcard.open{background:var(--surface-2)}
+.pffacts{border:none !important; padding:0 !important; margin:0; grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:12px 18px !important}
+.pffacts .v{font-size:13.5px; color:var(--ink)}
+.pfsub{display:block; font-size:12px; color:var(--muted); margin-top:1px}
+.pfrow{display:grid; grid-template-columns:130px minmax(0,1fr); gap:10px; font-size:13px; align-items:baseline}
+.pfrow > span, .pfk{font-size:12px; color:var(--muted)}
+.pfrow b{font-weight:500; color:var(--ink)}
+.pfna{color:var(--faint); font-weight:400}
+.pfroles{display:flex; flex-direction:column; gap:6px}
+.pfrole{display:flex; justify-content:space-between; gap:10px; align-items:center; padding:7px 10px; border:1px solid var(--line); border-radius:8px; text-decoration:none; color:var(--ink); font-size:13px}
+.pfrole:hover{border-color:var(--muted)}
+.pfrole span:first-child{min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.pfnote{margin:0; font-size:13.5px; color:var(--ink-2); white-space:pre-wrap; line-height:1.5}
+.ptmt{display:flex; flex-direction:column; gap:16px; min-width:0}
+.ptmt .ivsec{gap:8px}
+@media (max-width:560px){ .ptacts{margin-left:0; width:100%} .ptacts .btn{flex:1 1 auto} .ptx2{flex:0 0 auto !important} .pfrow{grid-template-columns:110px minmax(0,1fr)} }
+@media (min-width:980px){ .ptcols{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr)} }
+.ptcols .facts{border:none; padding:0; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 14px}
+.ptiles{display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:8px}
+.ptile{display:flex; gap:10px; align-items:flex-start; text-align:left; border:1px solid var(--line); border-radius:9px; padding:10px 11px;
+  background:var(--surface); cursor:pointer; font:inherit; color:inherit; min-width:0}
+.ptile:hover{border-color:var(--muted); background:var(--surface-2)}
+.ptile.padd{border-style:dashed; justify-content:center; align-items:center; color:var(--accent-ink); font-size:12.5px; font-weight:500; min-height:64px}
+.pav{width:32px; height:32px; border-radius:50%; flex:none; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600;
+  background:color-mix(in srgb, var(--accent) 14%, var(--surface)); color:var(--accent-ink)}
+.pav.warm{background:var(--warn-soft); color:var(--warn)}
+.ptx{display:flex; flex-direction:column; gap:2px; min-width:0}
+.pnm{font-size:13.5px; font-weight:600; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.pmt{font-size:12px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.ptag{align-self:flex-start; margin-top:4px; font-size:11px; font-family:'IBM Plex Sans',system-ui,sans-serif; text-transform:none; letter-spacing:0; font-weight:500; padding:1px 7px; border-radius:5px; background:var(--surface-2); color:var(--ink-2)}
+.ptag.warm{background:var(--warn-soft); color:var(--warn)}
+@media (max-width:560px){ .tcards .facts{grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 12px} }
+/* Interviews tab: every section a full-width card, header like the other cards (1 Oct, night). */
+.ivtab.ivcards{gap:10px}
+.ivcards > .ivsec{border:1px solid var(--line); border-radius:10px; background:var(--surface); padding:12px 14px; gap:10px}
+.ivcards > .ivsec > .sechead{border-bottom:1px solid var(--line); padding-bottom:9px}
+.ivcards > .ivsec > .sechead > .eyebrow{font-family:'IBM Plex Sans',system-ui,sans-serif; font-size:15.5px; font-weight:600;
+  letter-spacing:0; text-transform:none; color:var(--ink)}
+.ivcards > .ivsec > .secintro{margin:0}
+.ivcards .avoid .qlist{color:var(--ink)}
+.ivcards .gapl{margin:0}
+.cvpair{display:grid; grid-template-columns:1fr; gap:10px}
+@media (min-width:820px){ .cvpair{grid-template-columns:repeat(2,minmax(0,1fr))} }
+.cvpair > .ivsec{border:1px solid var(--line); border-radius:10px; background:var(--surface); padding:12px 14px; gap:10px; min-width:0}
+.cvpair > .ivsec > .sechead{border-bottom:1px solid var(--line); padding-bottom:9px}
+.cvpair > .ivsec > .sechead > .eyebrow{font-family:'IBM Plex Sans',system-ui,sans-serif; font-size:15.5px; font-weight:600; letter-spacing:0; text-transform:none; color:var(--ink)}
+.cvpair .secintro{margin:0}
+.ivcards .gapl li::marker{color:var(--warn)}
+.ivcards .finalbox{gap:6px}
+.ivcards .finalbox > .secintro{margin:0 0 2px !important}
+.ivcards .stbody .ivcards{gap:10px}
+.ivcards .avoid .qlist li::marker{color:var(--bad)}
+.qcards{display:flex; flex-direction:column; gap:10px}
+.qcards > .fithd{gap:10px; padding:12px 14px}
+.qcards .qlist{margin:0 !important; padding-left:18px; display:flex; flex-direction:column; gap:6px; font-size:13.5px; color:var(--ink)}
+.qcards .editbox{margin:0}
+.qacheck{display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; padding:0 2px}
+.qalist{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px}
+.qalist > li{padding-left:16px; position:relative; font-size:13.5px; color:var(--ink)}
+.qalist > li::before{content:""; position:absolute; left:3px; top:8px; width:5px; height:5px; border-radius:50%; background:var(--muted)}
+.qalist .qaq{display:flex; gap:10px; align-items:baseline; justify-content:space-between}
+.qalist .qaq .linkbtn{flex:none; font-size:12px}
+.qalist .qaacts{display:inline-flex; gap:12px; flex:none}
+.qalist .qarm{color:var(--bad) !important}
+.qalist .qaa{margin-top:3px; color:var(--ink-2); font-size:13px; padding-left:10px; border-left:2px solid color-mix(in srgb, var(--good) 45%, transparent)}
+.qalist .qameta{margin-top:3px; font-size:11.5px; color:var(--muted)}
+.qalist .qameta .linkbtn{font-size:11.5px}
+.qalist .qanudge{margin-top:4px; font-size:12px; color:var(--warn)}
+.qalist.ans > li::before{background:var(--good)}
+.qaform{display:flex; flex-direction:column; gap:6px; margin-top:6px}
+.qaform textarea{width:100%; min-height:56px}
+/* Starred questions (3 Oct): must ask, shown first. */
+.qalist .qaq .qat{flex:1 1 auto; min-width:0}
+.qastar{flex:none; border:none; background:none; padding:0 2px; margin:0; cursor:pointer; font-size:16px; line-height:1; color:var(--muted); align-self:baseline}
+.qastar:hover{color:#d49a12}
+.qastar.on{color:#d49a12}
+.qalist li.qaon .qat{font-weight:600}
+/* Add or reword one question (3 Oct). */
+.qaeform{display:flex; flex-direction:column; gap:6px; margin:6px 0}
+.qaeform input{width:100%; box-sizing:border-box}
+@media (max-width:560px){ .qaeform input{font-size:16px} }
+@media (max-width:560px){ .qaform textarea{font-size:16px} }
+.qadone{margin-top:4px}
+.qasug{border-color:color-mix(in srgb, var(--accent) 40%, var(--line)) !important}
+.critstack{display:flex; flex-direction:column; gap:10px}
+/* Fit tab header (title, summary, gauge) sits on the page, no box (1 Oct, night). */
+.critwrap > .fithd.fitcard{border:none; background:none; padding:2px 2px 4px}
+.critstack > .critsec{margin:0; border:1px solid var(--line); border-radius:10px; background:var(--surface); padding:12px 14px; min-width:0}
+.critstack > .critsec h4{font-size:15px; padding-bottom:9px; margin-bottom:6px}
+.critstack > .critsec .fitadd{margin-top:4px}
+.critcols{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px; align-items:stretch}
+.critcols > .critsec{margin:0; border:1px solid var(--line); border-radius:10px; background:var(--surface); padding:12px 14px; min-width:0}
+.critcols > .critsec h4{font-size:15px; padding-bottom:9px; margin-bottom:6px}
+.critcols .fitlist{display:flex !important; flex-direction:column; gap:10px; padding-top:2px}
+.critcols .fitlist .fitreq{height:auto; overflow:visible; padding:0 !important; grid-template-columns:62px minmax(0,1fr); gap:3px 9px}
+.critcols .fitlist .fitreq .fst{width:62px; font-size:10.5px; padding:3px 4px}
+.critwrap .critcols .fitlist .fitreq .ftx, .critwrap .critcols .fitlist .fitreq .fev{display:block; -webkit-line-clamp:unset; line-clamp:none; max-height:none; overflow:visible}
+.critcols .fitlist .fitreq .ftx{font-size:13px}
+.fithd .fhmeta{margin:3px 0 0; font-size:12px; color:var(--ink-2)}
+.fithd.fitcard{gap:10px; padding:14px 16px}
+.fithd.fitcard .fhtop{margin-bottom:0}
+/* The gauge already opens Fit; inside the Fit tab it just switches sub-tab. */
+@media (max-width:560px){ .fithd.ccard .facts.core{grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 12px} }
+.fithd{background:var(--surface); gap:6px; padding:12px 14px}
+.fithd .fhtop{flex-wrap:nowrap; align-items:center; justify-content:space-between; gap:12px;
+  padding-bottom:9px; margin-bottom:4px; border-bottom:1px solid var(--line)}
+.fithd .fhtl{display:flex; flex-direction:column; gap:2px; min-width:0}
+.fithd .fhtitle{font-size:15.5px; font-weight:600; color:var(--ink); line-height:1.2}
+.fithd .fhsub{font-size:12px; color:var(--muted); line-height:1.3}
+.fithd .fhtop .fgauge{flex:none; width:76px}
+.fithd .fhtop .fgauge svg{width:70px; height:auto}
+.fithd .fhtop .fglab{display:none}
+.fithd .fhtop .fgval{font-size:12.5px}
+.mechip{font-family:'IBM Plex Mono',monospace; font-size:11px; padding:2px 8px; white-space:nowrap; flex:0 0 auto; align-self:center}
+.mechip.none,.fitchip.none{color:var(--faint)}
+.fitduo{display:none; flex:0 0 auto; align-self:center}
+.fitduo .chip{font-family:'IBM Plex Mono',monospace; font-size:10.5px; padding:2px 6px; white-space:nowrap}
+.fitduo .chip:first-child{border-top-right-radius:0; border-bottom-right-radius:0}
+.fitduo .chip:last-child{border-top-left-radius:0; border-bottom-left-radius:0; margin-left:1px}
+.fitduo .chip.none{color:var(--faint)}
+details.rcard[open] > summary .mechip{display:none}
+.mrchips{display:inline-flex; gap:5px; margin-left:auto; margin-top:3px; flex:0 0 auto}
+.mr-th .mrchips .fitchip{margin:0}
+.g2nview p{margin:3px 0 2px; font-size:13.5px; color:var(--ink-2); white-space:pre-wrap; line-height:1.45}
+.g2nview a{font-size:12.5px}
+@media (max-width:560px){
+  .fitheads{grid-template-columns:1fr}
+  /* Phone: title keeps line 1; one split fit pill sits on line 2 after the company (1 Oct). */
+  details.rcard > summary .mechip, details.rcard > summary .fitchip{display:none}
+  details.rcard > summary .fitduo{display:inline-flex; order:6; margin-left:auto}
+  details.rcard[open] > summary .fitduo{display:none}
+  details.rcard > summary .rsum-status{order:7}
+  /* "Gate 2 — decide" on a Gate 2 card repeats the tab; on a phone that room goes to the fit chips. */
+  details.rcard:not([open]) > summary .rsum-status:has(.spill.dflt){display:none}
+  .mrchips{flex-direction:column; align-items:flex-end; gap:3px}
+}
+
+/* Fit tab section headers and the must-have toggle (1 Oct) */
+.critsec{margin-top:14px}
+.critsec h4{margin:0 0 4px; font-size:13.5px; font-weight:600; color:var(--ink); display:flex; align-items:center; gap:7px; padding-bottom:6px; border-bottom:1px solid var(--line)}
+.critsec h4 .ct{font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:500; color:var(--muted); background:var(--surface-2); border-radius:999px; padding:1px 8px}
+.critsec .fitadd{margin-top:6px}
+.mtag{margin-left:7px; font:500 11px/1 'IBM Plex Mono',monospace; text-transform:uppercase; letter-spacing:.03em; color:var(--muted); background:transparent; border:1px solid var(--line); border-radius:999px; padding:4px 8px; cursor:pointer; vertical-align:middle}
+.mtag.on{color:var(--accent-ink,var(--accent)); border-color:var(--accent); background:var(--surface-2)}
+/* The must-have toggle sits under the status pill, in the left column, so a row is no taller (1 Oct). */
+.fitreq .fst{grid-column:1; grid-row:1}
+.fitreq .mtag{grid-column:1; grid-row:2; width:86px; margin:0; padding:4px 2px; font-size:10px; text-align:center; align-self:start}
+.fitreq .ftx{grid-column:2; grid-row:1}
+.fitreq .fev{grid-row:2}
+.fitreq .frm{grid-row:3}
+@media (max-width:560px){ .fitreq .mtag{padding:6px 2px} }
+.fitreq .fst{align-self:start}
+/* Every criteria row is the same height, two lines of text (1 Oct, night): title and detail get
+   a line each; a title with no detail may use both. Longer text is cut with an ellipsis; hover for all. */
+.fitlist .fitreq{grid-template-columns:auto minmax(0,1fr) auto; grid-template-rows:auto auto; height:62px; box-sizing:border-box; overflow:hidden; align-content:start}
+.fitlist .fitreq .ftx, .fitlist .fitreq .fev{display:-webkit-box; -webkit-box-orient:vertical; overflow:hidden; overflow-wrap:anywhere}
+.fitlist .fitreq .ftx{-webkit-line-clamp:1; line-clamp:1; max-height:1.35em}
+.fitlist .fitreq:not(:has(.fev)) .ftx{-webkit-line-clamp:2; line-clamp:2; max-height:2.7em}
+.fitlist .fitreq .fev{-webkit-line-clamp:1; line-clamp:1}
+.fitlist .fitreq .frm{grid-column:3; grid-row:1; align-self:start}
+@media (max-width:560px){ .fitlist .fitreq{height:68px} }
+/* Two columns of criteria on wider screens (1 Oct, night); one column on a phone. */
+@media (min-width:820px){
+  .fitlist{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:28px}
+  .fitlist > .fitreq:nth-child(2){border-top:none}
+}
+/* Fit gauges on collapsed cards: desktop only, in a fixed column so they line up down the page. */
+/* Gauge colours: their own clearer red, amber and greens (the board's bad and warn are both orange). */
+:root{--g-bad:#DC3B2F; --g-warn:#F2A41C; --g-ok:#8FCB9B; --g-good:#1E9E52}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--g-bad:#EF5A4C; --g-warn:#F5B53D; --g-ok:#5E9E6E; --g-good:#3CC46F} }
+:root[data-theme="dark"]{--g-bad:#EF5A4C; --g-warn:#F5B53D; --g-ok:#5E9E6E; --g-good:#3CC46F}
+/* Sort control above each pipeline list. */
+/* Pipeline tab headers: title, sort and the main button on one row (1 Oct, night). */
+.pipehead{flex-wrap:nowrap; align-items:center; gap:12px}
+.pipehead .phead-t{flex:1 1 auto; min-width:0}
+.pipehead h2{white-space:nowrap}
+.tabsort{flex:none}
+.pipehead > .btn{flex:none}
+@media (max-width:560px){
+  .pipehead{gap:8px}
+  .pipehead .sortbar > span{display:none}
+  .pipehead .sortbar select{max-width:118px; font-size:16px !important; padding:5px 8px}
+  .pipehead .lg{display:none}
+  .pipehead > .btn{padding:0 10px !important}
+}
+.sortbar{display:inline-flex; align-items:center; gap:7px; font-size:12px; color:var(--muted)}
+.sortbar select{width:auto; padding:4px 8px; font-size:12.5px}
+.fitgauges{display:none}
+@media (min-width:761px){
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay) details.rcard:not([open]) > summary{position:relative}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay) details.rcard:not([open]) > summary .fitgauges{
+    display:flex; gap:14px; position:absolute; left:55%; top:50%; transform:translateY(-50%)}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay) details.rcard:not([open]) > summary .mechip,
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay) details.rcard:not([open]) > summary .fitchip{display:none}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay) details.rcard:not([open]) > summary .rsum-title{max-width:calc(55% - 70px)}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay) details.rcard:not([open]) > summary .rsum-sub .rsum-co{max-width:calc(55% - 40px)}
+}
+.fgauge{display:flex; flex-direction:column; align-items:center; gap:1px; width:64px; padding:2px 0; border-radius:8px; background:none; border:none; cursor:pointer}
+.fgauge:hover{background:var(--surface-2)}
+.fgauge svg{display:block}
+.fglab{font-family:"IBM Plex Mono",monospace; font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); line-height:1}
+.fgval{font-family:"IBM Plex Mono",monospace; font-size:11.5px; font-weight:600; line-height:1.1; font-variant-numeric:tabular-nums}
+/* No row lines inside a criteria section (1 Oct, night): the fixed rows and status chips make the
+   grid; only the section header keeps its underline. */
+.fitlist .fitreq{border-top:none !important; padding:6px 0}
+.fitlist{padding-top:4px}
+details.rcard > summary .rsel{display:none}
+:root{--rp-bg:var(--surface); --rp-line:var(--line)}   /* L1 (1 Oct, night): no tint, divider only */
+/* Collapsed-card right panel, desktop (1 Oct, night): a fixed-width tinted panel behind a
+   divider, status centred in the top half, the usual buttons centred in the bottom half. Fixed width
+   so every card's panel, and the gauges just left of it, line up down the page. */
+@media (min-width:761px){
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]){--rp:256px}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary{
+    margin:-16px -18px; padding:16px calc(var(--rp) + 18px) 16px 18px; min-height:78px; box-sizing:border-box; position:relative}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary::after{
+    content:""; position:absolute; top:0; right:0; bottom:0; width:var(--rp);
+    background:var(--rp-bg); border-left:1px solid var(--rp-line)}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .rsum-status{
+    position:absolute; right:0; top:auto; bottom:calc(50% + 3px); width:var(--rp); margin:0; z-index:1;
+    display:flex; align-items:center; justify-content:center; box-sizing:border-box}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary:not(:has(.qacts .btn)):not(:has(.copri)) .rsum-status{top:0; bottom:0}
+  /* Status as text, not a pill (1 Oct, night): a pill looked like a fourth button. "STATUS" label,
+     then the status in its stage colour. Only the bottom row looks clickable. */
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .rsum-status{gap:7px; padding:0 14px; justify-content:flex-end;
+    /* Label sits on the value's baseline, so its caps centre on the value's lowercase whatever the fonts
+       (1 Oct, night: "STATUS" looked top-aligned). Wrap + align-content keeps the line centred. */
+    align-items:baseline; flex-wrap:wrap; align-content:center}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .rsum-status > :not(.eyebrow){max-width:calc(100% - 56px)}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .rsum-status > .eyebrow{
+    display:inline; font-size:9.5px; letter-spacing:.08em; color:var(--muted); font-weight:500; flex:none}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .rsum-status .spill{
+    background:none !important; border:none !important; padding:0 !important; border-radius:0;
+    font-size:13px; font-weight:500; color:var(--ink) !important; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .rsum-status .spill.warm{color:var(--accent-ink) !important}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .rsum-status .spill.strong{color:var(--good) !important}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .rsum-status .spill.mid{color:var(--warn) !important}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .rsum-status .spill.weak{color:var(--bad) !important}
+  :is(#tab-companies,#tab-sectors) details.rcard:not([open]) > summary .rsum-status .spill.cs-good{color:var(--good) !important}
+  :is(#tab-companies,#tab-sectors) details.rcard:not([open]) > summary .rsum-status .spill.cs-acc{color:var(--accent-ink) !important}
+  :is(#tab-companies,#tab-sectors) details.rcard:not([open]) > summary .rsum-status .spill.cs-dim{color:var(--muted) !important}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .qacts{
+    position:absolute; right:0; top:calc(50% + 3px); bottom:auto; width:var(--rp); margin:0; z-index:1;
+    display:flex; align-items:center; justify-content:flex-end; gap:6px; flex-wrap:nowrap; padding:0 14px; box-sizing:border-box}
+  /* Applied: the status is the same dropdown as the open card, styled as coloured text with a caret. */
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .rsum-status:has(.rsel) .spill{display:none}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .rsel{display:inline-block;
+    background-color:transparent !important; border:none !important; border-radius:6px; padding:3px 20px 3px 6px; margin-right:-6px;
+    font-size:13px; font-weight:500; color:var(--ink) !important; background-position:right 6px center; max-width:200px; field-sizing:content;
+    text-overflow:ellipsis; white-space:nowrap; overflow:hidden; text-align:right}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .rsel:hover{background-color:color-mix(in srgb, #3A2F4A 10%, transparent) !important}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .rsel.warm{color:var(--accent-ink) !important}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .rsel.strong{color:var(--good) !important}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .rsel.mid{color:var(--warn) !important}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .rsel.weak{color:var(--bad) !important}
+  /* Gauges a touch bigger on the collapsed card (1 Oct, night): 60 -> 68px wide. */
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .fgauge{width:74px}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .fgauge svg{width:68px; height:auto}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .fglab{font-size:10px}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .fgval{font-size:12.5px}
+  /* Equal-width buttons filling the row (1 Oct, night). */
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .qacts .btn{
+    flex:1 1 auto; min-width:0; justify-content:center; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .fitgauges{
+    left:auto; right:calc(var(--rp) + 20px)}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .rsum-title,
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay,#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .rsum-sub .rsum-co{max-width:calc(100% - 190px)}
+  /* Targets cards get the same panel (2 Oct): status on top, the card's control below — the
+     rating for companies and sectors, LinkedIn for people. No gauges here, so the text runs to the panel. */
+  :is(#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .copri{
+    position:absolute; right:0; top:calc(50% + 3px); bottom:auto; width:var(--rp); margin:0; z-index:1;
+    display:flex; align-items:center; justify-content:flex-end; gap:8px; padding:0 14px; box-sizing:border-box}
+  :is(#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .copri > .eyebrow{display:inline; font-size:9.5px; letter-spacing:.08em; color:var(--muted); font-weight:500}
+  :is(#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .rsum-title,
+  :is(#tab-companies,#tab-sectors,#tab-people,#tab-routine) details.rcard:not([open]) > summary .rsum-sub .rsum-co{max-width:100%}
+}
+
+
+/* ---------- One page header everywhere (2 Oct) ----------
+   Title row: title, the section switch beside it, any meta, the main button on the right.
+   Toolbar row (only where there is search or filtering): short search, filter dropdowns, sort, count. */
+#targets-nav{display:none !important}
+.tabhead.pagehead{display:flex; flex-wrap:nowrap; align-items:center; gap:14px; padding:2px 0 12px; margin:0 0 14px; border-bottom:1px solid var(--line)}
+.pagehead .phead-t{flex:0 0 auto}
+.pagehead .phsw{flex:1 1 auto; min-width:0; display:flex}
+.pagehead .phsw .ctabs{margin:0 !important; border:none !important; padding:0 !important; flex-wrap:nowrap}
+.pagehead .phmeta{flex:none; font-size:12.5px; color:var(--muted); white-space:nowrap}
+.pagehead:not(:has(.phsw)) .phead-t{flex:1 1 auto}
+.pagehead > .btn, .pagehead > .tabsort{flex:none}
+.pagehead + .pagetabs > .ctabs{display:none}
+.toolbar{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:0 0 14px}
+.toolbar .search{width:240px; flex:0 1 240px; margin:0; padding:6px 10px; font-size:13px; border-radius:8px}
+.toolbar .tbfilters{display:contents}
+.tbsel{display:inline-flex; align-items:center; gap:6px; border:1px solid var(--line); border-radius:8px; background:var(--surface); padding:0 4px 0 10px; font-size:12.5px; color:var(--muted)}
+.tbsel select{border:none; background-color:transparent; padding:5px 22px 5px 0; font-size:12.5px; color:var(--ink); width:auto; min-width:0; field-sizing:content; max-width:190px}
+.toolbar .sortbar select{field-sizing:content; max-width:200px}
+.tbsel.on{border-color:var(--accent); background:color-mix(in srgb, var(--accent) 7%, var(--surface))}
+.tbsel.on span, .tbsel.on select{color:var(--accent-ink)}
+.toolbar .sortbar select{padding:5px 8px; font-size:12.5px}
+.tbcount{margin-left:auto; font-size:12.5px; color:var(--muted); white-space:nowrap}
+@media (max-width:560px){
+  .tabhead.pagehead{flex-wrap:wrap; gap:8px 10px}
+  .pagehead .phead-t{flex:1 1 auto}
+  .pagehead .phsw{order:5; flex:1 1 100%; overflow-x:auto; scrollbar-width:none}
+  .pagehead .phsw .ctabs{display:flex !important}
+  .pagehead .phsw .ctabs > button{flex:none !important}
+  .pagehead .phmeta{display:none}
+  .pagehead .lg{display:none}
+  .toolbar{flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; padding-bottom:2px}
+  .toolbar .search{flex:0 0 100%; width:100%; font-size:16px}
+  .toolbar{flex-wrap:wrap}
+  .toolbar .tbfilters{display:flex; gap:8px; overflow-x:auto; flex:1 1 100%}
+  .tbsel select, .toolbar .sortbar select{font-size:16px}
+  .tbcount{margin-left:0}
+}
+
+/* Whole date field opens the picker (2 Oct). showPicker() is blocked inside the artifact frame, so the
+   browser's own calendar button is stretched invisibly over the whole field, and a drawn icon stands in for it. */
+input[type="date"]{position:relative; cursor:pointer; padding-right:30px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='2' y='3' width='12' height='11' rx='1.5' fill='none' stroke='%235D6A6D' stroke-width='1.5'/%3E%3Cpath d='M2 6.5h12M5.5 1.5v3M10.5 1.5v3' fill='none' stroke='%235D6A6D' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 9px center; background-size:14px 14px}
+input[type="date"]::-webkit-calendar-picker-indicator{position:absolute; inset:0; width:auto; height:auto; margin:0; padding:0; opacity:0; cursor:pointer}

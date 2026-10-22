@@ -1,0 +1,244 @@
+{
+ "artifact": "next-role",
+ "md": "The skills that work the Next Role board. All start `next-role-` so they can be packaged together as one plugin. Change how a skill works by proposing a skill update, not by editing board docs. The morning run checks this list against the skills it can see and updates it when one is added, removed or changed. When each skill runs is set by your scheduled tasks, not here: the sweep twice a week, the morning run daily in two parts (part 1: daily check, longlist research; part 2: shortlist, apply pack, interview prep), the screen-out check weekly.",
+ "skills": [
+  {
+   "does": "Reads the job-alert emails and public boards, applies the deal-breakers, writes survivors to the longlist, then runs the longlist research on them. Discovery only.",
+   "name": "next-role-sweep",
+   "reads": [
+    "profile/brief",
+    "profile/prefs",
+    "profile/settings",
+    "companies",
+    "channels",
+    "sources",
+    "refs/ats-endpoints",
+    "Gmail: Job Alerts"
+   ],
+   "trigger": "Scheduled task · \"run the job sweep\"",
+   "writes": [
+    "roles (longlist)",
+    "screened",
+    "runs",
+    "companies (board diff fields)",
+    "people"
+   ]
+  },
+  {
+   "does": "Reads pasted links, then gives every unresearched Longlist role its deal-breaker results, highlights, flags and Role Fit. Never decides, scores Fun / Shot or researches the company.",
+   "name": "next-role-longlist-research",
+   "reads": [
+    "profile/brief",
+    "profile/prefs",
+    "profile/settings",
+    "roles",
+    "companies",
+    "sectors",
+    "refs/ats-endpoints"
+   ],
+   "trigger": "Run by the sweep, and in morning run part 1 after the daily check · \"run the longlist research\"",
+   "writes": [
+    "roles (read fields incl. readState, readReason, readHost; enrich.gate2Rules, highlights, green, red, fit, llAt)"
+   ]
+  },
+  {
+   "does": "Picks a few of the week's screen-outs most likely to be wrong, plus one at random, re-reads each ad and queues them for you to confirm. Never answers for you or changes a rule.",
+   "name": "next-role-sweep-check",
+   "reads": [
+    "profile/brief",
+    "profile/me",
+    "profile/prefs",
+    "profile/settings",
+    "screened",
+    "rulechecks",
+    "ruleaudit"
+   ],
+   "trigger": "Scheduled task, weekly · \"run the screen-out check\"",
+   "writes": [
+    "ruleaudit (open checks)"
+   ]
+  },
+  {
+   "does": "Checks every Longlist, Shortlist (parked included) and To apply role is still open (closes gone longlist roles; closes gone shortlist and To apply roles for you to acknowledge), catches up rough Role Fits, folds week-old longlist rejections, finds job boards for new companies, and works any jobs in the fix queue (Data health sends fixes to next-role-fix instead). Never decides or scores.",
+   "name": "next-role-daily-check",
+   "reads": [
+    "profile/brief",
+    "profile/settings",
+    "roles",
+    "companies",
+    "refs/ats-endpoints",
+    "fixqueue"
+   ],
+   "trigger": "Scheduled task, morning run part 1, first · \"run the daily check\"",
+   "writes": [
+    "roles (linkChecked, liveCheck, closes, rough fit)",
+    "decided (folds)",
+    "companies (job boards; new cards from the fix queue)",
+    "fixqueue (status, note)"
+   ]
+  },
+  {
+   "does": "Desk research on roles you sent to the Shortlist or added there (parked ones once) and their companies: deal-breakers, pay, Role Fit, open questions. Never decides or scores Fun / Shot.",
+   "name": "next-role-shortlist",
+   "reads": [
+    "profile/brief",
+    "profile/prefs",
+    "profile/me",
+    "profile/skills",
+    "profile/settings",
+    "roles",
+    "companies",
+    "sectors",
+    "refs/ats-endpoints",
+    "role spec files (file store)"
+   ],
+   "trigger": "Scheduled task, morning run part 2, first · \"run the shortlist\"",
+   "writes": [
+    "roles (enrich, g2At, g2Note, fit, pay, highlights)",
+    "companies"
+   ]
+  },
+  {
+   "does": "Scores Role Fit: CV against the ad's requirements, met / partial / gap with evidence, giving a % and band. Suggests changes after meetings.",
+   "name": "next-role-role-fit",
+   "reads": [
+    "profile/brief",
+    "profile/me",
+    "profile/skills",
+    "profile/settings",
+    "templates/cv (text)",
+    "the role's ad"
+   ],
+   "trigger": "Used by longlist research, shortlist, daily check and interview-prep · \"score the fit for #N\"",
+   "writes": [
+    "roles (fit, fit.suggest)"
+   ]
+  },
+  {
+   "does": "Stores a summary of the job ad, then builds the tailored CV and cover letter as tracked-change .docx on the board — a starting draft you finish in Word or chat, then upload as sent. Revises only when asked in chat. Never applies or sends.",
+   "name": "next-role-apply-pack",
+   "reads": [
+    "profile/brief",
+    "profile/me",
+    "profile/prefs",
+    "profile/skills",
+    "profile/settings",
+    "roles",
+    "companies",
+    "refs/redline",
+    "templates",
+    "finals (recent sent versions, for voice)"
+   ],
+   "trigger": "Scheduled task, morning run part 2, after the shortlist (new packs) · \"build the pack for #N\" · \"revise the pack for #N: …\"",
+   "writes": [
+    "packs",
+    "roles (pack, adSummary)"
+   ]
+  },
+  {
+   "does": "Screen and round prep on the role's interview meetings, from the CV and letter you sent and the company's own interview materials (digested, with a text copy of PDF or image files); researches each company's interview process once. One-page cheat sheets on request. Prepares; never decides.",
+   "name": "next-role-interview-prep",
+   "reads": [
+    "profile/brief",
+    "profile/me",
+    "profile/skills",
+    "profile/settings",
+    "templates/cv (text)",
+    "roles",
+    "finals (the CV and letter sent)",
+    "packs",
+    "companies",
+    "sectors",
+    "conversations",
+    "commitments",
+    "mocks",
+    "refs/screen-prep-baseline",
+    "refs/redline",
+    "materials (and their files)"
+   ],
+   "trigger": "Scheduled task, morning run part 2, last · \"prep the interview for #N\" · \"cheat sheet for #N\" · \"summarise this interview material for #N\"",
+   "writes": [
+    "commitments (prep, prep.sheet on request, Not planned rounds)",
+    "materials (digest, text copy of files; summaries on request)",
+    "roles (interviewGeneral, notes, fit.suggest)",
+    "companies (interviewIntel)"
+   ]
+  },
+  {
+   "does": "Adds, books, moves or completes meetings and tasks by chat — including repeats — exactly as the board's form would, and logs meeting notes, checking them against open questions. Offers \"Prep it now?\" after booking an interview.",
+   "name": "next-role-meetings",
+   "reads": [
+    "profile/brief",
+    "profile/prefs",
+    "profile/settings",
+    "roles",
+    "companies",
+    "sectors",
+    "people",
+    "commitments"
+   ],
+   "trigger": "Chat · \"book the screen for #N\", \"add a task…\", \"log my notes from…\"",
+   "writes": [
+    "commitments",
+    "people",
+    "conversations",
+    "roles (flowStatus on booking, qAnswers, qSuggest)",
+    "companies (qAnswers)"
+   ]
+  },
+  {
+   "does": "Works the Data health fixes the board can't do itself: re-checks, scores, company cards, job sites it can't read yet (works out the site's feed once), LinkedIn alerts, stopped or capped runs, quiet sources, scheduled tasks, board errors. Fixes; never decides.",
+   "name": "next-role-fix",
+   "reads": [
+    "profile/brief",
+    "profile/settings",
+    "roles",
+    "companies",
+    "commitments",
+    "sources",
+    "channels",
+    "runs",
+    "taskruns",
+    "errlog",
+    "refs/ats-endpoints"
+   ],
+   "trigger": "Chat · a pasted \"Run next-role-fix\" request from Data health",
+   "writes": [
+    "roles (linkChecked, closes, fit, url, pasted, readState, llAt)",
+    "companies (company cards, LinkedIn alert fields)",
+    "sources",
+    "taskruns (finished-from-chat records)",
+    "profile/settings (only when you agree)",
+    "refs/ats-endpoints (section 1c patterns)"
+   ]
+  },
+  {
+   "name": "next-role-setup",
+   "trigger": "Chat · a pasted \"Run next-role-setup\" request from the setup wizard",
+   "does": "Does the heavy steps of the guided setup: proposes sectors and companies, recommends sources, runs the test sweep, sets up job alerts and creates the scheduled tasks. Sets up; never decides.",
+   "reads": [
+    "profile/brief",
+    "profile/me",
+    "profile/prefs",
+    "profile/skills",
+    "profile/settings",
+    "profile/onboarding",
+    "templates/cv",
+    "companies",
+    "sectors",
+    "channels",
+    "sources",
+    "runs",
+    "refs/ats-endpoints"
+   ],
+   "writes": [
+    "profile/onboarding (h_<step> progress only)",
+    "sectors",
+    "companies (suggested ratings, jobs pages)",
+    "sources",
+    "channels (only a missing standard one)"
+   ]
+  }
+ ],
+ "title": "Skills"
+}

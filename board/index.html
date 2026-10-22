@@ -1,0 +1,945 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Next Role</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=DM+Serif+Display&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/base.css?v=20261023z">
+
+<link rel="stylesheet" href="css/theme.css?v=20261023z">
+
+<link rel="stylesheet" href="css/shell.css?v=20261023z">
+<link rel="stylesheet" href="css/insights.css?v=20261023z">
+<link rel="stylesheet" href="css/rules.css?v=20261023z">
+<link rel="stylesheet" href="css/setup.css?v=20261023z">
+
+
+
+<aside class="sidenav appnav" id="sidenav" aria-label="Sections">
+  <a class="sbrand" href="#" data-tab="overview" aria-label="Next Role — go to Overview"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 34V8h15v26" fill="none" stroke="#2DD4BF" stroke-width="3" stroke-linejoin="round"/><path d="M23 8l9 4v22h-9z" fill="#2DD4BF"/><circle cx="27.5" cy="22" r="1.6" fill="#1B1426"/></svg><span>Next Role</span></a>
+  <button type="button" class="nv" data-tab="overview" data-grp="plan" aria-selected="true"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="5" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="2" width="5" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="10" width="5" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="8" width="5" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>Overview</button>
+  <button type="button" class="nv" data-tab="roles" data-grp="plan" aria-selected="false" title="Your roles, stage by stage — opens where something waits on you"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 5.5h11v8h-11z M6 5.5V3.5h4v2 M2.5 9h11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Roles<span class="tcount hot" id="tc-roles"></span></button>
+  <button type="button" class="nv" data-tab="week" data-grp="plan" aria-selected="false" title="Today's items not done yet"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Week ahead<span class="tcount hot" id="tc-week"></span></button>
+  <button type="button" class="nv" data-tab="pipeline" data-grp="plan" aria-selected="false" title="The whole funnel: where roles leak, which sources work, and how it is trending"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 13.5h11M4.5 11V7.5M8 11V4M11.5 11V8.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Insights</button>
+  <div class="sg">Tools</div>
+  <button type="button" class="nv" data-tab="routine" data-grp="tools" aria-selected="false" title="How roles reach you — what the sweep checks, and what you check yourself"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 8l4.6-4.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M14 8a6 6 0 1 1-6-6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M11 8a3 3 0 1 1-3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="8" r="1" fill="currentColor"/></svg>Sourcing</button>
+  <button type="button" class="nv" data-tab="review" data-grp="tools" aria-selected="false" title="Talk through where your job search is stuck — finding, deciding, applying, interviews"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 3.5h11v7h-6l-3 2.5V10.5h-2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M5.5 7l1.5 1.5L10.5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Search review</button>
+  <button type="button" class="nv" data-tab="targets" data-grp="tools" aria-selected="false" title="The companies and sectors you want"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8" r=".9" fill="currentColor"/></svg>Targets</button>
+  <button type="button" class="nv" data-tab="people" data-grp="tools" aria-selected="false" title="Recruiters, referrers, contacts and interviewers"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="6" cy="5.5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M1.8 13.5c.5-2.4 2.2-3.7 4.2-3.7s3.7 1.3 4.2 3.7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M10.5 3.6a2.3 2.3 0 0 1 0 4.2M12 9.9c1.2.5 2 1.6 2.3 3.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>People</button>
+  <button type="button" class="nv" data-tab="warm" data-grp="tools" aria-selected="false" title="Companies where you know someone and that fit what you want, from your LinkedIn connections"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="4.5" cy="8" r="2.3" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="11.5" cy="8" r="2.3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6.8 8h2.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Warm routes</button>
+  <button type="button" class="nv" data-tab="compare" data-grp="tools" aria-selected="false" title="Compare roles side by side"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="5" height="10" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="3" width="5" height="10" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>Compare</button>
+  <button type="button" class="nv" data-tab="mock" data-grp="tools" aria-selected="false" title="Practise a round for a role you have applied to"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3.5h10a1 1 0 0 1 1 1v5.5a1 1 0 0 1-1 1H8l-3 2.5V11H3a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Mock interview</button>
+  <button type="button" class="nv" data-tab="health" data-grp="tools" aria-selected="false" title="Missing dates and links, unscored roles, orphaned records"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 8.5h3l1.5-4 3 8 1.5-4h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Data health<span class="tcount" id="tc-health"></span></button>
+  <div class="sp"></div>
+  <button type="button" class="nv" data-tab="about" data-grp="me" aria-selected="false" title="Who I am, and what I want from the next role"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="5.5" r="2.8" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.8 14c.6-2.8 2.7-4.3 5.2-4.3s4.6 1.5 5.2 4.3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>About me</button>
+  <button type="button" class="nv" data-tab="help" data-grp="me" aria-selected="false" title="How to set up, run and tune the search"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6.3 6.3a1.8 1.8 0 1 1 2.6 1.6c-.6.3-.9.7-.9 1.3v.3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="11.4" r=".9" fill="currentColor"/></svg>How to use</button>
+</aside>
+
+<div class="shell">
+<header class="top appnav">
+  <div class="wrap topbar">
+    <div class="masthead">
+      <a class="brand" href="#" data-tab="overview" aria-label="Next Role — go to Overview">
+        <svg width="56" height="56" viewBox="0 0 40 40" aria-hidden="true"><path d="M8 34V8h15v26" fill="none" stroke="#2DD4BF" stroke-width="3" stroke-linejoin="round"/><path d="M23 8l9 4v22h-9z" fill="#2DD4BF"/><circle cx="27.5" cy="22" r="1.6" fill="#1B1426"/></svg>
+        <h1>Next Role</h1>
+      </a>
+    </div>
+    <!-- The funnel, always at the top (2 Oct). Week ahead and the tools moved to the sidebar. -->
+    <nav class="tabs stepper" id="tabs" role="tablist" aria-label="Funnel">
+      <!-- Chevron funnel (2 Oct): count first, label, then what is on you. Closed sits apart as the exit. -->
+      <div class="stagebar chev">
+        <button role="tab" class="step c-first" data-tab="gate1" aria-selected="false"><span class="tcount stc" id="tc-gate1"></span><span class="stl">Longlist</span><span class="sty" id="ty-gate1"></span></button>
+        <button role="tab" class="step " data-tab="gate2" aria-selected="false"><span class="tcount stc" id="tc-gate2"></span><span class="stl">Shortlist</span><span class="sty" id="ty-gate2"></span></button>
+        <button role="tab" class="step " data-tab="toapply" aria-selected="false"><span class="tcount stc" id="tc-toapply"></span><span class="stl">To apply</span><span class="sty" id="ty-toapply"></span></button>
+        <button role="tab" class="step c-last" data-tab="inplay" aria-selected="false"><span class="tcount stc" id="tc-inplay"></span><span class="stl">Applied</span><span class="sty" id="ty-inplay"></span></button>
+        <button role="tab" class="step last c-exit" data-tab="rejected" aria-selected="false"><span class="tcount stc" id="tc-rejected"></span><span class="stl">Closed</span><span class="sty">out of the funnel</span></button>
+      </div>
+    </nav>
+    <!-- The app headline (4 Oct): how many roles need you, the same number as the Roles badge. -->
+    <a href="#" class="apphl" id="apphl" data-gotab="roles" hidden><b id="apphl-t"></b><small id="apphl-s"></small></a>
+    <span class="topsp"></span>
+    <!-- One place to create anything, on every page (2 Oct). Contextual buttons stay where they are. -->
+    <div class="newmenu" id="newmenu">
+      <button type="button" class="nmbtn" id="nm-btn" aria-haspopup="menu" aria-expanded="false"><span class="nmplus" aria-hidden="true">+</span><span class="nml"><b>New</b><small>role, meeting, note…</small></span></button>
+      <div class="nmlist" id="nm-list" role="menu" hidden>
+        <div class="nmgrp">Roles</div>
+        <button type="button" role="menuitem" class="nmit k-roles" data-open-add=""><i class="nmi" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 5.5h10v7.5H3z M6 5.5V3.5h4v2 M8 8v3 M6.5 9.5h3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span class="nmt"><b>Add roles</b><small>Paste links, add one, or log a search with nothing new</small></span></button>
+        <div class="nmgrp">Diary</div>
+        <button type="button" role="menuitem" class="nmit k-meet" data-act="mt_add" data-item="meeting"><i class="nmi" aria-hidden="true"><svg viewBox="0 0 16 16"><rect x="2.5" y="3.5" width="11" height="10" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.5 6.5h11 M5.5 2v3 M10.5 2v3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span class="nmt"><b>Schedule a meeting or interview</b><small>Something that will happen</small></span></button>
+        <button type="button" role="menuitem" class="nmit k-task" data-act="mt_add" data-item="task"><i class="nmi" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span class="nmt"><b>Add a task</b><small>Something to do, with or without a date</small></span></button>
+        <button type="button" role="menuitem" class="nmit k-log" data-act="logjump" data-id=""><i class="nmi" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3.5 3.5h9a1 1 0 0 1 1 1v5.5a1 1 0 0 1-1 1H8l-3 2.5V11H3.5a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1z M5.5 6.5h5 M5.5 8.5h3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span class="nmt"><b>Log a conversation</b><small>Notes from something that happened</small></span></button>
+        <div class="nmgrp">Targets</div>
+        <div class="nmrow"><button type="button" role="menuitem" class="nmit k-co" data-nmclick="co-open"><i class="nmi" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 13.5V4l5-1.5v11 M8 6h5v7.5 M2 13.5h12 M5 6.5v0 M5 9v0 M10.5 8.5v0 M10.5 11v0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span class="nmt"><b>Add a company</b></span></button><button type="button" role="menuitem" class="nmit k-pp" data-nmclick="pp-open"><i class="nmi" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="8" cy="5.5" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 13.5c.6-2.6 2.6-4 5-4s4.4 1.4 5 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span class="nmt"><b>Add a person</b></span></button></div>
+      </div>
+    </div>
+    <select class="tabsel" id="tabsel" aria-label="Go to section"></select>
+    <button type="button" class="tabsel" id="tabselbtn" aria-haspopup="true" aria-expanded="false"></button>
+  </div>
+</header>
+
+<div class="mainwrap">
+<main class="wrap">
+  <!-- One confirm pop-up for every destructive action (1 Oct): nothing that deletes or
+       discards is ever a single click. -->
+  <!-- Add roles (1 Oct): one role, a batch of pasted links, or "searched, nothing new".
+         A day you add roles is a manual pass; this pop-up is the only place a manual pass is logged. -->
+    <dialog id="add-dialog" class="modal" aria-label="Add roles">
+      <div class="modal-head"><h3>Add roles</h3>
+        <button type="button" class="btn ghost" data-close="add-dialog">Close</button></div>
+      <div class="addmodes">
+      <div class="ctabs sub" role="tablist">
+        <button type="button" role="tab" data-act="ctab" data-id="addm" data-k="paste" aria-selected="true">Paste links</button>
+        <button type="button" role="tab" data-act="ctab" data-id="addm" data-k="one" aria-selected="false">One role</button>
+        <button type="button" role="tab" data-act="ctab" data-id="addm" data-k="none" aria-selected="false">Nothing new</button>
+      </div>
+      <div class="cpanel" data-cp="addm" data-k="paste">
+        <div style="display:flex;flex-direction:column;gap:11px;margin-top:12px">
+          <label class="fld">Links — paste anything; every link becomes a role<textarea id="paste-box" rows="6" placeholder="https://www.linkedin.com/jobs/view/…&#10;https://job-boards.greenhouse.io/…&#10;&#10;LinkedIn-only role? Paste its description straight after its link."></textarea></label>
+          <div class="srcpick" id="paste-sp"></div><input type="hidden" id="paste-src">
+          <div class="row"><button class="btn primary" id="paste-add">Add to longlist</button><span class="statushint" id="paste-hint"></span></div>
+          <p class="lede" style="font-size:12px;margin:0">Paste a whole pass at once: links from sites you check (LinkedIn and the rest under Sourcing › Manual), or tagged with one (e.g. ref=acmejobs), are credited to that site automatically; only other links use the source you pick. They go to the Longlist. The next morning's run reads each posting, fills in the title and company, and flags any deal-breaker it fails (it doesn't remove them: you chose them). Score them in your Longlist review.</p>
+        </div>
+      </div>
+      <div class="cpanel" data-cp="addm" data-k="one" hidden>
+        <!-- Manual role intake (2 Oct, spec claude/manual-role-intake-spec.md; since 6 Oct it saves to the Longlist): the posting is optional; company is
+             required; person-led roles name the person; Quick check replaces "Evaluate first". -->
+        <div class="arform">
+          <div class="arsec"><span class="eyebrow">The posting — any of these, or none</span>
+            <label class="fld">Link<input id="add-url" placeholder="https://… — optional"></label>
+            <label class="fld" id="ar-filewrap">Spec file — PDF, image, Markdown, text or Word file — up to 5 MB (Word up to 20 MB)<input id="ar-file" type="file" accept=".pdf,.png,.jpg,.jpeg,.webp,.txt,.md,.docx"></label>
+            <p class="notice" id="ar-filenote" style="margin:0;font-size:12.5px" hidden>Files can’t be uploaded in this view. Paste the text or add a link instead.</p>
+            <label class="fld">Posting text<textarea id="ar-paste" rows="3" placeholder="Paste the job description — optional"></textarea></label>
+            <p class="statushint" style="margin:0">None of these? Fine for a role someone told you about. It saves with title and company only.</p>
+          </div>
+          <div class="grid2" style="gap:10px">
+            <label class="fld">Title<input id="add-title" placeholder="Principal Product Manager"></label>
+            <label class="fld">Company<input id="add-co" list="ar-colist" placeholder="Company name"><datalist id="ar-colist"></datalist></label>
+          </div>
+          <div class="srcpick" id="add-sp"></div><input type="hidden" id="add-src">
+          <div class="arsec" id="ar-pblock" hidden>
+            <label class="fld">Who — the recruiter or contact<select id="ar-person"></select></label>
+            <div class="grid2" id="ar-np" style="gap:10px" hidden>
+              <label class="fld">Name<input id="ar-npname"></label>
+              <label class="fld">Their role<input id="ar-nprole" placeholder="Recruiter"></label>
+            </div>
+            <div class="mtfld"><span class="mtlab">They’ve submitted me</span>
+              <div class="mtseg" role="radiogroup"><button type="button" class="pill" data-arsub="yes" aria-pressed="false">Yes</button><button type="button" class="pill" data-arsub="no" aria-pressed="false">No</button><button type="button" class="pill" data-arsub="unknown" aria-pressed="false">Don’t know</button></div>
+              <span class="statushint">So you never apply twice. If they won’t name the client yet, don’t add the role: add a task on their person card to ask.</span></div>
+          </div>
+          <label class="fld">Notes<textarea id="ar-note" rows="2" placeholder="Salary, office days, why it’s open, hiring manager, timeline, exclusivity, the recruiter’s read"></textarea></label>
+          <div class="arsec"><span class="eyebrow">Fun and Shot — score now or later</span>
+            <div class="row" style="gap:6px;align-items:center"><span class="eyebrow" style="width:40px">Fun</span><span id="ar-fun" class="scrow"></span></div>
+            <div class="row" style="gap:6px;align-items:center"><span class="eyebrow" style="width:40px">Shot</span><span id="ar-shot" class="scrow"></span></div>
+          </div>
+          <div class="arsec" id="ar-qcwrap">
+            <div class="row"><button type="button" class="btn" id="ar-qc">Quick check now</button>
+              <span class="statushint">A provisional read on your hard rules and a rough fit. The next morning’s longlist research replaces it. Want it sooner? Ask Claude to run the longlist research once it’s added.</span></div>
+            <div id="ar-qcout"></div>
+          </div>
+          <div class="row"><button class="btn primary" id="add-save">Add to longlist</button><span class="statushint" id="ar-hint"></span></div>
+        </div>
+      </div>
+      <div class="cpanel" data-cp="addm" data-k="none" hidden>
+        <div style="display:flex;flex-direction:column;gap:11px;margin-top:12px">
+          <span class="eyebrow">Where you searched today</span>
+          <div class="rulegrid" id="manual-ch"></div>
+          <label class="fld">Note — optional<input id="run-note" placeholder="e.g. two local roles, both four days in office"></label>
+          <div class="row"><button class="btn primary" id="run-save">Log it</button><span class="statushint" id="run-hint"></span></div>
+          <p class="lede" style="font-size:12px;margin:0">Days you add roles count on their own. Log only the searches that found nothing.</p>
+        </div>
+      </div>
+      </div>
+    </dialog>
+  <!-- Mass review (1 Oct): Gate 1 one role at a time — score, accept or reject, next.
+       A batch of thirty in queue order; Exit at any point. -->
+  <div id="mr" class="mr" hidden role="dialog" aria-label="Mass review">
+    <div class="mr-top"><div class="mr-head"><h2>Mass review</h2><span class="mr-count" id="mr-count"></span></div><button type="button" class="btn ghost" id="mr-exit">Exit</button><div class="mr-prog"><i id="mr-prog"></i></div></div>
+    <div class="mr-body" id="mr-body"></div>
+  </div>
+  <!-- Every add happens in a pop-up (1 Oct), like Log a conversation. fm-dialog takes simple
+       fields; ed-dialog hosts a full editor (offer details, a new interview stage). -->
+  <dialog id="fm-dialog" class="modal" aria-label="Add">
+    <div class="modal-head"><h3 id="fm-title"></h3><button type="button" class="btn ghost" data-close="fm-dialog">Close</button></div>
+    <div id="fm-body" style="display:flex;flex-direction:column;gap:10px"></div>
+    <div class="statusacts" style="margin-top:12px"><button type="button" class="btn primary" id="fm-save">Save</button><span class="statushint" id="fm-hint"></span></div>
+  </dialog>
+  <!-- Phone section menu (1 Oct): a native select opens scrolled to the current option;
+       this list always opens at the top. The hidden select stays the source of truth. -->
+  <div id="tabsheet" class="tabsheet" hidden role="menu" aria-label="Go to section"></div>
+  <!-- Rule out roles like this (1 Oct): from any reject flow, Claude drafts the rule, you
+       edit and save, and it is live at once. No draft list to come back to. -->
+  <!-- Word preview (1 Oct, cloud move): templates and packs live on the board as .docx; this shows
+       one in the browser, tracked changes included, without downloading it. -->
+  <dialog id="pv-dialog" class="modal pvmodal" aria-label="Preview">
+    <div class="modal-head"><h3 id="pv-title">Preview</h3><div class="row" style="gap:6px"><button type="button" class="btn sm" id="pv-dl">Download</button><button type="button" class="btn ghost" data-close="pv-dialog">Close</button></div></div>
+    <div class="statushint" id="pv-hint"></div>
+    <div id="pv-body" class="pvbody"></div>
+  </dialog>
+  <input type="file" id="tpl-file" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden>
+  <input type="file" id="final-file" accept=".docx,.pdf,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden>
+  <dialog id="rl-dialog" class="modal" aria-label="Rule out roles like this">
+    <div class="modal-head"><h3>Rule out roles like this</h3><button type="button" class="btn ghost" data-close="rl-dialog">Close</button></div>
+    <p class="lede" style="margin:0;font-size:12.5px" id="rl-lede"></p>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:10px">
+      <label class="fld">Rule<select id="rl-target"></select></label>
+      <div id="rl-newf" class="grid2" hidden><label class="fld">Name<input id="rl-name" placeholder="Short name, e.g. Data-product roles"></label>
+        <label class="fld">When it fires<select id="rl-fires"><option>Search</option><option value="Search, else Gate 2" selected>Search, else shortlist</option><option>Enrichment</option></select></label></div>
+      <label class="fld"><span id="rl-tlabel">What to add</span><textarea id="rl-text" rows="4" placeholder="What rules a role out, and what stays in"></textarea></label>
+      <div class="statushint" id="rl-prev"></div>
+    </div>
+    <div class="statusacts" style="margin-top:12px"><button type="button" class="btn primary" id="rl-save">Save rule</button><button type="button" class="btn ghost" data-close="rl-dialog">Cancel</button><span class="statushint" id="rl-hint"></span></div>
+  </dialog>
+  <!-- One deal-breaker at a time (3 Oct): replaces the one-big-text-box editor. -->
+  <dialog id="ru-dialog" class="modal" aria-label="Edit a deal-breaker">
+    <div class="modal-head"><h3 id="ru-title">Edit a deal-breaker</h3><button type="button" class="btn ghost" data-close="ru-dialog">Close</button></div>
+    <!-- Describe it, Claude drafts it (4 Oct): say what should never get through (or what should change), pick how
+         firm it is, and Claude writes the rule, how the sweep checks it, when it's checked and what it's about.
+         It may suggest folding it into an existing rule. The full form is still there behind Edit. -->
+    <div id="ru-ask" class="ruask">
+      <div id="ru-askcur" class="rucur" hidden></div>
+      <label class="fld"><span id="ru-asklab">What should never get through?</span><textarea id="ru-asktext" rows="3" placeholder="In your own words, e.g. roles that need a language other than English"></textarea></label>
+      <label class="fld">How firm is it<select id="ru-askfirm"></select></label>
+      <div class="statusacts"><button type="button" class="btn primary" id="ru-draftbtn">Draft it with Claude</button>
+        <button type="button" class="btn ghost" data-close="ru-dialog">Cancel</button>
+        <button type="button" class="linkbtn" id="ru-tofields" style="margin-left:auto">Edit the fields yourself</button>
+        <span class="statushint" id="ru-askhint"></span></div>
+    </div>
+    <div id="ru-draft" class="rudraft" hidden></div>
+    <div id="ru-fields" style="display:flex;flex-direction:column;gap:10px">
+      <div class="grid2"><label class="fld">Name<input id="ru-name" placeholder="Short name, e.g. Office travel"></label>
+        <label class="fld">When it's checked<select id="ru-fires"></select></label></div>
+      <div class="grid2"><label class="fld">How firm is it<select id="ru-firm"></select></label>
+        <label class="fld">What it's about<select id="ru-basis"></select></label></div>
+      <div class="grid2"><label class="fld">Type<select id="ru-type"></select></label>
+        <div id="ru-floorwrap" class="grid2" hidden><label class="fld">Minimum pay, yearly<input id="ru-flamt" inputmode="numeric" placeholder="e.g. 50000"></label>
+          <label class="fld">Currency and what counts<span class="grid2" style="gap:6px"><input id="ru-flcur" maxlength="3" aria-label="Currency" placeholder="GBP">
+            <select id="ru-flbasis" aria-label="What counts"><option value="total">Total package</option><option value="base">Base salary</option></select></span></label></div></div>
+      <label class="fld">The rule — what's out, and what stays in<textarea id="ru-rule" rows="4"></textarea></label>
+      <label class="fld">How the sweep checks it — optional<textarea id="ru-checknote" rows="2" placeholder="e.g. Read the full posting for office days, not just the location field"></textarea>
+        <small class="ruhelp">Where the sweep should look and what counts. It reads this every run, so a fix here needs no skill change.</small></label>
+      <div class="fld"><span>Your rejection reasons it should catch</span><div class="ruchks" id="ru-reasons"></div>
+        <small class="ruhelp">Links the rule to the reasons you give when you turn a role down, so the board can tell when it's letting the wrong roles through.</small></div>
+      <div id="ru-lint"></div>
+    </div>
+    <div class="statusacts" id="ru-fieldacts" style="margin-top:12px"><button type="button" class="btn primary" id="ru-save">Save rule</button>
+      <button type="button" class="btn" id="ru-check">Check the wording with Claude</button>
+      <button type="button" class="btn ghost" data-close="ru-dialog">Cancel</button>
+      <button type="button" class="linkbtn danger" id="ru-del" style="margin-left:auto">Remove this rule</button>
+      <span class="statushint" id="ru-hint"></span></div>
+  </dialog>
+  <!-- Data health › Suggest fixes (3 Oct): tick boxes, then one button. 24-health.js fills #hf-body. -->
+  <dialog id="hf-dialog" class="modal hfdlg" aria-label="Suggest fixes">
+    <div class="modal-head"><h3>Suggested fixes</h3><button type="button" class="btn ghost" data-close="hf-dialog">Close</button></div>
+    <div id="hf-body"></div>
+  </dialog>
+  <!-- Suggest a change on a Highlights card (3 Oct): one proposal from Claude. 22-review.js fills #hs-body. -->
+  <dialog id="hs-dialog" class="modal hsdlg" aria-label="Suggest a change">
+    <div class="modal-head"><h3 id="hs-title">Suggest a change</h3><button type="button" class="btn ghost" data-close="hs-dialog">Close</button></div>
+    <div id="hs-body"></div>
+  </dialog>
+  <!-- Weekly screen-out check (5 Oct): this week's picks from the sweep's screen-outs, answered as spot-checks (27). -->
+  <dialog id="swc-dialog" class="modal wscdlg" aria-label="This week's screen-out check">
+    <div class="modal-head"><h3>This week's screen-out check</h3><button type="button" class="btn ghost" data-close="swc-dialog">Close</button></div>
+    <div id="swc-body"></div>
+  </dialog>
+  <!-- One row of My criteria at a time, and "Edit first" on a review proposal (3 Oct). -->
+  <dialog id="pr-dialog" class="modal" aria-label="Edit">
+    <div class="modal-head"><h3 id="pr-title">Edit</h3><button type="button" class="btn ghost" data-close="pr-dialog">Close</button></div>
+    <div id="pr-fields" style="display:flex;flex-direction:column;gap:10px"></div>
+    <div class="statusacts" style="margin-top:12px"><button type="button" class="btn primary" id="pr-save">Save</button>
+      <button type="button" class="btn ghost" data-close="pr-dialog">Cancel</button>
+      <button type="button" class="linkbtn danger" id="pr-del" style="margin-left:auto">Remove</button><span class="statushint" id="pr-hint"></span></div>
+  </dialog>
+  <dialog id="ed-dialog" class="modal" aria-label="Edit">
+    <div class="modal-head"><h3 id="ed-title"></h3><button type="button" class="btn ghost" id="ed-close">Close</button></div>
+    <div id="ed-body"></div>
+  </dialog>
+  <dialog id="sc-dialog" class="modal" aria-label="Score it first">
+    <div class="modal-head"><h3>Score it first</h3></div>
+    <p class="lede" style="margin:0;font-size:13px" id="sc-role"></p>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px">
+      <div class="row" style="gap:6px;align-items:center"><span class="eyebrow" style="width:44px">Fun</span><span id="sc-fun" class="scrow"></span></div>
+      <div class="row" style="gap:6px;align-items:center"><span class="eyebrow" style="width:44px">Shot</span><span id="sc-shot" class="scrow"></span></div>
+    </div>
+    <div class="statusacts" style="margin-top:14px;justify-content:flex-end">
+      <button type="button" class="btn ghost" id="sc-no">Cancel</button>
+      <button type="button" class="btn primary" id="sc-yes" disabled>Save and continue</button>
+    </div>
+  </dialog>
+  <dialog id="cf-dialog" class="modal" aria-label="Confirm">
+    <div class="modal-head"><h3 id="cf-title">Are you sure?</h3></div>
+    <p id="cf-msg" class="lede" style="margin:0;font-size:13.5px"></p>
+    <div class="statusacts" style="margin-top:14px;justify-content:flex-end">
+      <button type="button" class="btn ghost" id="cf-no">Cancel</button>
+      <button type="button" class="btn danger" id="cf-yes">Remove</button>
+    </div>
+  </dialog>
+  <div id="targets-nav" class="targets-nav" hidden>
+    <div class="ctabs sub" role="tablist">
+      <button type="button" role="tab" data-tsub="companies" aria-selected="true">Companies</button>
+      <button type="button" role="tab" data-tsub="sectors" aria-selected="false">Sectors</button>
+      
+    </div>
+  </div>
+  <div id="offline" hidden class="notice warn" style="margin-bottom:18px">
+    Stored data isn't available in this view, so decisions can't be saved. Open the board from your own
+    artifact gallery while signed in.
+  </div>
+
+  <!-- ======== OVERVIEW (2 Oct): the landing page ======== -->
+  <section id="tab-overview">
+    <div class="tabhead pagehead"><div class="phead-t"><h2>Overview</h2></div><span class="phmeta" id="ov-date"></span></div>
+    <div id="ov-body"></div>
+  </section>
+
+  <!-- ======== WEEK AHEAD ======== -->
+  <section id="tab-week" hidden>
+    <!-- 1 Oct: no intro or legend. The title only, so every page opens the same way. -->
+    <div class="tabhead wkhead pagehead"><div class="phead-t"><h2>Week ahead</h2></div><span class="phsw">
+    <div class="ctabs sub wtabs" role="tablist">
+      <button type="button" role="tab" data-act="wtab" data-k="cal" aria-selected="true">Calendar<span class="tcount" id="wt-cal"></span></button>
+      <button type="button" role="tab" data-act="wtab" data-k="pend" aria-selected="false">Pending<span class="tcount" id="wt-pend"></span></button>
+    </div></span><button class="btn primary" type="button" id="cm-open">+ Add<span class="lg">&nbsp;a meeting or task</span></button></div>
+    <details class="card panel pipew" id="pipew"><summary><span class="pwt">Pipeline</span><span class="pwsum" id="pw-sum"></span><span class="pwneed" id="pw-need" hidden></span></summary><div class="pwcols" id="pw-cols"></div></details>
+    <div class="pwstrip" id="pw-strip"></div>
+    <div class="wpanel" id="wp-cal">
+      <div id="band-late"></div>
+      <div id="week-nav"></div>
+      <div id="week-board"></div>
+      <div id="week-days"></div>
+      <div id="band-later"></div>
+    </div>
+    <!-- Waiting and Blocked combined (1 Oct): a meeting with no date yet, waiting on a
+         person's reply or on an event. -->
+    <div class="wpanel" id="wp-pend" hidden>
+      <div id="band-chase"></div>
+      <div id="band-wait"></div>
+      <div id="band-unplanned"></div>
+    </div>
+
+    <dialog id="cm-dialog" class="modal" aria-label="Add a commitment">
+      <div class="modal-head"><h3>Add a commitment</h3>
+        <button type="button" class="btn ghost" data-close="cm-dialog">Close</button></div>
+      <div style="display:flex;flex-direction:column;gap:11px">
+      <div class="grid2" style="gap:10px">
+        <label class="fld" style="grid-column:1/-1">What<input id="cm-title" placeholder="e.g. Coffee with a former colleague"></label>
+      </div>
+      <label class="fld">Detail — one line<input id="cm-detail" placeholder="About moving into a new sector"></label>
+      <div class="grid2" style="gap:10px">
+        <label class="fld">State
+          <select id="cm-state">
+            <option value="booked">Booked — date is fixed</option>
+            <option value="offered">Pending — waiting on their reply</option>
+            <option value="conditional">Pending — waiting on an event</option>
+          </select>
+        </label>
+        <label class="fld">Whose court
+          <select id="cm-court"><option value="them">Them</option><option value="me">Me</option></select>
+        </label>
+        <label class="fld">Type
+          <select id="cm-type">
+            <option value="conversation">Conversation</option>
+            <option value="interview">Interview</option>
+            <option value="prep-session">Prep session</option>
+          </select>
+        </label>
+      </div>
+      <div class="grid2" style="gap:10px">
+        <label class="fld">Date<input type="date" id="cm-date"></label>
+        <label class="fld">Time — optional<input id="cm-time" placeholder="18:00"></label>
+      </div>
+      <div class="grid2" style="gap:10px">
+        <label class="fld">Offered window — what you proposed<input id="cm-window" placeholder="Thursday or Friday"></label>
+        <label class="fld">Message sent<input type="date" id="cm-sent"></label>
+        <label class="fld">Chase by<input type="date" id="cm-chase"></label>
+      </div>
+      <div class="grid2" style="gap:10px">
+        <label class="fld">Conditional on<input id="cm-cond" placeholder="e.g. the screening call passing"></label>
+        <label class="fld">Blocked by — two or three words<input id="cm-blocked" placeholder="Screen feedback"></label>
+      </div>
+      <div class="grid2" style="gap:10px">
+        <label class="fld">Person<input id="cm-person" placeholder="Alex Morgan"></label>
+        <label class="fld">Relationship
+          <select id="cm-rel">
+            <option value="">—</option>
+            <option>referrer</option><option>talent acquisition</option><option>agency recruiter</option>
+            <option>hiring manager</option><option>peer / advisor</option><option>friend</option><option>other</option>
+          </select>
+        </label>
+      </div>
+      <div class="grid2" style="gap:10px">
+        <label class="fld">Organisation<input id="cm-org" placeholder="Brightwell Recruitment"></label>
+        <label class="fld">Attached to a role<select id="cm-roleid"></select></label>
+      </div>
+      <div class="row">
+        <button class="btn primary" id="cm-save" style="margin-left:auto">Add</button>
+      </div>
+      </div>
+    </dialog>
+    <!-- Meetings and tasks: one form for both, opened from every card and from Week ahead (1 Oct). -->
+    <dialog id="mt-dialog" class="modal mtmodal" aria-labelledby="mt-head">
+      <div class="modal-head"><h3 id="mt-head">Add a meeting</h3>
+        <button type="button" class="btn ghost" id="mt-close">Close</button></div>
+      <div id="mt-body" class="mtform"></div>
+      <div class="row mtfoot"><span id="mt-hint" class="statushint" role="status"></span>
+        <button class="btn primary" id="mt-save" style="margin-left:auto">Save</button></div>
+    </dialog>
+  </section>
+
+  <!-- ======== HOW TO USE (1 Oct) ======== -->
+  <section id="tab-help" hidden>
+    <div class="tabhead pagehead"><div class="phead-t"><h2>How to use</h2></div><span class="phsw"><div class="ctabs sub" role="tablist">
+        <button type="button" role="tab" data-act="ctab" data-id="help" data-k="start" aria-selected="true">Start here</button>
+        <button type="button" role="tab" data-act="ctab" data-id="help" data-k="setup" aria-selected="false">Set up</button>
+        <button type="button" role="tab" data-act="ctab" data-id="help" data-k="run" aria-selected="false">Running it</button>
+        <button type="button" role="tab" data-act="ctab" data-id="help" data-k="pages" aria-selected="false">Pages</button>
+        <button type="button" role="tab" data-act="ctab" data-id="help" data-k="faq" aria-selected="false">FAQ</button>
+        <button type="button" role="tab" data-act="ctab" data-id="help" data-k="hood" aria-selected="false">Under the hood</button>
+      </div></span></div>
+    <div id="hp-searchbox" class="hpsb"></div>
+    <div class="pagetabs">
+      <!-- How to use overhaul (3 Oct): Start here, Pages and FAQ are drawn by js/25-help.js. -->
+      <div class="cpanel" data-cp="help" data-k="start"><div id="hp-start"></div></div>
+      <div class="cpanel" data-cp="help" data-k="faq" hidden><div id="hp-faq"></div></div>
+      <div class="cpanel" data-cp="help" data-k="setup" hidden>
+        <!-- Guided setup (22 Oct, js/52-setup.js): Start or resume setup, and redo a step. -->
+        <div id="su-setup"></div>
+        <!-- 1 Oct: the alert-email workaround gets its own section in Set up. -->
+        <div class="card panel" style="margin-top:16px">
+          <h3>Sites the sweep can't read</h3>
+          <p class="lede" style="font-size:12.5px;margin:0">Some job sites need a login, block automated reading, or only show jobs to a real browser. LinkedIn is the usual example. The sweep can't read them, but it can read their job-alert emails.</p>
+          <ol class="steps">
+            <li><b>Sign up to the site yourself.</b> Claude won't create accounts or enter passwords. <span class="chip">5 min a site</span></li>
+            <li><b>Ask Claude to set up the alerts.</b> On desktop, with Claude in Chrome and you signed in, Claude creates the saved searches from your <a href="#" data-goabout="prefs">search terms</a> and the places you'd work, as often as the site allows.</li>
+            <li><b>Ask Claude to set up the email filter.</b> One Gmail filter labels every alert <span class="mono">Job Alerts</span> and skips the inbox. Claude adds each new sender to it, with your OK.</li>
+            <li><b>Add it as a source.</b> Under Alert emails in <a href="#" data-gotab="routine" data-sub="channels">Sourcing › Auto sweep</a>, so its finds are counted.</li>
+            <li><b>Check the first alert lands.</b> <span class="chip">next day</span> If nothing with listings arrives within two days, the signup didn't take. Mark the source Trial until it does.</li>
+          </ol>
+          <p class="lede" style="font-size:12px;margin:0">An alert tells the sweep a role exists. It still checks the employer's own site before counting it as live.</p>
+        </div>
+      </div>
+      <!-- Running it (3 Oct): the loop, then one card per stage. Replaces A normal week and the Tuning tab. -->
+      <div class="cpanel" data-cp="help" data-k="run" hidden>
+        <div class="card panel lpwrap">
+          <h3>How the board works: one loop</h3>
+          <p class="lede" style="font-size:12.5px;margin:0">Five stages. The first three run every week; the last two are how the search gets better.</p>
+          <figure class="loopfig">
+          <svg viewBox="0 0 820 320" role="img" aria-label="The loop: About me sets what to look for; Sourcing finds roles; Roles is where you decide, apply and interview. Every week that inner loop runs. When the search stalls, Insights shows where, and Search review changes channels and search terms in Sourcing, or rules and preferences in About me.">
+            <defs>
+              <marker id="lpa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker>
+              <marker id="lpb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="lpacc"/></marker>
+            </defs>
+            <a href="#" data-gotab="about"><g class="lpbox"><rect x="20" y="40" width="180" height="76" rx="12"/><circle cx="44" cy="64" r="11"/><text x="44" y="68" text-anchor="middle" class="lpn">1</text><text x="64" y="69" class="lpt">You</text><text x="34" y="97" class="lps">About me</text></g></a>
+            <a href="#" data-gotab="routine"><g class="lpbox"><rect x="250" y="40" width="180" height="76" rx="12"/><circle cx="274" cy="64" r="11"/><text x="274" y="68" text-anchor="middle" class="lpn">2</text><text x="294" y="69" class="lpt">Find</text><text x="264" y="97" class="lps">Sourcing · sweep twice a week</text></g></a>
+            <a href="#" data-gotab="roles"><g class="lpbox"><rect x="480" y="40" width="320" height="76" rx="12"/><circle cx="504" cy="64" r="11"/><text x="504" y="68" text-anchor="middle" class="lpn">3</text><text x="524" y="69" class="lpt">Decide, apply, interview</text><text x="494" y="97" class="lps">Roles: Longlist › Shortlist › To apply › Applied</text></g></a>
+            <a href="#" data-gotab="pipeline"><g class="lpbox"><rect x="560" y="214" width="180" height="76" rx="12"/><circle cx="584" cy="238" r="11"/><text x="584" y="242" text-anchor="middle" class="lpn">4</text><text x="604" y="243" class="lpt">Learn</text><text x="574" y="271" class="lps">Insights · highlights</text></g></a>
+            <a href="#" data-gotab="review"><g class="lpbox lpacc2"><rect x="250" y="214" width="180" height="76" rx="12"/><circle cx="274" cy="238" r="11"/><text x="274" y="242" text-anchor="middle" class="lpn">5</text><text x="294" y="243" class="lpt">Tune</text><text x="264" y="271" class="lps">Search review</text></g></a>
+            <line x1="200" y1="78" x2="246" y2="78" class="lpl" marker-end="url(#lpa)"/>
+            <text x="223" y="30" text-anchor="middle" class="lpe">what to look for</text>
+            <line x1="430" y1="78" x2="476" y2="78" class="lpl" marker-end="url(#lpa)"/>
+            <text x="453" y="30" text-anchor="middle" class="lpe">new roles</text>
+            <line x1="650" y1="116" x2="650" y2="210" class="lpl lpo" marker-end="url(#lpb)"/>
+            <text x="660" y="168" class="lpe lpacct">what happened</text>
+            <line x1="560" y1="252" x2="434" y2="252" class="lpl lpo" marker-end="url(#lpb)"/>
+            <text x="497" y="244" text-anchor="middle" class="lpe lpacct">where it's stuck</text>
+            <line x1="340" y1="214" x2="340" y2="120" class="lpl lpo" marker-end="url(#lpb)"/>
+            <text x="350" y="168" class="lpe lpacct">channels, terms</text>
+            <polyline points="250,252 110,252 110,120" class="lpl lpo" fill="none" marker-end="url(#lpb)"/>
+            <text x="120" y="168" class="lpe lpacct">rules, preferences</text>
+            <line x1="20" y1="306" x2="44" y2="306" class="lpl"/><text x="50" y="310" class="lpe">every week</text>
+            <line x1="130" y1="306" x2="154" y2="306" class="lpl lpo"/><text x="160" y="310" class="lpe">when the search stalls</text>
+          </svg>
+          <figcaption>Every week, roles flow left to right: what you want sets what the sweep looks for, and you decide on what it finds. When it stalls, Insights shows where, and Search review changes the setup that feeds the next week. Click a box to go there.</figcaption>
+        </figure>
+        </div>
+        <div class="lpcards"><div class="lpcard"><div class="lph"><span class="lpnum">1</span><h4>You — what you want</h4><a href="#" data-gotab="about">About me</a><span class="chip">set up once, then as needed</span></div><div class="lpcols"><div><span class="eyebrow">Claude does</span><ul><li>Drafts your profile, skills and criteria at setup.</li><li>Reads them in every sweep, every piece of research, every CV and every prep.</li></ul></div><div><span class="eyebrow">You do</span><ul><li>Keep <a href="#" data-goabout="prefs">My criteria</a> true: deal-breakers, preferences, pluses, concerns and search terms. Each is its own row; changes are live from the next sweep.</li><li>Upload your CV and cover letter in <a href="#" data-goabout="templates">My CV &amp; letter</a>; check your top 20 in <a href="#" data-goabout="skills">Skills</a>.</li></ul></div></div></div><div class="lpcard"><div class="lph"><span class="lpnum">2</span><h4>Find — roles come in</h4><a href="#" data-gotab="routine">Sourcing</a><span class="chip">twice a week, plus your own days</span></div><div class="lpcols"><div><span class="eyebrow">Claude does</span><ul><li>The <b>auto sweep</b> runs twice a week on its scheduled task: alert emails, job boards, your target companies' careers pages and your search terms.</li><li>Applies your deal-breakers, gives each role a rough Role Fit and fills the <a href="#" data-gotab="gate1">Longlist</a>. What it cut is logged in Sourcing › Auto sweep.</li><li>Warns you on Overview and in Data health if a sweep is overdue, worked out from when sweeps usually run.</li></ul></div><div><span class="eyebrow">You do</span><ul><li>Check the sites in <b>Manual</b> (Sites I check, Warm routes) on the days your repeating tasks in <a href="#" data-gotab="week">Week ahead</a> say.</li><li>Add what you find with <b>+ New › Add roles</b>; a dry search is one tap on <b>Nothing new</b>.</li><li>Sites that need a login: see Set up › Sites the sweep can't read.</li><li>Now and then, upload your LinkedIn connections to <a href="#" data-gotab="warm">Warm routes</a> and add the companies where you know someone; rating them Want it or Would consider puts their job boards in the sweep.</li></ul></div></div></div><div class="lpcard"><div class="lph"><span class="lpnum">3</span><h4>Decide, apply, interview</h4><a href="#" data-gotab="roles">Roles</a> · <a href="#" data-gotab="week">Week ahead</a><span class="chip">every day or two</span></div><div class="lpcols"><div><span class="eyebrow">Claude does</span><ul><li>Each morning: checks every open ad is still live (closing longlist roles that have gone), then researches new <a href="#" data-gotab="gate2">Shortlist</a> roles and scores their Role Fit.</li><li>At To apply: a CV and cover letter drafted as tracked changes.</li><li>When you apply: screen prep within a day (your story, why them, traps, salary, questions to ask). After the screen: prep for the next round only, from the job ad, the CV you sent, the company's interview materials and your notes. It shows on the meeting as <b>Advice for this one</b>.</li><li>When you ask: a one-page <b>cheat sheet</b> for a round, built from that prep, your notes, your latest mock and your starred questions.</li></ul></div><div><span class="eyebrow">You do</span><ul><li><b>Longlist</b>, on your review days (for example Mon and Thu, the day after each sweep): press Mass review, a minute a role. Score Fun and Shot, then send on or reject.</li><li><b>Shortlist</b>, the morning after its research (for example Tue and Fri; until then it shows Queued for research): decide to apply, park or reject. If a link couldn't be read, paste the ad on the card.</li><li><b>To apply</b>: treat the drafts as a start. Iterate, send, upload the finals and mark Applied.</li><li><b>Applied</b>: add each interview on the role's Interviews tab, plus any interview guide or case brief the company sends (<b>Add material</b>). Star the questions you must ask. Log every conversation so the next prep uses it.</li><li><b>Before a round</b>: read the prep, press <b>Practise</b> for a mock interview against it, then <b>Make cheat sheet</b> and download the PDF to keep open during the call.</li><li>The <b>Roles</b> badge and Overview's <b>Waiting on you</b> show what's on you.</li></ul></div></div></div><div class="lpcard"><div class="lph"><span class="lpnum">4</span><h4>Learn — see what's working</h4><a href="#" data-gotab="pipeline">Insights</a><span class="chip">a glance each week</span></div><div class="lpcols"><div><span class="eyebrow">Claude does</span><ul><li>Works out the highlights: where roles drop out, which channels lead somewhere, your application pace and mix.</li><li><b>Suggest a change</b> on a highlight drafts the fix for you to accept.</li></ul></div><div><span class="eyebrow">You do</span><ul><li>Glance at the Highlights on <a href="#" data-gotab="overview">Overview</a>. Open Insights when something looks off: filter, group by channel or fit, zoom into one stage.</li></ul></div></div></div><div class="lpcard"><div class="lph"><span class="lpnum">5</span><h4>Tune — fix where it's stuck</h4><a href="#" data-gotab="review">Search review</a><span class="chip">when it stalls — no fixed schedule</span></div><div class="lpcols"><div><span class="eyebrow">Claude does</span><ul><li>Reads the whole loop and says where it's stuck: finding, deciding, applying or interviews. Not everything is a search problem.</li><li>Suggests changes to your setup, or things for you to do, with the numbers behind each.</li></ul></div><div><span class="eyebrow">You do</span><ul><li>Talk it through: answer its question, then keep, change, turn down (with a reason) or ask about each suggestion. Nothing changes until you press Apply.</li><li>By hand: in <a href="#" data-goabout="prefs">My criteria</a>, open a deal-breaker to see what it <b>cut</b> and what you <b>turned down</b> later; spot-check its cuts. Trial or drop sources in <a href="#" data-gotab="routine">Sourcing</a>.</li><li>Every change is in the change log with Undo. Want a reminder? Add a repeating task in Week ahead.</li></ul></div></div><p class="lpwhen">Good moments: after about ten applications, when the longlist feels thin or full of the wrong roles, or when applications stop turning into interviews.</p></div></div>
+        <div class="card panel" style="margin-top:16px">
+          <h3>Working with Claude</h3>
+          <ul class="keylist">
+            <li><b>Change the board by asking.</b> To add, change or remove a feature, or fix a bug, just ask Claude.</li>
+            <li><b>Big or messy updates: tell Claude, don't fill in forms.</b> Dictate it as it comes, e.g. “I've set up two new meetings: a screen with Acme on Tuesday at 2 with their talent lead, and a coffee with Sam from Foo on Thursday”, and ask Claude to update the board.</li>
+            <li><b>Same for notes after a call, a recruiter's email, or a pile of links.</b> Paste or dictate it and Claude puts each fact in the right place.</li>
+            <li><b>The forms here are for quick, single changes</b> — a score, a status, one note.</li>
+          </ul>
+        </div>
+</div>
+      <!-- Under the hood (1 Oct): the board docs no screen showed — the rules Claude follows,
+           the skills that work the board, and the reference docs they read. Read-only. -->
+      <div class="cpanel" data-cp="help" data-k="hood" hidden>
+        <div id="hood-body"><p class="lede" style="margin:0">Loading…</p></div>
+      </div>
+      <div class="cpanel" data-cp="help" data-k="pages" hidden><div id="hp-pages"></div></div>
+    </div>
+  </section>
+
+  <!-- ======== ABOUT ME ======== -->
+  <!-- 1 Oct : Static info, and Preferences — the criteria, moved here from Job Search
+       Criteria.md. The board is the source of truth; the skills read profile/prefs. -->
+  <section id="tab-about" hidden>
+    <div class="tabhead pagehead"><div class="phead-t"><h2>About me</h2></div><span class="phsw" id="about-sw"></span></div>
+    <div class="pagetabs" id="about-body"></div>
+  </section>
+
+  <!-- ======== SWEEP ======== -->
+  <!-- Split 1 Oct : Sweep logic (how it works, and how well) and Manual sweep. The effectiveness
+       widgets moved here from Pipeline, which is about roles, not the tool. The hard rules now live in
+       About me › My criteria, which the sweep reads. -->
+  <section id="tab-routine" hidden>
+    <div class="tabhead pagehead"><div class="phead-t"><h2>Sourcing</h2></div><span class="phsw"><div class="ctabs sub" role="tablist">
+        <button type="button" role="tab" data-act="ctab" data-id="sweep" data-k="channels" aria-selected="true">Auto sweep</button>
+        <button type="button" role="tab" data-act="ctab" data-id="sweep" data-k="manual" aria-selected="false">Manual</button>
+      </div></span><span class="phmeta" id="ch-sweepmeta">Sweeps run on their schedule, and on demand</span><button class="btn primary" type="button" id="ch-open">+ Add<span class="lg"> a channel</span></button></div>
+    <p class="srcstrip" id="src-strip"></p>
+    <div class="pagetabs">
+      <!-- Channels (1 Oct): a channel is a way roles reach me; inside it, the sources of that
+           type. Stored in channels and sources; every role records channelId and sourceId. -->
+      <div class="cpanel" data-cp="sweep" data-k="channels">
+    <!-- Rail (3 Oct): the sweep's own record beside the channel cards. -->
+    <div class="pgrid"><div class="pgmain stack">
+      <div id="nosweep" hidden class="notice warn">
+        <b>No sourcing sweep has run yet.</b> Every role on this board arrived by hand. A verification pass is
+        not a sweep — it checks rows that already exist and cannot find anything new, so it is counted
+        separately and never reported as “last run”.
+      </div>
+      <div class="stack" id="ch-list"></div>
+      <div class="card panel">
+          <h3>How the queue is built</h3>
+          <p class="lede" style="font-size:12.5px;margin:0">Sorted by each rule in turn. A later rule only breaks ties in the one before.</p>
+          <ol class="keylist">
+            <li><b>Closing within seven days.</b> The only key where waiting destroys the option.</li>
+            <li><b>Warm route.</b> Most likely of anything to produce a first conversation.</li>
+            <li><b>Company priority.</b> Want it first, then Would consider, then If it appears. Your appetite, not whether a role is open — that is derived from the board. Replaced target-list tier on 28 Sep.</li>
+            <li><b>Fewest weak bands</b>, then most strong bands.</li>
+            <li><b>Newest first.</b></li>
+          </ol>
+          <p class="secintro">
+            The batch is thirty. Everything below stays <b>queued</b>, not rejected. The cut is about capacity,
+            not quality.
+          </p>
+        </div>
+    </div>
+    <aside class="pgrail"><div id="src-rail-status"></div><div id="src-rail-runs"></div>
+      <div class="card panel rlpanel">
+        <div class="row" style="justify-content:space-between">
+          <h3>Cut by your rules</h3>
+          <span class="eyebrow" id="screened-meta">no sweeps recorded</span>
+        </div>
+        <p class="lede" style="font-size:12.5px;margin:0">
+          What each hard rule removed before the longlist. Loosen only the rule with the most drop-off.
+        </p>
+        <div class="funnel" id="dropoff"></div>
+        <div id="dropoff-note"></div>
+        <a href="#" class="rlk" data-goabout="prefs">See what each rule cut, in My criteria →</a>
+        <details class="stage fold" id="screened-detail" hidden>
+          <summary class="stsum"><span class="stname">The rejected rows themselves</span></summary>
+          <div class="stbody" id="screened-list"></div>
+        </details>
+      </div>
+    </aside></div>
+      </div>
+      <div class="cpanel" data-cp="sweep" data-k="manual" hidden>
+        <!-- Manual sweep as cards (2 Oct): the passes log, then the manual channels' sources.
+             No days here: when you run them is planned only in Week ahead (its repeating tasks). -->
+        <!-- Split by who does the work (3 Oct): the manual channels, same cards as Auto sweep, then the passes log. -->
+        <div class="pgrid"><div class="pgmain"><div class="stack" id="ch-list-m"></div></div>
+        <aside class="pgrail"><div class="tcards rlpasses">
+          <div class="fithd tcard"><div class="fhtop"><div class="fhtl"><span class="fhtitle">Manual passes</span>
+              <span class="fhsub">Worked out from the roles you add · <span id="lastrun">none yet</span></span></div>
+              <button type="button" class="btn sm" data-open-add="none" title="Log a search that found nothing">+ Nothing new</button></div>
+            <div id="manual-passes"></div>
+          </div>
+        </div><div id="src-rail-manual"></div></aside></div>
+      </div>
+    </div>
+    <dialog id="ch-dialog" class="modal" aria-label="Add a channel">
+      <div class="modal-head"><h3>Add a channel</h3>
+        <button type="button" class="btn ghost" data-close="ch-dialog">Close</button></div>
+      <div class="grid2" style="gap:10px">
+        <label class="fld">Name<input id="ch-name" placeholder="Community Slacks"></label>
+        <label class="fld">Run by
+          <select id="ch-kind"><option value="auto">The sweep</option><option value="manual">Me</option></select></label>
+        <label class="fld" style="grid-column:1/-1">What it is — one line<input id="ch-how" placeholder="Job channels in product communities"></label>
+      </div>
+      <div class="statusacts" style="margin-top:12px">
+        <button class="btn primary" id="ch-add">Add channel</button>
+        <span class="statushint">Add its sources on the card.</span>
+      </div>
+    </dialog>
+  </section>
+
+  <!-- ======== GATE 1 ======== -->
+  <section id="tab-gate1" hidden>
+    <!-- One row like the Shortlist (4 Oct): search, Mix and Sort sit in the page header beside Mass review. -->
+    <div class="tabhead pipehead pagehead"><div class="phead-t"><h2>Longlist</h2></div><input class="search phsearch" id="q-g1" type="search" placeholder="Search role or company" autocomplete="off"><span class="tabmix" data-mixbar="gate1"></span><span class="tabsort" data-sortbar="gate1"></span><span class="tbcount" id="cnt-g1" hidden></span><button class="btn" type="button" id="add-open">+ Add roles</button><button class="btn primary" type="button" id="mr-open">Mass review</button></div>
+
+
+
+    <div class="mixnote" data-mixnote="gate1" hidden></div><div class="stack" id="g1-list"></div>
+  </section>
+
+  <!-- ======== GATE 2 ======== -->
+  <section id="tab-gate2" hidden>
+    <div class="tabhead pipehead pagehead"><div class="phead-t"><h2>Shortlist</h2></div><span class="tabmix" data-mixbar="gate2"></span><span class="tabsort" data-sortbar="gate2"></span></div>
+    <div class="mixnote" data-mixnote="gate2" hidden></div><div id="g2-filter"></div>
+    <div class="stack" id="g2-list"></div>
+
+    <div class="sec-head" style="margin-top:32px">
+      <h2 style="font-size:17px">Parked</h2>
+      <span class="eyebrow">resurfaces once at the Friday review, then moves or dies</span>
+    </div>
+    <div class="stack" id="park-list"></div>
+  </section>
+
+  <!-- ======== TO APPLY ======== -->
+  <section id="tab-toapply" hidden>
+    <div class="tabhead pipehead pagehead"><div class="phead-t"><h2>To apply</h2></div><span class="tabmix" data-mixbar="toapply"></span><span class="tabsort" data-sortbar="toapply"></span></div>
+    <div class="mixnote" data-mixnote="toapply" hidden></div><div class="stack" id="toapply-list"></div>
+  </section>
+
+  <!-- ======== IN PLAY ======== -->
+  <section id="tab-inplay" hidden>
+    <div class="tabhead pipehead pagehead"><div class="phead-t"><h2>Applied</h2></div><span class="tabmix" data-mixbar="inplay"></span><span class="tabsort" data-sortbar="inplay"></span><button class="btn primary" type="button" data-act="logjump" data-id="">+ Log<span class="lg"> a conversation</span></button></div>
+
+    <dialog id="cv-dialog" class="modal" aria-label="Log a conversation">
+      <div class="modal-head"><h3>Log a conversation</h3>
+        <button type="button" class="btn ghost" id="cv-close" aria-label="Close">Close</button></div>
+      <div style="display:flex;flex-direction:column;gap:11px">
+      <div class="grid2" style="gap:10px">
+        <label class="fld">About a role<select id="cv-role"></select></label>
+        <label class="fld">Date<input type="date" id="cv-date"></label>
+      </div>
+      <label class="fld" id="cv-meet-wrap" hidden>Which meeting — the notes attach to it<select id="cv-meet"></select></label>
+      <div class="grid2" style="gap:10px">
+        <label class="fld">Kind
+          <select id="cv-kind">
+            <option>Recruiter screen</option>
+            <option>Hiring manager</option>
+            <option>Panel or onsite</option>
+            <option>Informal chat</option>
+            <option>Agency recruiter</option>
+            <option>Follow-up</option>
+            <option>Other</option>
+          </select>
+        </label>
+        <label class="fld">Who — name and role<input id="cv-who" placeholder="e.g. Ana Silva, Talent Partner"></label>
+      </div>
+      <div class="grid2" style="gap:10px" id="cv-subj-wrap" hidden>
+        <label class="fld">About a company<select id="cv-co"></select></label>
+        <label class="fld">Or a person or topic, when not a company<input id="cv-subj" placeholder="e.g. a recruiter's name"></label>
+        <label class="fld">About a sector — shows on its Sectors card<select id="cv-sec"></select></label>
+      </div>
+      <label class="fld">What I liked
+        <textarea id="cv-liked" placeholder="What made this more attractive than it was an hour ago."></textarea>
+      </label>
+      <label class="fld">What concerned me
+        <textarea id="cv-conc" placeholder="Plainly. A concern recorded softly is a concern you will overrule later without noticing."></textarea>
+      </label>
+      <label class="fld">Questions to ask them — one short question per line
+        <textarea id="cv-qs" placeholder="e.g. Is there a team, or is it IC?"></textarea>
+      </label>
+      <label class="fld">Notes — anything else you learned or need to do
+        <textarea id="cv-notes" placeholder="Process, logistics, things to brush up on, what you sent after."></textarea>
+      </label>
+      <div class="grid2" style="gap:10px">
+        <label class="fld">Next step<input id="cv-next" placeholder="e.g. they come back with a panel date"></label>
+        <label class="fld">By when<input type="date" id="cv-nextdate"></label>
+      </div>
+      <div class="row"><button class="btn primary" id="cv-save">Log it</button><span class="statushint" id="cv-hint"></span></div>
+      <p class="lede" style="font-size:12px;margin:0">
+        <b>Most of a chat is about the company, not a seat.</b> Pick the company and the entry shows on its
+        company card and on every role card there, shortlist included. Pick a role and it shows on that role
+        and on the company. Pick a sector and it lives on that sector's card instead of here.
+      </p>
+      <p class="lede" style="font-size:12px;margin:0">
+        <b>Next step and date were not asked for</b> — added because without them a stalled process is
+        invisible rather than chased. Leave them blank and nothing breaks.
+      </p>
+      </div>
+    </dialog>
+
+    <div class="mixnote" data-mixnote="inplay" hidden></div><div class="stack" id="inplay-list"></div>
+
+    <div id="conv-wrap" hidden>
+    <div class="sec-head" style="margin-top:32px">
+      <h2 style="font-size:17px">Not attached to anything yet</h2>
+      <span class="eyebrow">attach each to a role, company or sector with Edit</span>
+    </div>
+    <div class="stack" id="conv-list"></div>
+    </div>
+
+    <p class="emptyline" style="margin-top:28px">Applications that ended are on the <a href="#" data-gotab="rejected">Closed</a> tab.</p>
+    <details class="card panel cfold" hidden style="display:block;margin-top:28px">
+      <summary>Closed<span class="cfmeta" id="closedcount"></span></summary>
+      <div class="stack" id="closed-list" style="margin-top:13px"></div>
+    </details>
+  </section>
+
+  <!-- ======== MOCK INTERVIEW ======== -->
+  <section id="tab-mock" hidden>
+    <div class="tabhead pagehead"><div class="phead-t"><h2>Mock interview</h2></div></div>
+    <!-- Intro trimmed (11 Oct): one line, the dictation tip always visible, the how-to folded (open state remembered per browser, 32). -->
+    <div class="mkintro" style="margin:0 0 16px">
+      <p class="lede" style="margin:0">Practise a round with an AI interviewer that knows the role, then get short feedback on what to keep and what to change.</p>
+      <p class="lede mktip" style="margin:6px 0 0"><b>Tip:</b> answer out loud with a dictation tool (e.g. Wispr Flow, or your computer's built-in dictation) and paste it in. It's closer to the real thing, and dictation spelling slips are ignored.</p>
+      <details class="enrich mkhow" id="mk-how" style="margin-top:8px">
+        <summary>How to use it</summary>
+        <ul class="lede" style="margin:8px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:4px">
+          <li>Pick the role and up to 3 round types. The next booked round's types are preselected.</li>
+          <li>Focus drafts itself from your board (round prep, Role Fit gaps, last round's notes). Edit it, or use Sharpen with Claude.</li>
+          <li>Take-home: paste or upload the brief you were sent, then present it and take the panel's questions. Live case: paste how the invite says the exercise runs, and the interviewer writes a mock case that fits.</li>
+          <li>The interviewer reads the role's research, the company's interview process, your notes, profile and CV (the one you sent, else your base CV), then asks one question at a time.</li>
+          <li>At the end you get a two-line headline, what to keep doing and what to improve, and, folded underneath, every answer rated Good, Average or Fix, plus feedback on your questions with sharper ones to ask. No score and no pass or fail.</li>
+          <li>You're asked whether to mark the next round's prep as done. Runs on your own Claude usage.</li>
+        </ul>
+      </details>
+    </div>
+    <div id="mock-off" hidden class="notice warn" style="margin-bottom:16px"></div>
+
+    <div class="card panel" id="mock-setup">
+      <div class="grid2" style="gap:10px">
+        <label class="fld">Role<select id="mk-role"></select></label>
+        <div class="fld mktfld"><span class="mktlab">Round type <small>up to 3 · screen, live case and take-home stand alone</small></span>
+          <div class="mktypes" id="mk-types" role="group" aria-label="Round type"></div>
+          <div class="mksplit" id="mk-split"></div></div>
+      </div>
+      <div id="mk-suggest"></div>
+      <!-- Case box (16 Oct, js/49): replaces Focus and Length for a live case or take-home. -->
+      <div class="mkcase" id="mk-casewrap" hidden>
+        <label class="fld"><span id="mk-caselab">Case brief</span>
+          <textarea id="mk-case" rows="8"></textarea></label>
+        <div class="mkcbar">
+          <span class="mkcsrc" id="mk-casesrc"></span>
+          <label class="btn sm mkcup" id="mk-caseup">Upload a file<input type="file" id="mk-casefile" accept=".docx,.pdf,.txt,.md" hidden></label>
+        </div>
+        <p class="statushint mkchelp" id="mk-casehelp"></p>
+        <label class="mkcsave" id="mk-casesavewrap" hidden><input type="checkbox" id="mk-casesave" checked> Save to this round's interview materials</label>
+      </div>
+      <label class="fld">Focus — what to probe, what they asked last time
+        <textarea id="mk-focus" rows="5" placeholder="e.g. probe experimentation design and metrics; ask how I'd prioritise a new feature"></textarea></label>
+      <div class="grid2" style="gap:10px">
+        <label class="fld" id="mk-lenwrap">Length
+          <select id="mk-len">
+            <option value="3">Short — 3 main questions</option>
+            <option value="5" selected>Standard — 5 main questions</option>
+            <option value="8">Long — 8 main questions</option>
+          </select></label>
+        <label class="fld">Timer
+          <select id="mk-mins">
+            <option value="0">No timer</option>
+            <option value="20">20 minutes</option>
+            <option value="30" selected>30 minutes</option>
+            <option value="45">45 minutes</option>
+            <option value="60">60 minutes</option>
+          </select></label>
+      </div>
+      <div class="row"><button class="btn primary" id="mk-start">Start the interview</button>
+        <span class="statushint" id="mk-hint"></span></div>
+    </div>
+
+    <div id="mock-session" hidden style="margin-top:16px">
+      <div class="card panel">
+        <div class="mockbar">
+          <b id="mk-title" style="font-family:Newsreader,Georgia,serif;font-size:17px;font-weight:500"></b>
+          <span class="timer" id="mk-timer"></span>
+          <span style="margin-left:auto"></span>
+          <button class="btn" id="mk-stop" hidden>Stop reply</button>
+          <button class="btn primary" id="mk-end">End and get feedback</button>
+          <button class="btn ghost" id="mk-abandon">Abandon</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;min-width:0">
+            <div class="chatlog" id="mk-log" aria-live="polite"></div>
+            <label class="fld">Your answer — paste or dictate, then send
+              <textarea id="mk-in" rows="5" placeholder="Answer as you would out loud."></textarea></label>
+            <div class="row"><button class="btn primary" id="mk-send">Send answer</button>
+              <span class="statushint" id="mk-shint">Ctrl/⌘ + Enter sends.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="mock-feedback" hidden style="margin-top:16px"></div>
+
+    <div class="sec-head" style="margin-top:32px">
+      <h2 style="font-size:17px">Past mocks</h2>
+      <span class="eyebrow" id="mk-pastmeta"></span>
+    </div>
+    <div class="stack" id="mk-past"></div>
+  </section>
+
+  <!-- ======== PIPELINE ======== -->
+  <!-- ======== COMPANIES ======== -->
+  <section id="tab-companies" hidden>
+    <div class="tabhead pagehead"><div class="phead-t"><h2>Targets</h2></div><span class="phsw"><div class="ctabs sub" role="tablist"><button type="button" role="tab" data-tsub="companies" aria-selected="true">Companies</button><button type="button" role="tab" data-tsub="sectors" aria-selected="false">Sectors</button></div></span><button class="btn primary" type="button" id="co-open">+ Add<span class="lg"> a company</span></button></div>
+    <div class="toolbar"><input class="search" id="q-co" type="search" placeholder="Search companies" autocomplete="off"><span class="tbfilters" id="co-filters"></span><span class="tabsort" data-sortbar="companies"></span><span class="tbcount" id="cnt-co"></span></div>
+    <div class="pgrid"><div class="pgmain"><details class="corate" id="co-ratehelp"><summary><span class="corate-s">Your rating decides how often the sweep reads each company's own jobs page. Alerts and searches still cover every company.</span><span class="corate-t">What each rating does</span></summary>
+      <table class="corate-tb"><thead><tr><th>Rating</th><th>Its jobs page</th><th>What else</th></tr></thead><tbody>
+        <tr><td><b>Want it</b></td><td>Read every sweep (twice a week)</td><td>The daily check finds its jobs page if the board doesn't have one</td></tr>
+        <tr><td><b>Would consider</b></td><td>Read once a week</td><td>The daily check finds its jobs page if the board doesn't have one</td></tr>
+        <tr><td><b>If it appears</b></td><td>Never read</td><td>Its roles reach you only through alerts and searches</td></tr>
+        <tr><td><b>Unrated</b></td><td>Never read, until you rate it</td><td>Same as If it appears, so rate the ones that matter</td></tr>
+        <tr><td><b>Ruled out</b></td><td>Never read</td><td>Any role found there, from any source, is screened out</td></tr>
+      </tbody></table></details><div id="co-recon"></div>
+    <div class="stack" id="co-list"></div></div><aside class="pgrail" id="co-rail"></aside></div>
+
+    <dialog id="co-dialog" class="modal" aria-label="Add a company">
+      <div class="modal-head"><h3>Add a company</h3>
+        <button type="button" class="btn ghost" data-close="co-dialog">Close</button></div>
+      <div class="formgrid">
+        <label class="fld">Name<input id="co-name" placeholder="Company name"></label>
+        <label class="fld">Sector<input id="co-sector" placeholder="e.g. Fintech"></label>
+        <label class="fld">Rating
+          <select id="co-pri">
+            <option value="unrated" selected>Unrated — not searched until you rate it</option>
+            <option value="high">Want it — board checked every sweep</option>
+            <option value="medium">Would consider — board checked once a week</option>
+            <option value="low">If it appears — alerts and searches only</option>
+          </select></label>
+        <label class="fld">Why watch it<input id="co-why" placeholder="Domain vendor · local seat · warm route"></label>
+        <label class="fld">Warm route
+          <select id="co-warmsel"><option value="">No known contact</option><option value="1">Contact who would recommend</option></select></label>
+      </div>
+      <div class="statusacts" style="margin-top:12px">
+        <button class="btn primary" id="co-add">Add company</button>
+        <span class="statushint">The next morning run finds its job board, or tells you it needs a LinkedIn alert. Research it by asking Claude.</span>
+      </div>
+    </dialog>
+  </section>
+
+  <!-- ======== SECTORS ======== -->
+  <!-- People (1 Oct): who you know or could reach, by company. A list for now — no outreach
+       tracking or nudges yet. -->
+  <section id="tab-people" hidden>
+    <div class="tabhead pagehead"><div class="phead-t"><h2>People</h2></div><button class="btn primary" type="button" id="pp-open">+ Add<span class="lg"> a person</span></button></div>
+    <div class="toolbar"><input class="search" id="q-pp" type="search" placeholder="Search name or company" autocomplete="off"><span class="tabsort" data-sortbar="people"></span><span class="tbcount" id="cnt-pp"></span></div>
+    <div class="stack" id="pp-list"></div>
+    <dialog id="pp-dialog" class="modal" aria-label="Add a person">
+      <div class="modal-head"><h3>Add a person</h3>
+        <button type="button" class="btn ghost" data-close="pp-dialog">Close</button></div>
+      <div class="grid2" style="gap:10px">
+        <label class="fld">Name<input id="pp-name" placeholder="Sam Taylor"></label>
+        <label class="fld">How you know them<select id="pp-how"></select></label>
+        <label class="fld">Their role<input id="pp-role" placeholder="Principal PM"></label>
+        <label class="fld">Company<select id="pp-co"></select></label>
+        <label class="fld" style="grid-column:1/-1">LinkedIn — optional<input id="pp-li" placeholder="https://www.linkedin.com/in/…"></label>
+      </div>
+      <div class="statusacts" style="margin-top:12px"><button class="btn primary" id="pp-add">Add person</button></div>
+    </dialog>
+  </section>
+
+  <!-- Compare (1 Oct): live processes side by side, then real offers once they land. -->
+  <section id="tab-compare" hidden>
+    <div class="tabhead pagehead"><div class="phead-t"><h2>Compare</h2></div><span class="phmeta">Up to three roles</span></div>
+    <div id="cmp-pick" class="cmp-slots"></div>
+    <div id="cmp-head"></div>
+    <div class="card panel" style="overflow-x:auto"><div id="cmp-table"></div></div>
+    <div id="cmp-edit"></div>
+  </section>
+
+  <section id="tab-sectors" hidden>
+    <div class="tabhead pagehead"><div class="phead-t"><h2>Targets</h2></div><span class="phsw"><div class="ctabs sub" role="tablist"><button type="button" role="tab" data-tsub="companies" aria-selected="false">Companies</button><button type="button" role="tab" data-tsub="sectors" aria-selected="true">Sectors</button></div></span><button class="btn primary" type="button" id="sec-open">+ Add<span class="lg"> a sector</span></button></div>
+    <div class="pgrid"><div class="pgmain"><div class="stack" id="sec-list"></div></div><aside class="pgrail" id="sec-rail"></aside></div>
+
+    <dialog id="sec-dialog" class="modal" aria-label="Add a sector">
+      <div class="modal-head"><h3>Add a sector</h3>
+        <button type="button" class="btn ghost" data-close="sec-dialog">Close</button></div>
+      <div class="grid2" style="gap:10px">
+        <label class="fld">Name<input id="sec-name" placeholder="e.g. Healthtech"></label>
+        <label class="fld">Rating
+          <select id="sec-stance"></select></label>
+      </div>
+      <div class="statusacts" style="margin-top:12px">
+        <button class="btn primary" id="sec-add">Add sector</button>
+        <span class="statushint">Fill it in with Edit details, or by logging a conversation about it.</span>
+      </div>
+    </dialog>
+  </section>
+
+  <!-- ======== CLOSED (was Rejected; 2 Oct) ======== -->
+  <section id="tab-rejected" hidden>
+    <div class="tabhead pagehead"><div class="phead-t"><h2>Closed</h2></div></div>
+    <p class="cltake" id="cl-read"></p>
+    <section class="ovc clcompact" id="cl-compact"></section>
+    <div class="clgrid2" hidden>
+      <div class="card panel clcard"><div class="clh"><h3>Where it ended</h3></div><div id="cl-where"></div></div>
+      <div class="card panel clcard"><div class="clh"><h3>How it ended</h3></div><div id="cl-how"></div></div>
+    </div>
+    <div class="clgrid3" id="cl-three" hidden></div>
+    <details class="card panel cfold cltablewrap" id="cl-tablewrap"><summary>All closed roles<span class="cfmeta" id="cl-count"></span></summary>
+      <div id="cl-filters"></div><div id="cl-table"></div></details>
+  </section>
+
+  <!-- Search review (3 Oct): a guided conversation about the whole loop. 22-review.js fills #rv-root. -->
+  <section id="tab-review" hidden>
+    <div class="tabhead pagehead"><div class="phead-t"><h2>Review your job search</h2><p>Finding, deciding, applying, interviews: where it's stuck, and what to change.</p></div></div>
+    <div id="rv-root"></div>
+  </section>
+  <!-- Warm routes: 48-warm-routes.js fills #wr-root. -->
+  <section id="tab-warm" hidden>
+    <div class="tabhead pagehead"><div class="phead-t"><h2>Warm routes</h2><p>Companies where you know someone and that fit what you want, with the roles open there.</p></div></div>
+    <div id="wr-root"></div>
+  </section>
+  <section id="tab-pipeline" hidden>
+    <div class="tabhead pagehead"><div class="phead-t"><h2>Insights</h2></div></div>
+    <div id="ins-root"></div>
+  </section>
+
+  <!-- ======== DATA HEALTH (2 Oct): a hygiene sweep, like a backlog clean-up ======== -->
+  <section id="tab-health" hidden>
+    <div class="tabhead pagehead"><div class="phead-t"><h2>Data health</h2><p>Small gaps that make the numbers less accurate: missing dates, job ads not checked, and links to things that were deleted. It updates as you work. <b>Copy for Claude</b> gives you a request to paste into a new chat in your Next Role project in Claude, where Claude has the board and its skills.</p></div></div>
+    <div id="hy-body"></div>
+  </section>
+</main>
+<aside class="wrail" id="wrail" aria-label="At a glance"></aside>
+</div>
+</div>
+
+<script src="js/01-core.js?v=20261023z"></script>
+<script src="js/02-lists.js?v=20261023z"></script>
+<script src="js/03-week-ahead.js?v=20261023z"></script>
+<script src="js/04-prep-meetings.js?v=20261023z"></script>
+<script src="js/05-in-play.js?v=20261023z"></script>
+<script src="js/06-pipeline.js?v=20261023z"></script>
+<script src="js/07-companies.js?v=20261023z"></script>
+<script src="js/08-people-forms.js?v=20261023z"></script>
+<script src="js/09-channels-sectors.js?v=20261023z"></script>
+<script src="js/10-fit.js?v=20261023z"></script>
+<script src="js/11-word-files.js?v=20261023z"></script>
+<script src="js/12-interaction.js?v=20261023z"></script>
+<script src="js/13-interview-prep.js?v=20261023z"></script>
+<script src="js/14-card-tabs.js?v=20261023z"></script>
+<script src="js/15-meetings-tasks.js?v=20261023z"></script>
+<script src="js/16-materials.js?v=20261023z"></script>
+<script src="js/17-overview-health.js?v=20261023z"></script>
+<script src="js/18-wiring-boot.js?v=20261023z"></script>
+<script src="js/19-insights.js?v=20261023z"></script>
+<script src="js/20-rules.js?v=20261023z"></script>
+<script src="js/21-search-review.js?v=20261023z"></script>
+<script src="js/22-review.js?v=20261023z"></script>
+<script src="js/23-pages.js?v=20261023z"></script>
+<script src="js/24-health.js?v=20261023z"></script>
+<script src="js/25-help.js?v=20261023z"></script>
+<script src="js/26-tooltips.js?v=20261023z"></script>
+<script src="js/27-sweep-check.js?v=20261023z"></script>
+<script src="js/28-targets-health.js?v=20261023z"></script>
+<script src="js/29-perf.js?v=20261023z"></script>
+<script src="js/30-employer-closed.js?v=20261023z"></script>
+<script src="js/31-unsure.js?v=20261023z"></script>
+<script src="js/32-mock-round.js?v=20261023z"></script>
+<script src="js/33-keep-open.js?v=20261023z"></script>
+<script src="js/34-came-back.js?v=20261023z"></script>
+<script src="js/35-company-rating.js?v=20261023z"></script>
+<script src="js/36-fix-copy.js?v=20261023z"></script>
+<script src="js/37-mock-focus.js?v=20261023z"></script>
+<script src="js/38-shell.js?v=20261023z"></script>
+<script src="js/39-cheat-sheet.js?v=20261023z"></script>
+<script src="js/40-fix-pending.js?v=20261023z"></script>
+<script src="js/41-run-now.js?v=20261023z"></script>
+<script src="js/42-flags.js?v=20261023z"></script>
+<script src="js/43-skip.js?v=20261023z"></script>
+<script src="js/44-log-meeting.js?v=20261023z"></script>
+<script src="js/45-waiting.js?v=20261023z"></script>
+<script src="js/46-required.js?v=20261023z"></script>
+<script src="js/47-site-read.js?v=20261023z"></script>
+<script src="js/48-warm-routes.js?v=20261023z"></script>
+<script src="js/49-case-brief.js?v=20261023z"></script>
+<script src="js/50-pending.js?v=20261023z"></script>
+<script src="js/51-starter.js?v=20261023z"></script>
+<script src="js/52-setup.js?v=20261023z"></script>
+
+</body></html>

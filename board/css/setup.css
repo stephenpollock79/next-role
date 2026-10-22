@@ -1,0 +1,179 @@
+/* Setup wizard (22 Oct, js/52-setup.js) */
+dialog.sudlg{width:min(1060px,calc(100vw - 32px)); max-width:1060px; height:min(820px,calc(100vh - 40px)); max-height:calc(100vh - 40px); padding:0; overflow:hidden; background:var(--surface); color:var(--ink)}
+.suwrap{display:grid; grid-template-columns:250px 1fr; height:100%; min-height:0}
+.sunav{background:var(--surface-2); border-right:1px solid var(--line); padding:18px 12px; overflow:auto}
+.sunav ol{list-style:none; margin:12px 0 0; padding:0; display:flex; flex-direction:column; gap:2px}
+.sunav li button{display:flex; gap:10px; align-items:flex-start; width:100%; text-align:left; background:none; border:0; border-radius:8px; padding:7px 8px; color:var(--ink-2); cursor:pointer; font:inherit}
+.sunav li button:hover{background:var(--accent-soft)}
+.sunav li.cur button{background:var(--surface); color:var(--ink); box-shadow:0 0 0 1px var(--line)}
+.suic{flex:0 0 22px; height:22px; border-radius:50%; display:grid; place-items:center; font-size:11.5px; font-weight:600; border:1px solid var(--line-2); color:var(--muted); background:var(--surface)}
+.st-done .suic{background:var(--good); border-color:var(--good); color:#fff}
+.st-skipped .suic{background:var(--surface-2); color:var(--faint)}
+.sunav li.cur .suic{border-color:var(--accent); color:var(--accent-ink)}
+.sunm{display:flex; flex-direction:column; font-size:13px; line-height:1.3}
+.sunm small{color:var(--muted); font-size:11.5px}
+.suprog{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px; padding:0 8px; font-size:12.5px; color:var(--muted)}
+.suprog b{font-size:15px; color:var(--ink)}
+.suprog i, .subar{display:block; width:100%; height:5px; border-radius:3px; background:linear-gradient(90deg,var(--accent) var(--p),var(--line) var(--p)); margin-top:4px}
+.sumain{display:flex; flex-direction:column; min-width:0; min-height:0}
+.suhead{display:flex; justify-content:space-between; align-items:flex-start; gap:16px; padding:18px 22px 12px; border-bottom:1px solid var(--line)}
+.suhead h3{margin:2px 0 4px; font-family:Newsreader,Georgia,serif; font-size:22px; font-weight:500}
+.suhead .lede{margin:0; font-size:13px; max-width:62ch}
+.subody{flex:1; overflow:auto; padding:16px 22px 22px; display:flex; flex-direction:column; gap:14px}
+.sufoot{display:flex; align-items:center; gap:10px; padding:12px 22px; border-top:1px solid var(--line); background:var(--surface)}
+.suspace{flex:1}
+.sufootnote{font-size:12.5px; color:var(--muted)}
+.sulede{margin:0; font-size:14px; line-height:1.55; color:var(--ink-2); max-width:72ch}
+.suerr{margin:0}
+.subusy{display:flex; align-items:center; gap:10px; font-size:13.5px; color:var(--ink-2)}
+.suspin{width:16px; height:16px; border-radius:50%; border:2px solid var(--line-2); border-top-color:var(--accent); animation:suspin .9s linear infinite}
+@keyframes suspin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){ .suspin{animation:none} }
+.suhero h2{font-family:"DM Serif Display",Georgia,serif; font-weight:400; font-size:30px; margin:4px 0 8px}
+.suhero p{margin:0; font-size:15px; line-height:1.55; color:var(--ink-2); max-width:64ch}
+.sudoes{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+.sudoes>div{border:1px solid var(--line); border-radius:10px; padding:12px; background:var(--surface-2)}
+.sudoes b{display:block; margin:6px 0 3px; font-size:13.5px}
+.sudoes p{margin:0; font-size:12.5px; color:var(--ink-2); line-height:1.45}
+.supromise{border-left:3px solid var(--accent); padding:4px 0 4px 14px}
+.supromise ul{margin:6px 0 0; padding-left:18px; font-size:13px; color:var(--ink-2); display:flex; flex-direction:column; gap:3px}
+.suplan{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; border:1px solid var(--line); border-radius:10px; overflow:hidden}
+.suplan li{display:grid; grid-template-columns:1fr auto auto; gap:2px 12px; padding:9px 12px; border-top:1px solid var(--line); align-items:baseline}
+.suplan li:first-child{border-top:0}
+.suplan li span{font-size:12px; color:var(--muted)}
+.suplan li small{grid-column:1/-1; font-size:12px; color:var(--ink-2)}
+.suplan.small{margin-top:10px}
+.suplan.small li{font-size:13px}
+.suplan li.st-done b{color:var(--muted)}
+.sugrid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 14px}
+.sugrid.narrow{grid-template-columns:repeat(4,minmax(0,160px))}
+.sugrid.three{grid-template-columns:repeat(3,1fr)}
+.sugrid .suwide{grid-column:1/-1}
+.fld.sumiss input, .fld.sumiss textarea, .fld.sumiss select{border-color:var(--warn); background:var(--warn-soft)}
+.suside, .sunote{border:1px solid var(--line); border-radius:10px; padding:12px 14px; background:var(--surface-2)}
+.suside p, .sunote p{margin:4px 0 0; font-size:12.5px; color:var(--ink-2); line-height:1.5}
+.sudet summary{cursor:pointer; font-size:13px}
+.sudet textarea{width:100%}
+.suskills{display:flex; flex-direction:column; gap:6px}
+.suskill{display:grid; grid-template-columns:minmax(140px,1fr) 100px minmax(200px,2fr) auto; gap:6px; align-items:center}
+.suchat{border:1px solid var(--line); border-radius:10px; padding:12px; display:flex; flex-direction:column; gap:8px; max-height:44vh; min-height:160px; overflow:auto; background:var(--surface-2)}
+.sumsg{max-width:80%; padding:8px 12px; border-radius:12px; font-size:13.5px; line-height:1.5; white-space:pre-wrap}
+.sumsg.cl{background:var(--surface); border:1px solid var(--line); align-self:flex-start}
+.sumsg.you{background:var(--accent-soft); color:var(--ink); align-self:flex-end}
+.suchatin{display:flex; gap:8px; align-items:flex-end}
+.suchatin textarea{flex:1}
+.susec{display:flex; flex-direction:column; gap:8px}
+.susec h4{margin:4px 0 0; font-size:14.5px}
+.susec>.lede{margin:0; font-size:12.5px}
+.surow{border:1px solid var(--line); border-radius:10px; padding:10px; display:flex; flex-direction:column; gap:6px; background:var(--surface)}
+.surow.sm{padding:6px 10px}
+.surow.off{opacity:.55}
+.surowh{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+.surowh .sunm{flex:1; min-width:160px; font-weight:600}
+.surowh input:not(.sunm){flex:2; min-width:160px}
+.surow textarea{width:100%}
+.sukeep{display:flex; gap:4px; align-items:center; font-size:12px; color:var(--muted); white-space:nowrap}
+.sufloor{display:flex; gap:10px; flex-wrap:wrap}
+.sufloor label{display:flex; flex-direction:column; font-size:12px; color:var(--muted); gap:2px}
+.sufloor input{width:120px}
+.suhand{border:1px solid var(--line); border-radius:12px; padding:14px 16px; background:var(--surface-2); display:flex; flex-direction:column; gap:8px; align-items:flex-start}
+.suhand p{margin:0; font-size:13px; color:var(--ink-2); line-height:1.5}
+.suhand small{font-size:12px; color:var(--muted)}
+.suhand.run{border-color:var(--accent); background:var(--accent-soft)}
+.suhand.ok{border-color:var(--good); background:var(--good-soft)}
+.suhand.bad{border-color:var(--bad); background:var(--bad-soft)}
+.suhand.wait{border-style:dashed}
+.sureq{width:100%; font-family:"IBM Plex Mono",monospace; font-size:12px}
+.sucos{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px}
+.suco{display:grid; grid-template-columns:1fr auto; gap:2px 10px; align-items:center; border:1px solid var(--line); border-radius:8px; padding:7px 10px; background:var(--surface)}
+.suco.un{border-color:var(--warn)}
+.suco small{grid-column:1/-1; font-size:12px; color:var(--ink-2)}
+.suall{gap:8px; align-items:center; font-size:13px}
+.suadd{display:flex; gap:8px; align-items:flex-end}
+.suadd .fld{flex:1}
+.sudays{display:flex; gap:10px; flex-wrap:wrap; align-items:center; font-size:13px}
+.sutask{display:flex; gap:8px; align-items:baseline; font-size:13px}
+.sutask span{color:var(--muted); font-size:12px}
+.suloop{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:8px}
+.suloop li{font-size:13px; line-height:1.5}
+.suloop li b{display:block}
+.suloop li span{display:block; color:var(--ink-2)}
+.suloop i{font-style:normal; color:var(--muted)}
+.sucard h3{margin:0 0 4px}
+.sucard p{margin:0; color:var(--ink-2)}
+.sucard .subar{margin-top:12px}
+.suresume{white-space:nowrap}
+.suredo{margin:0 0 10px; font-size:12.5px}
+@media (max-width: 900px){ .suwrap{grid-template-columns:1fr} .sunav{display:none} .sudoes,.sugrid,.sucos,.sugrid.three{grid-template-columns:1fr} .sugrid.narrow{grid-template-columns:repeat(2,1fr)} .suskill{grid-template-columns:1fr 1fr} }
+.surowh input, .surowh select, .sukeep input, .sudays input, .sutask input, .suall select{width:auto}
+.surowh .sunm{flex:1 1 220px; min-width:0}
+.surowh select{flex:0 0 auto; max-width:190px}
+.surowh input:not(.sunm){flex:2 1 220px}
+.sukeep input, .sudays input, .sutask input{margin:0}
+.sudays label, .sutask, .sukeep{display:inline-flex; flex-direction:row; align-items:center; gap:5px; font-size:13px; color:var(--ink-2)}
+.sutask{display:flex}
+.suall{display:flex; flex-wrap:wrap}
+.sukeep{flex:0 0 auto} .sukeep input{flex:none; width:auto}
+.sukeep input{min-width:0; width:16px; height:16px; padding:0}
+.sulab{display:flex; align-items:center; gap:8px; flex-wrap:wrap; min-height:20px}
+.susrc{font-size:10.5px; font-weight:600; letter-spacing:.02em; padding:1px 7px; border-radius:999px; background:var(--surface-2); color:var(--muted); border:1px solid var(--line)}
+.susrc.s-worked{background:var(--warn-soft); color:var(--ink-2); border-color:var(--warn)}
+.susrc.s-cv{background:var(--good-soft); color:var(--ink-2); border-color:var(--good)}
+.suhint{font-size:11.5px; color:var(--muted); margin-top:3px}
+.sugrid{align-items:start}
+/* Scrolling inside the pop-up never moves the board behind it. */
+html.su-lock, html.su-lock body{overflow:hidden}
+dialog.sudlg, .subody, .sunav, .suchat{overscroll-behavior:contain}
+.surowh .sukeep input[type=checkbox]{flex:none; width:16px; min-width:0}
+.sulegend{border:1px solid var(--line); border-radius:10px; padding:8px 12px; background:var(--surface-2); font-size:12.5px; color:var(--ink-2); line-height:1.5}
+.sulegend p{margin:0}
+.sulegend p+p{margin-top:4px}
+.suhow summary{cursor:pointer; font-size:13px; font-weight:600}
+.suhow ol{margin:6px 0 0; padding-left:20px; font-size:13px; color:var(--ink-2); line-height:1.5; display:flex; flex-direction:column; gap:3px}
+.sulegend ul{margin:4px 0 6px; padding-left:18px; display:flex; flex-direction:column; gap:2px}
+.sulooked{margin:0; font-size:13px; color:var(--ink-2)}
+.suco-r{display:flex; align-items:center; gap:8px}
+.suco small .btn.sm{margin-left:4px; padding:2px 8px; font-size:11.5px}
+/* Company card: name and actions, then tags, then Claude's suggestion. */
+.suco{grid-template-columns:minmax(0,1fr) auto; grid-template-areas:"n r" "t t" "s s"; align-items:center; row-gap:4px}
+.suco-n{grid-area:n; min-width:0; overflow-wrap:anywhere}
+.suco-r{grid-area:r}
+.suco-t{grid-area:t; display:flex; flex-wrap:wrap; gap:4px}
+.suco-t .susrc{white-space:nowrap}
+.suco small{grid-area:s}
+.suco{display:flex; flex-wrap:wrap; align-items:center; gap:4px 10px}
+.suco-n{flex:1 1 auto}
+.suco-t, .suco small{flex:0 0 100%}
+.suco-n{order:1} .suco-r{order:2} .suco-t{order:3} .suco small{order:4}
+.sucos{align-items:start}
+.suaddsrc{display:grid; grid-template-columns:1fr 1.3fr 1fr auto; gap:8px; align-items:end}
+@media (max-width:900px){ .suaddsrc{grid-template-columns:1fr} }
+
+.sunow{margin-top:14px;padding:12px 14px;border:1px solid var(--line,#ddd);border-radius:8px;font-size:13px}
+.sunow ol{margin:6px 0 0 18px;padding:0}
+.sunow li{margin:3px 0}
+.sualerts{display:flex; flex-direction:column; gap:6px}
+.sualert{display:flex; align-items:flex-start; gap:12px; border:1px solid var(--line); border-radius:8px; padding:8px 10px; background:var(--surface)}
+.sualert.ok{border-color:var(--good)}
+.sualert .sukeep{flex:0 0 auto; padding-top:2px}
+.sualert-n{flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; font-size:13px}
+.sualert-n a{font-size:12px}
+.sualert-n small{font-size:12px; color:var(--ink-2)}
+.sualert-note{color:var(--muted)}
+.sualert .susrc{flex:0 0 auto; white-space:nowrap}
+.surun{border:1px solid var(--line); border-radius:10px; padding:10px 14px; background:var(--surface); display:flex; flex-direction:column; gap:6px}
+.surun h5{margin:0; font-size:14px}
+.surun p{margin:0; font-size:13px; color:var(--ink-2); line-height:1.5}
+.surun-f{display:flex; flex-direction:column; gap:6px}
+.supart{margin:8px 0 0; font-size:15.5px; font-weight:600; padding-top:12px; border-top:1px solid var(--line)}
+.supart:first-of-type{border-top:0; padding-top:0}
+.suauto p{margin:6px 0 10px; font-size:13px; line-height:1.5}
+.suself{display:flex; flex-direction:column; gap:4px; align-items:flex-start; margin-top:10px}
+.suself span{font-size:12px; color:var(--muted)}
+.surun .sugrid.narrow{grid-template-columns:repeat(auto-fill,minmax(180px,240px)); gap:10px 16px}
+.surun .sugrid select, .surun .sugrid input{width:100%; box-sizing:border-box}
+.sufeats{display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:8px}
+.sufeat{display:flex; flex-direction:column; gap:2px; border:1px solid var(--line); border-radius:8px; padding:8px 12px; background:var(--surface); color:var(--ink); text-decoration:none}
+.sufeat:hover{border-color:var(--accent); background:var(--accent-soft)}
+.sufeat b{font-size:13.5px}
+.sufeat span{font-size:12.5px; color:var(--ink-2); line-height:1.45}

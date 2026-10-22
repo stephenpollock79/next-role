@@ -1,0 +1,333 @@
+/* ===== Insights (3 Oct): one end-to-end analysis page ===== */
+:root{--ew-me:#8A94A6; --ew-them:var(--bad); --ew-neither:#C7A35A; --ew-rules:#5B6B7A}
+.ins{display:flex; flex-direction:column; gap:16px; --f0:#2B3A44; --f1:#24515A; --f2:#1B6A6A; --f3:#0F766E; --f4:#14907F; --f5:#21A891; --f6:#2DD4BF}
+.ins .ovc{border-radius:14px}
+
+/* filter bar: sticky under the page header */
+/* Sticky, with clear space around it (3 Oct): a band of page background above (up to the header) and
+   below the bar, fading out, so scrolled content disappears before it reaches the toolbar. */
+.insbar{position:sticky; top:calc(var(--hdr,74px) + 12px); z-index:20; background:var(--surface); border:1px solid var(--line); border-radius:14px;
+  padding:10px 12px; display:flex; flex-direction:column; gap:8px; box-shadow:0 8px 18px -14px rgba(14,23,22,.4)}
+.insbar::before{content:""; position:absolute; left:-2px; right:-2px; top:-14px; bottom:0; background:var(--bg); z-index:-1}   /* reaches the bar's bottom, so nothing shows through its rounded corners */
+.insbar::after{content:""; position:absolute; left:-2px; right:-2px; top:100%; height:26px; z-index:-1; pointer-events:none;
+  background:linear-gradient(var(--bg) 0, var(--bg) 14px, color-mix(in srgb, var(--bg) 0%, transparent) 26px)}
+.ibr{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+.iseg{display:inline-flex; border:1px solid var(--line); border-radius:9px; overflow:hidden; background:var(--surface)}
+.iseg button{border:0; background:none; padding:6px 11px; font:500 12.5px inherit; color:var(--ink-2); cursor:pointer}
+.iseg button + button{border-left:1px solid var(--line)}
+.iseg button.on{background:var(--accent); color:#fff}
+.icmp{display:inline-flex; align-items:center; gap:6px; font-size:12.5px; color:var(--ink-2); padding:0 4px; white-space:nowrap}
+.isel{display:inline-flex; align-items:center; gap:0; border:1px solid var(--line); border-radius:9px; background:var(--surface); overflow:hidden}
+.isel > span{font-size:11.5px; color:var(--muted); padding:0 4px 0 10px; white-space:nowrap}
+.isel select{border:0; background:transparent; font:500 12.5px inherit; color:var(--ink); padding:6px 8px 6px 2px; max-width:210px; cursor:pointer}
+.isel.on{border-color:var(--accent); box-shadow:0 0 0 1px var(--accent) inset}
+.isel.on > span{color:var(--accent-ink)}
+.imore.on{border-color:var(--accent); color:var(--accent-ink)}
+.iscope{padding-top:8px; border-top:1px dashed var(--line)}
+.isl{font:600 10.5px "IBM Plex Mono",monospace; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-right:2px}
+.ipill{border:1px solid var(--line); background:var(--surface); border-radius:99px; padding:5px 11px; font:500 12px inherit; color:var(--ink-2); cursor:pointer}
+.ipill:hover{border-color:var(--muted)}
+/* Selected pills use the accent, like every other control (3 Oct: no black toggles). */
+.ipill.on{background:var(--accent); border-color:var(--accent); color:#fff}
+.isep{width:1px; height:20px; background:var(--line); margin:0 4px}
+.ichips{display:inline-flex; gap:6px; flex-wrap:wrap; align-items:center; margin-left:auto}
+.ichip{border:1px solid color-mix(in srgb, var(--accent) 40%, var(--line)); background:var(--accent-soft); color:var(--accent-ink); border-radius:99px; padding:4px 10px; font:500 12px inherit; cursor:pointer}
+.ichip b{margin-left:4px; font-weight:600}
+
+/* highlights */
+.inshl{display:flex; flex-direction:column; gap:10px}
+.ish{display:flex; align-items:baseline; gap:10px}
+.ish h3{margin:0; font-size:17px}
+.iask{margin-left:auto}
+.ihg{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; align-items:stretch}
+.ihc{position:relative; background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:14px 16px 12px; display:flex; flex-direction:column; gap:6px; overflow:hidden; --k:var(--muted)}
+.ihc::before{content:""; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--k)}
+.ihc.k-act{--k:var(--bad)} .ihc.k-watch{--k:var(--warn)} .ihc.k-good{--k:var(--good)}
+.ihtop{display:flex; align-items:center; justify-content:space-between; gap:8px}
+.iht{font:600 10.5px "IBM Plex Mono",monospace; letter-spacing:.08em; text-transform:uppercase; color:var(--k); background:color-mix(in srgb, var(--k) 12%, transparent); padding:2px 8px; border-radius:99px}
+.ihm{font:700 22px "IBM Plex Sans",system-ui,sans-serif; color:var(--ink); letter-spacing:-.02em}
+.ihtt{font-weight:600; font-size:14px; color:var(--ink); line-height:1.3}
+.ihc p{margin:0; font-size:12.5px; line-height:1.45; color:var(--ink-2); flex:1}
+.ihgo{align-self:flex-start; font-size:12.5px}
+
+/* rows of cards: same height */
+.insrow{display:grid; grid-template-columns:minmax(0,1.45fr) minmax(0,1fr); gap:16px; align-items:stretch}
+.insrow.b{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr)}
+@media (max-width:1180px){ .insrow, .insrow.b{grid-template-columns:1fr} }
+
+/* the funnel */
+.ifh{display:grid; grid-template-columns:112px minmax(0,1fr) 108px 150px; gap:12px; font:600 10.5px "IBM Plex Mono",monospace; letter-spacing:.06em; text-transform:uppercase; color:var(--faint); padding:0 6px}
+.ifh span:nth-child(2){text-align:center}
+.ifun{display:flex; flex-direction:column; flex:1}
+.ifr{display:grid; grid-template-columns:112px minmax(0,1fr) 108px 150px; gap:12px; align-items:center; padding:6px; border-radius:10px; cursor:pointer; transition:background .12s}
+.ifr:hover{background:var(--surface-2)}
+.ifr.on{background:var(--accent-soft)}
+.ifl{font-weight:600; font-size:13.5px; color:var(--ink); display:flex; flex-direction:column; line-height:1.2}
+.ifl small{font-weight:400; font-size:11px; color:var(--muted)}
+.ifb{display:flex; justify-content:center; height:34px}
+.ifb i{display:flex; align-items:center; justify-content:center; height:100%; border-radius:8px; min-width:30px; color:#fff; font-style:normal;
+  background:linear-gradient(90deg, color-mix(in srgb, var(--fc) 82%, #000), var(--fc) 50%, color-mix(in srgb, var(--fc) 82%, #000)); box-shadow:0 6px 14px -10px var(--fc); transition:width .35s ease}
+.ifb b{font:700 14px "IBM Plex Sans",system-ui,sans-serif}
+.ifr.s0{--fc:var(--f0)} .ifr.s1{--fc:var(--f1)} .ifr.s2{--fc:var(--f2)} .ifr.s3{--fc:var(--f3)} .ifr.s4{--fc:var(--f4)} .ifr.s5{--fc:var(--f5)} .ifr.s6{--fc:var(--f6)}
+.ifr.s6 .ifb i{color:#0E1716}
+.ifc{display:flex; flex-direction:column; font-size:12px; color:var(--muted); line-height:1.25}
+.ifc .ipp, .ifc > .ipz:first-child{font:700 15px "IBM Plex Sans",system-ui,sans-serif; color:var(--ink)}
+.ifc small .ipp, .ifc small .ipz{font-weight:500; font-size:12px; color:var(--muted)}
+.ifc em{font-style:normal; font-size:11px; font-weight:600}
+.ifc em.up{color:var(--good)} .ifc em.dn{color:var(--bad)}
+.ife{display:flex; flex-direction:column; gap:4px; font-size:11.5px; color:var(--muted)}
+.ifeb{display:flex; height:8px; border-radius:99px; overflow:hidden; background:var(--line-2)}
+.ifeb i{display:block; height:100%}
+.ifd{display:grid; grid-template-columns:112px minmax(0,1fr) 108px 150px; gap:12px; padding:0 6px; height:16px; align-items:center}
+.ifd span{grid-column:2; text-align:center; font:500 11px "IBM Plex Mono",monospace; color:var(--muted)}
+.ifd b{font-weight:500; color:var(--bad)}
+.ifd em{font-style:normal; color:var(--accent-ink)}
+.ipz{color:var(--faint)}
+.ipp{color:var(--ink)}
+.inote{margin:0; font-size:12px; color:var(--muted)}
+.ew-me{background:var(--ew-me)} .ew-them{background:var(--ew-them)} .ew-neither{background:var(--ew-neither)} .ew-rules{background:var(--ew-rules)}
+.ewk{display:flex; gap:14px; flex-wrap:wrap; font-size:11.5px; color:var(--muted)}
+.ewk span{display:inline-flex; align-items:center; gap:5px}
+.ewk i{width:10px; height:10px; border-radius:3px; display:inline-block}
+
+/* why roles end */
+.iwho{display:grid; grid-template-columns:repeat(auto-fit,minmax(90px,1fr)); gap:8px}
+.iwc{border-radius:10px; padding:9px 12px; background:var(--surface-2); border:1px solid var(--line-2); display:flex; flex-direction:column; gap:1px; border-top:3px solid var(--wc)}
+.iwc b{font:700 20px "IBM Plex Sans",system-ui,sans-serif; color:var(--ink)}
+.iwc span{font-size:11.5px; color:var(--muted)}
+.iwc.w-me{--wc:var(--ew-me)} .iwc.w-them{--wc:var(--ew-them)} .iwc.w-neither{--wc:var(--ew-neither)} .iwc.w-rules{--wc:var(--ew-rules)}
+.ish2{font:600 10.5px "IBM Plex Mono",monospace; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-top:4px}
+.ewb{display:flex; flex-direction:column; gap:5px}
+.ewr{display:grid; grid-template-columns:120px minmax(0,1fr) 34px; gap:10px; align-items:center; font-size:12.5px; padding:2px 4px; border-radius:6px}
+.ewr[role=button]{cursor:pointer} .ewr[role=button]:hover{background:var(--surface-2)}
+.ewr.z{opacity:.5}
+.ewl{color:var(--ink-2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.ewt{display:flex; height:12px; border-radius:99px; background:var(--line-2); overflow:hidden}
+.ewt i{display:block; height:100%}
+.ewn{text-align:right; font:600 12.5px "IBM Plex Mono",monospace; color:var(--ink)}
+.irs{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:5px}
+.irs li{display:grid; grid-template-columns:auto minmax(0,1fr) 80px 30px; gap:8px; align-items:center; font-size:12.5px; padding:2px 4px; border-radius:6px}
+.irs li.clk{cursor:pointer} .irs li.clk:hover{background:var(--surface-2)}
+.irs li:not(:has(.irw)){grid-template-columns:minmax(0,1fr) 80px 30px}
+.irw{font:600 10.5px inherit; padding:2px 7px; border-radius:99px; white-space:nowrap; color:#fff; background:var(--wc)}
+.irw.w-me{--wc:var(--ew-me)} .irw.w-them{--wc:var(--ew-them)} .irw.w-neither{--wc:var(--ew-neither); color:#2a2208} .irw.w-rules{--wc:var(--ew-rules)}
+.irl{color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.irb{height:6px; background:var(--line-2); border-radius:99px; overflow:hidden}
+.irb i{display:block; height:100%; background:var(--accent); border-radius:99px}
+.irs b{text-align:right; font:600 12.5px "IBM Plex Mono",monospace}
+.imix{margin:2px 0 0 !important; font-size:12px}
+
+/* breakdown table */
+.insbd .ovh .isel{margin-left:auto}
+.ibt{width:100%; border-collapse:separate; border-spacing:0; font-size:13px}
+.ibt th{font:600 10.5px "IBM Plex Mono",monospace; letter-spacing:.05em; text-transform:uppercase; color:var(--muted); text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); white-space:nowrap}
+.ibt th.num, .ibt td.num{text-align:right}
+.ibt td{padding:8px 10px; border-bottom:1px solid var(--line-2); vertical-align:middle}
+.ibrow, .ibkid{cursor:pointer}
+.ibrow:hover td, .ibkid:hover td{background:var(--surface-2)}
+.ibkid td:first-child{padding-left:42px}
+.ibkid td{font-size:12.5px; color:var(--ink-2)}
+.ibx{width:20px; height:20px; border:1px solid var(--line); border-radius:5px; background:var(--surface); color:var(--ink-2); font-size:10px; cursor:pointer; margin-right:8px; vertical-align:1px}
+.ibx0{display:inline-block; width:28px}
+.ibn{font-weight:500}
+.ibc{position:relative; min-width:74px}
+.ibc .ibh{position:absolute; right:6px; bottom:5px; height:3px; border-radius:99px; background:color-mix(in srgb, var(--accent) 45%, transparent); max-width:calc(100% - 12px)}
+.ibc b{font:600 13px "IBM Plex Mono",monospace; color:var(--ink)}
+.ibc small{display:block; font-size:11px; line-height:1.2}
+.ispk{display:inline-flex; align-items:flex-end; gap:2px; height:22px; width:72px}
+.ispk i{flex:1; background:var(--accent); border-radius:2px 2px 0 0; opacity:.75}
+.ispk i.z{background:var(--line); opacity:1}
+
+/* stage detail */
+.itls{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px}
+@media (max-width:900px){ .itls{grid-template-columns:repeat(2,minmax(0,1fr))} }
+.itl{border:1px solid var(--line-2); background:var(--surface-2); border-radius:12px; padding:10px 14px; display:flex; flex-direction:column; gap:2px}
+.itl span{font-size:11.5px; color:var(--muted)}
+.itl b{font:700 24px "IBM Plex Sans",system-ui,sans-serif; color:var(--ink); letter-spacing:-.02em}
+.itl small{font-size:11.5px; color:var(--muted)}
+.itl.warn{border-color:color-mix(in srgb, var(--warn) 40%, var(--line)); background:var(--warn-soft)}
+.ilsts{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px}
+@media (max-width:900px){ .ilsts{grid-template-columns:1fr} }
+.ilst{display:flex; flex-direction:column; gap:6px}
+
+/* trends */
+.instr .ovh .itd{margin-left:auto; font:600 12px inherit; color:var(--muted)}
+.itd.up{color:var(--good)} .itd.dn{color:var(--bad)}
+.itm{align-self:flex-start}
+.itc{display:grid; grid-template-columns:28px minmax(0,1fr); gap:6px; flex:1; min-height:190px}
+.itgrid{display:flex; flex-direction:column; justify-content:space-between; font:500 10.5px "IBM Plex Mono",monospace; color:var(--faint); text-align:right; padding:10px 0 0; line-height:1}
+.itgrid span:last-child{transform:translateY(50%)}
+.itgrid span:first-child{transform:translateY(-10%)}
+.itcols{display:flex; gap:6px; align-items:stretch; border-left:1px solid var(--line); border-bottom:1px solid var(--line);
+  background:repeating-linear-gradient(to top, transparent 0, transparent calc(50% - 1px), var(--line-2) calc(50% - 1px), var(--line-2) 50%)}
+.itcol{flex:1; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; gap:3px; position:relative; padding-top:16px; min-width:0}
+.itst{width:72%; max-width:34px; display:flex; flex-direction:column-reverse; border-radius:6px 6px 2px 2px; overflow:hidden; min-height:0; transition:height .35s ease}
+.itst i{display:block; width:100%}
+.itv{font:600 11px "IBM Plex Mono",monospace; color:var(--ink-2)}
+.itw{position:absolute; bottom:-17px; font-size:10.5px; color:var(--faint); white-space:nowrap}
+.itc{padding-bottom:16px}
+.c0{background:var(--f3)} .c1{background:#6C5B8E} .c2{background:#C7A35A} .c3{background:#5B8DB8} .c4{background:#A7B3B0}
+.itk{display:flex; gap:12px; flex-wrap:wrap; font-size:11.5px; color:var(--muted)}
+.itk span{display:inline-flex; align-items:center; gap:5px}
+.itk i{width:10px; height:10px; border-radius:3px; display:inline-block}
+
+/* pace */
+.ipc{display:flex; flex-direction:column; flex:1; justify-content:space-between; gap:8px}
+.ipr{display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-rows:auto auto; column-gap:12px; padding:10px 12px; border:1px solid var(--line-2); border-radius:12px; background:var(--surface-2)}
+.ipr > span{font-size:13px; color:var(--ink); font-weight:500}
+.ipr > b{grid-row:1 / span 2; grid-column:2; align-self:center; font:700 24px "IBM Plex Sans",system-ui,sans-serif; color:var(--ink); letter-spacing:-.02em}
+.ipr > b small{font-size:13px; font-weight:500; color:var(--muted); margin-left:2px}
+.ipr > small{font-size:11.5px; color:var(--muted)}
+.ipr > em{grid-column:1; font-style:normal; font-size:11.5px; font-weight:600}
+.ipr > em.up{color:var(--good)} .ipr > em.dn{color:var(--bad)}
+
+/* the Closed page's compact chart */
+.clcompact{display:flex; flex-direction:column; gap:10px}
+.clcompact .ovh a{margin-left:auto}
+.ifc em.eq{color:var(--faint); font-weight:500}
+@media (max-width:760px){ .insbar{position:static} .ifh, .ifr, .ifd{grid-template-columns:84px minmax(0,1fr) 92px; gap:8px} .ife, .ifh span:nth-child(4){display:none} .ifd{height:auto; min-height:16px; padding:3px 6px} .ifd span{grid-column:1 / -1; line-height:1.35} .ifc{white-space:nowrap} .iwho{grid-template-columns:repeat(2,minmax(0,1fr))} }
+
+/* Overview: Highlights row and Pace beside Looking back (3 Oct) */
+#ov-body > .ovhl{margin-bottom:16px}
+.ovhl .ovh{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+.ovhl .ovhsp{flex:1}
+.ovhcs{display:flex; gap:6px}
+.ovhl .ihc{cursor:pointer; transition:border-color .15s, box-shadow .15s}
+.ovhl .ihc:hover, .ovhl .ihc:focus-visible{border-color:var(--k); box-shadow:0 6px 16px -12px rgba(14,23,22,.45); outline:none}
+.ovrow2{display:grid; grid-template-columns:minmax(0,2fr) minmax(0,1fr); gap:16px; margin-bottom:16px; align-items:stretch}
+#ov-body .ovrow2 > .ovc{margin-bottom:0}
+.ovpace{cursor:pointer} .ovpace .ovh{display:flex; align-items:baseline; gap:10px} .ovpace .ovh .ovmore{margin-left:auto}
+.ovpace .ipc{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; flex:1}
+.ovpace .ipr{padding:10px 12px; align-content:center} .ovpace .ipr > b{font-size:22px} .ovpace .ipr > span{font-size:12.5px}
+.ovrow2 .ovback .lbchev{flex:1}
+.ovrow2 .lbs{padding:10px 20px 11px 26px} .ovrow2 .lbs.c-first{padding-left:16px} .ovrow2 .lbs b{font-size:27px}
+.ovrow2 .lbs.c-exit{flex:0 1 180px; margin-left:10px; padding:10px 14px}
+.ovpace:hover, .ovpace:focus-visible{border-color:var(--accent); outline:none}
+@media (max-width:1400px){ .ovrow2{grid-template-columns:minmax(0,1fr)} .ovrow2 .ovback .lbchev{flex:none} }
+.ovpace .ovh{flex-wrap:nowrap} .ovpace .ovh .ovsub{white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.ish .ovmore{margin-left:auto} .ish .ovmore + .iask{margin-left:8px}
+
+/* Highlights, Act vs For your information, Handled / Not useful (3 Oct) */
+.ihfoot{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:2px}
+.ihfoot .ihgo{align-self:auto}
+.ihx{margin-left:auto; display:inline-flex; gap:10px; opacity:.55; transition:opacity .15s}
+.ihc:hover .ihx, .ihc:focus-within .ihx{opacity:1}
+.ihx .linkbtn{font-size:11.5px; color:var(--muted)} .ihx .linkbtn:hover{color:var(--ink)}
+.ihback{font-size:11.5px !important; color:var(--warn) !important; flex:none !important; background:var(--warn-soft); border-radius:8px; padding:5px 8px}
+/* FYI cards: the same size and shape as Act, with a neutral colour (3 Oct). */
+.ihc.fyi{--k:#8A94A6}
+.ihc.fyi.k-good{--k:var(--good)}
+.ihnone{margin:0; font-size:12.5px; color:var(--muted)}
+/* Highlights sit three to a row: up to two rows of Act, one row of FYI. */
+@media (min-width:900px){ .inshl > .ihg, .ovhl > .ihg{grid-template-columns:repeat(3,minmax(0,1fr))} }
+/* Mark as… menu, Monitoring list, Suggest a change (3 Oct) */
+.ihc::before{border-radius:14px 0 0 14px}
+.ihc:has(.ihmenu:not([hidden])){overflow:visible; z-index:6}
+.ihx{position:relative}
+.ihx:has(.ihmenu:not([hidden])){opacity:1}
+.ihmenu{position:absolute; right:0; top:calc(100% + 6px); z-index:20; width:250px; background:var(--surface); border:1px solid var(--line); border-radius:12px; box-shadow:0 14px 30px -16px rgba(14,23,22,.45); padding:5px; display:flex; flex-direction:column}
+.ihmenu[hidden]{display:none}
+.ihmenu button{border:0; background:none; text-align:left; padding:7px 9px; border-radius:8px; cursor:pointer; display:flex; flex-direction:column; gap:1px; font:inherit; color:var(--ink)}
+.ihmenu button:hover, .ihmenu button:focus-visible{background:var(--surface-2); outline:none}
+.ihmenu b{font-size:12.5px; font-weight:600} .ihmenu small{font-size:11.5px; color:var(--muted); line-height:1.35}
+.ihfix{font-size:12px}
+.ihtogr{display:flex; align-items:center; gap:14px; flex-wrap:wrap}
+.ovhl .ihtogr{margin:0 0 10px}
+.ihmonl{font-size:12px; color:var(--ink-2)}
+.ihmon{border:1px solid var(--line); border-radius:12px; background:var(--surface-2); padding:10px 12px; margin:0 0 4px}
+.ovhl .ihmon{margin:0 0 10px}
+.ihmonh{margin:0 0 6px; font-size:12px; color:var(--muted)}
+.ihmon ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px}
+.ihmon li{display:flex; align-items:center; gap:10px; justify-content:space-between; font-size:12.5px}
+.ihmon li span{display:flex; flex-direction:column; min-width:0} .ihmon li small{color:var(--muted); font-size:11.5px}
+.ihmon li .linkbtn{font-size:12px; white-space:nowrap}
+/* Reset, at the right end of the filter row (3 Oct) */
+.insbar .ireset{margin-left:auto}
+.ihmon li .ihmonb{display:inline-flex; flex-direction:row; align-items:center; gap:16px; flex:none}
+.ihnote{margin:0; font-size:12px; color:var(--muted)} .ovhl .ihnote{margin:-4px 0 10px}
+/* Fun × Shot chart in the bottom row (3 Oct, moved from Compare). Trend, Pace and Fun × Shot share the row. */
+@media (min-width:1400px){ .insrow.b{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr)} }
+@media (min-width:1181px) and (max-width:1399px){ .insrow.b{grid-template-columns:minmax(0,1fr) minmax(0,1fr)} .insrow.b .insquad{grid-column:1 / -1} }
+.insquad{display:flex; flex-direction:column; gap:8px}
+.insquad .ovh{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap} .insquad .iqend{margin-left:auto; font-size:12px}
+.iqsvg{width:100%; max-width:380px; height:auto; align-self:center}
+.iqsvg .qq{stroke:none} .iqsvg .qq.hh{fill:color-mix(in srgb, var(--good) 12%, var(--surface))} .iqsvg .qq.hl{fill:color-mix(in srgb, var(--accent) 6%, var(--surface))}
+.iqsvg .qq.lh{fill:var(--surface-2)} .iqsvg .qq.ll{fill:color-mix(in srgb, var(--bad) 6%, var(--surface))}
+.iqsvg .qg{stroke:var(--line); stroke-width:1}
+.iqsvg .ql{font:500 9.5px "IBM Plex Sans",system-ui,sans-serif; fill:var(--muted)}
+.iqsvg .qn{font:500 10px "IBM Plex Mono",monospace; fill:var(--muted); text-anchor:middle} .iqsvg text.qn[text-anchor="end"]{text-anchor:end}
+.iqsvg .qa{font:600 10.5px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink-2); text-anchor:middle}
+.qp{stroke:var(--surface); stroke-width:1.5}
+.iqsvg circle.qp[data-act]{cursor:pointer} .iqsvg circle.qp[data-act]:hover, .iqsvg circle.qp[data-act]:focus{stroke:var(--ink); outline:none}
+.qp.s-ll, i.qp.s-ll{fill:#8A94A6; background:#8A94A6} .qp.s-sl, i.qp.s-sl{fill:#6C5B8E; background:#6C5B8E}
+.qp.s-ta, i.qp.s-ta{fill:#C7A35A; background:#C7A35A} .qp.s-ap, i.qp.s-ap{fill:var(--accent); background:var(--accent)}
+.iqsvg .qp.s-end{fill:var(--surface); stroke:var(--muted); stroke-width:1.5} i.qp.s-end{background:transparent; box-shadow:inset 0 0 0 1.5px var(--muted)}
+.iqkey{display:flex; flex-wrap:wrap; gap:4px 12px; font-size:11.5px; color:var(--ink-2); justify-content:center}
+.iqkey span{display:inline-flex; align-items:center; gap:5px} .iqkey i{width:9px; height:9px; border-radius:50%; display:inline-block}
+.iqsum{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px 12px; font-size:12px; color:var(--ink-2)} .iqsum b{font-family:"IBM Plex Mono",monospace; color:var(--ink)}
+.iqst{margin:0; font-size:12px; color:var(--muted)} .iqst.warn{color:var(--warn)}
+/* Bottom row, less tall (3 Oct): smaller Fun × Shot, Pace boxes no longer stretch */
+
+.insrow.b .ipc{justify-content:flex-start}
+.iqsvg{max-width:290px}
+.insquad .iqseg{margin-left:auto}
+.insquad .iqseg button{padding:3px 10px; font-size:12px}
+/* Fun × Shot as two numbers per square (3 Oct) */
+.iqsvg .qhit{fill:transparent; stroke:transparent}
+.iqsvg .qcell{cursor:pointer} .iqsvg .qcell:hover .qhit, .iqsvg .qcell:focus .qhit{fill:color-mix(in srgb, var(--ink) 6%, transparent)} .iqsvg .qcell:focus{outline:none}
+.iqsvg .qcell.on .qhit{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.5}
+.iqsvg .qnum{font:700 17px "IBM Plex Mono",monospace; text-anchor:middle}
+.iqsvg .qnum.g-live, .iqsvg .qnum.g-app{fill:var(--accent)} .iqsvg .qnum.g-end{fill:var(--muted)} .iqsvg .qnum.g-dec{fill:#6C5B8E}
+.iqkey i.qk{width:10px; height:10px; border-radius:3px; display:inline-block} .qk.g-live, .qk.g-app{background:var(--accent)} .qk.g-end{background:var(--muted)} .qk.g-dec{background:#6C5B8E}
+.iqlist{border:1px solid var(--line); border-radius:12px; padding:8px 10px; background:var(--surface-2)}
+.iqlh{display:flex; justify-content:space-between; align-items:center; font-size:12.5px; margin-bottom:4px}
+.iqlist ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; max-height:220px; overflow:auto}
+.iqrow{display:flex; justify-content:space-between; align-items:center; gap:10px; padding:5px 4px; border-top:1px solid var(--line-2); font-size:12.5px; color:var(--ink); text-decoration:none}
+.iqlist li:first-child .iqrow{border-top:none} a.iqrow:hover{background:var(--surface)}
+.iqr{display:flex; flex-direction:column; min-width:0} .iqr small{color:var(--muted); font-size:11.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.iqst2{font-size:11px; padding:1px 7px; border-radius:99px; background:var(--surface); border:1px solid var(--line); color:var(--ink-2); white-space:nowrap}
+/* Breakdown cross-tab (3 Oct) */
+.ixbar{display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding-bottom:4px}
+.ixbar .iseg button{padding:3px 10px; font-size:12px} .ixbar .ixlive{margin-left:auto}
+.ixt td.ixc{font:600 13px "IBM Plex Mono",monospace; color:var(--ink); text-align:center; min-width:64px; border-left:1px solid var(--surface)}
+.ixt th.num{text-align:center; white-space:normal; max-width:120px}
+.ixt td.ixc small{display:block; font:400 10.5px "IBM Plex Sans",system-ui,sans-serif; color:var(--muted)}
+.ixt td.ixc[data-ins]{cursor:pointer} .ixt td.ixc[data-ins]:hover{outline:2px solid var(--accent); outline-offset:-2px}
+.ixt td.ixc.thin{color:var(--faint)}
+.ixt td.ixc.tot{background:var(--surface-2); color:var(--ink-2)}
+.ixt tr.ixtot td{border-top:1px solid var(--line); background:var(--surface-2)}
+/* Cross-tab: equal value columns, unknown and Other unshaded (3 Oct) */
+.ixt{table-layout:fixed}
+.ixt col.ixk{width:210px} .ixt col.ixa{width:90px}
+.ixt td.ixc.unk{color:var(--muted); font-weight:500}
+.ixt td:first-child .ibn{display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+@media (max-width:900px){ .ixt col.ixk{width:130px} .ixt col.ixa{width:60px} }
+/* Breakdown controls on one line; equal funnel columns (3 Oct) */
+.ixctl{display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding-bottom:6px}
+.ixctl .ixx{color:var(--muted); font-size:14px}
+.ixctl .isep{width:1px; height:22px; background:var(--line); margin:0 4px}
+.ixctl .iseg button{padding:4px 10px; font-size:12px}
+.ixctl .ixlive{margin-left:auto}
+.ixctl option:disabled{color:var(--faint)}
+.ibt.ibf{table-layout:fixed} .ibf col.ixk{width:220px} .ibf col.ibe{width:96px} .ibf col.ibs{width:120px}
+@media (max-width:900px){ .ibf col.ixk{width:140px} .ibf col.ibs{width:80px} }
+.ixt td.ixc.zero{color:var(--faint); font-weight:400}
+.ihtogr .ihnote{flex:1 1 260px; min-width:0}
+/* The filter bar is the page's controls, not a widget (3 Oct): a faint accent tint; its controls stay white.
+   Layers, because the bar's z-index makes it a stacking context (negative children paint over its own background):
+   ::before = page colour from 14px above to a fade below (so nothing shows above it or through its rounded
+   corners), ::after = the bar's tinted, bordered surface on top of that. */
+.insbar{background:transparent !important; border-color:transparent !important; box-shadow:none !important}
+.insbar::before{top:-14px !important; bottom:-26px !important; height:auto !important; background:linear-gradient(var(--bg) 0, var(--bg) calc(100% - 12px), color-mix(in srgb, var(--bg) 0%, transparent) 100%) !important}
+.insbar::after{top:0 !important; left:0 !important; right:0 !important; bottom:0 !important; height:auto !important; border-radius:14px; background:color-mix(in srgb, var(--accent) 5%, var(--surface)) !important;
+  border:1px solid color-mix(in srgb, var(--accent) 22%, var(--line)); box-shadow:0 8px 18px -14px rgba(14,23,22,.4)}
+.insbar select, .insbar .isel, .insbar .seg, .insbar .btn, .insbar .ipill:not(.on){background-color:var(--surface)}
+/* Breakdown drill-down (7 Oct): the roles behind a number, listed under the cross-tab. */
+.ixt td.ixc.on{outline:2px solid var(--accent); outline-offset:-2px}
+.ixdd{margin-top:10px}
+.ixdd ul{max-height:320px}
+.ixdd .iqlh span{display:flex; gap:4px; align-items:center; color:var(--muted)}
+.ixdd .iqrow{display:grid; grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) 64px auto; align-items:center}
+.ixddw{font-size:11.5px; color:var(--ink-2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.ixddd{font:400 11.5px "IBM Plex Mono",monospace; color:var(--muted); text-align:right}
+@media (max-width:640px){ .ixdd .iqrow{grid-template-columns:minmax(0,1fr) auto} .ixddw,.ixddd{display:none} }
