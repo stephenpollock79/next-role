@@ -19,7 +19,7 @@ throughout. I'm a product manager: I directed this build rather than hand-wrote 
 
 ## Demo video
 
-<!-- VIDEO: in GitHub's editor, drag the video file onto this line. -->
+https://github.com/user-attachments/assets/784f4a59-3242-44e6-af2d-5afe3da487a5
 
 ## Try it
 
