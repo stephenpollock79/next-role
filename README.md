@@ -11,6 +11,8 @@ schedule, while you make the decisions. Free for personal use.
   interviews and cheat sheets; and tells you, every week, where your search is stuck.
 - **What it never does:** apply for you, send anything, or decide for you. You score every role, choose what
   to apply for, and send everything yourself.
+- **Yours to change.** Ask Claude in your project to fix something or add a feature: it reads the board's
+  code guide first and keeps a list of your changes, so updates don't undo them.
 - **Your data stays in your own Claude account.** The board is a page in your account; nothing is sent
   anywhere else.
 
@@ -53,7 +55,8 @@ Do these in order. Claude does most of the work; you do the parts marked **You**
    - **You: open the board once** when Claude says. It makes its starting records.
    - **Writes the reference material** onto the board, and saves the board's own link on it.
    - **Installs the 11 Next Role skills.** **You:** press Save on each skill card Claude shows you.
-   - **Gives you the project instructions.** **You:** paste them into the project's instructions.
+   - **Gives you the project instructions and the board's code guide.** **You:** paste the instructions into
+     the project's instructions, and add the guide to the project's files if Claude asks you to.
    - **Makes your job-alerts label in Gmail**, and checks Claude in Chrome works.
    - **Runs the installation check**, a list of everything above, each marked done or not.
 5. **You: open the board and press *Set up the board*.** The setup wizard walks you through the rest: your CV,

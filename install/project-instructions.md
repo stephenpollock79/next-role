@@ -6,6 +6,10 @@ At the start of any board work, read `profile/brief` on the board (the rules for
 `profile/prefs` (my deal-breakers and preferences) and `profile/me` as needed. The board is the source of
 truth, not memory.
 
+Changing the board itself (fixes, new features): before changing any board code, read `board-architecture.md` in
+this project's files, then fetch only the board files you need. After a change, update that doc (and its
+"Changes on this board" list) in the same task, and say so.
+
 Words: the pipeline is Longlist → Shortlist → To apply → Applied.
 
 Skills in my account do the work, all named `next-role-*`:

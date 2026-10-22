@@ -27,7 +27,7 @@ offers Start again. Useful for trying setup without touching your real board.
    "Testing" below.
 6. **Keep personal facts out of the code.** Names, city, employers, companies, people, job sites, pay floor
    and rule numbers belong in the board's data, never in the code or the skills: write neutral examples
-   (Acme, `<rule id>`) instead.
+   (Acme, `<rule id>`) instead. That keeps updates easy to merge, and your changes shareable.
 7. **Revert:** republish the previous version of the changed files (the artifact keeps its publish history, and
    this repo has every version). The data is untouched.
 
@@ -259,6 +259,26 @@ marked and DOMPurify locally.
 - `tools/build-demo.sh` rebuilds `docs/demo/` from `board/` and `demo/`. Run it after any board change, then
   commit `docs/demo/`.
 - When the fixture changes, bump `VERSION` in `00-demo.js`, so visitors' saved copies are replaced.
+
+## Your own changes
+
+This board is yours to fix and extend: ask Claude in your Next Role project, and it reads this doc first.
+
+- **Before changing code,** read this doc, then only the files you need (see "How to change the board").
+  Changes to your data (settings, deal-breakers, companies) go through the board or ArtifactData, not code.
+- **After each change,** update this doc's project copy wherever the change adds, removes, renames or moves a
+  section, function, file, data field or wrapper, and add a line under "Changes on this board" below: the
+  date, which files, and what changed in a few words. That list is what keeps your changes safe when Next
+  Role itself updates.
+- **Updating to a newer Next Role:** `profile/settings` `board.installedFrom` holds the version you
+  installed (a commit of the GitHub repo). Claude compares that version, the new one and your live files:
+  files you never changed are replaced; files you changed (the list below says which) are merged by hand,
+  keeping your changes, and checked with you before publishing. Then `installedFrom` moves to the new version.
+- **Something you made could help others?** Open an issue or pull request on the GitHub repo.
+
+## Changes on this board
+
+None yet.
 
 ## Keeping this doc current
 

@@ -14,7 +14,7 @@ ticked, after each step. Tick each step only when its check passes.
 [ ] 3. Open your board once (you)
 [ ] 4. Write the reference material onto the board
 [ ] 5. Install the skills (you press Save on each card)
-[ ] 6. Project instructions (you paste them in)
+[ ] 6. Project instructions and the board's code guide (you paste and upload)
 [ ] 7. Gmail: job-alerts label
 [ ] 8. Claude in Chrome works
 [ ] 9. Installation check
@@ -30,6 +30,7 @@ Clone the repository into your working directory:
 repo as a ZIP (green *Code* button › Download ZIP) and attach it; unzip it and carry on from that copy.
 
 Check: `board/index.html`, `board/js/` (52 files), `board/css/`, `skills/` (11 folders) and `install/` are there.
+Note the commit you cloned (`git rev-parse HEAD`): it's the version they're installing.
 
 ## 2. Publish their board
 
@@ -64,10 +65,14 @@ With ArtifactData `set` (these are new documents):
 | `refs/ats-endpoints` | `install/refs/ats-endpoints.json` |
 | `refs/redline` | `install/refs/redline.json` |
 
-Then `update` `profile/settings` (read it first and pin `if_version`) with `board: {url: "<the board's link>"}`.
-The board puts this link in every request it copies for Claude, so the skills work on the right board.
+Then `update` `profile/settings` (read it first and pin `if_version`) with
+`board: {url: "<the board's link>", installedFrom: "<the commit from step 1>"}`, keeping any other fields already
+under `board`. The board puts the link in every
+request it copies for Claude, so the skills work on the right board; `installedFrom` is what a later update
+compares against, so their own changes to the board are kept.
 
-Check: each of the four documents reads back, and `profile/settings` `board.url` is the link.
+Check: each of the four documents reads back, `profile/settings` `board.url` is the link and `board.installedFrom`
+the commit.
 
 ## 5. Install the skills
 
@@ -81,13 +86,22 @@ If `propose_skills` isn't available, zip each skill folder (`next-role-sweep.zip
 
 Check: ask them to confirm all 11 are saved. If a skill tool listing is available to you, confirm the names.
 
-## 6. Project instructions
+## 6. Project instructions and the board's code guide
 
-Fill `install/project-instructions.md` with their board's link in place of `<BOARD LINK>` and show it to them in a
-code block. Ask them to paste it into the project's instructions (the project's page › Instructions › Edit).
-These tell every chat and scheduled run in the project where their board is and which skills do what.
+**Instructions.** Fill `install/project-instructions.md` with their board's link in place of `<BOARD LINK>` and
+show it to them in a code block. Ask them to paste it into the project's instructions. These tell every chat and
+scheduled run in the project where their board is, which skills do what, and how to change the board itself.
 
-Check: ask them to confirm it's pasted.
+**Code guide.** Next Role is theirs to fix and extend by asking Claude, and `docs/board-architecture.md` is the
+map Claude reads before changing the board's code. It must be in their project's files, named
+`board-architecture.md`. If you can add files to the project yourself, do; otherwise send them the file and ask
+them to add it to the project's files.
+
+Tell them, in a sentence, that they can ask Claude in this project to fix or add to their board, and that Claude
+keeps a list of their changes in that file so updates don't undo them.
+
+Check: they confirm the instructions are pasted, and `board-architecture.md` is in the project's files (if you
+can see the project's files, look; otherwise ask).
 
 ## 7. Gmail: the job-alerts label
 
@@ -115,7 +129,7 @@ Show this list, each line ✓ or ✗ with a few words:
 2. Board opened, starting records made
 3. Brief and the three reference documents on the board; `board.url` set
 4. All 11 skills saved
-5. Project instructions pasted
+5. Project instructions pasted, and `board-architecture.md` in the project's files
 6. Gmail connected and the job-alerts label made (or skipped on purpose)
 7. Claude in Chrome answering (or to do before setup's Job alerts step)
 
@@ -128,7 +142,13 @@ request they paste into a new chat in this project.
 ## If they come back later
 
 - **"Fix the failed installation steps"**: rerun the check, then redo only the ✗ steps.
-- **A newer version of Next Role**: republish the changed board files to their board's `url` (keep its
-  capabilities; omit `capabilities` and `contract`), and propose updated skills as **improvements** to the
-  existing ones. Never overwrite their board's data; the reference documents in `install/` may be replaced
-  with `set` (`profile/brief` and `refs/*` only).
+- **A newer version of Next Role**: read `profile/settings` `board.installedFrom` and the project's
+  `board-architecture.md` ("Changes on this board"). For each board file that differs between
+  `installedFrom` and the new version: if they haven't changed it (it matches `installedFrom` on their live
+  board), take the new one; if they have, merge the two by hand, keeping their change, and show them the
+  merged result before publishing. Republish to their board's `url` with only the changed files (omit
+  `capabilities` and `contract`), bump the cache key, then set `installedFrom` to the new commit. Skills: propose
+  the updated ones as **improvements**, again keeping any changes they made. Update their `board-architecture.md`
+  from the new `docs/board-architecture.md`, carrying over their "Changes on this board" list. Never overwrite
+  their board's data; the reference documents in `install/` may be replaced with `set` (`profile/brief` and
+  `refs/*` only).
