@@ -2,103 +2,110 @@
 
 **A job-search board that runs inside Claude.** Claude finds roles, screens them against your deal-breakers,
 researches the ones you shortlist, drafts tailored CVs and cover letters, and preps your interviews, on a
-schedule, while you make the decisions. Free for personal use.
+schedule, while you make the decisions.
 
-- **See it first:** [the demo board](https://stephenpollock79.github.io/next-role/demo/) (made-up data for a made-up designer; your changes stay in your own browser, and Reset puts it back).
 - **What it does:** finds roles from job-alert emails, job sites and the companies you want; screens every
   role against your deal-breakers; gives each one a Role Fit score against your CV; researches roles and
   companies; drafts a tailored CV and cover letter as tracked changes; preps each interview round, with mock
   interviews and cheat sheets; and tells you, every week, where your search is stuck.
 - **What it never does:** apply for you, send anything, or decide for you. You score every role, choose what
   to apply for, and send everything yourself.
-- **Yours to change.** Ask Claude in your project to fix something or add a feature: it reads the board's
-  code guide first and keeps a list of your changes, so updates don't undo them.
-- **Your data stays in your own Claude account.** The board is a page in your account; nothing is sent
-  anywhere else.
+- **No server, no app to host.** The board is a page in your own Claude account, its data lives there too,
+  and Claude's own scheduled tasks do the work. Nothing is sent anywhere else.
+- **Yours to change.** Ask Claude to fix something or add a feature, and it does, on your copy.
 
----
+Built during a self-directed sabbatical in AI-native product management, and used for my own job search
+throughout. I'm a product manager: I directed this build rather than hand-wrote it. Free for personal use.
 
-## What you'll need
+## Demo video
 
-| | |
-| --- | --- |
-| **A paid Claude plan** | Pro or above. Next Role runs as scheduled tasks and uses Claude in Chrome, both on paid plans. |
-| **Usage** | A normal week is two sweeps, a morning run every day and one weekly check. The aim is for that to fit in about half of a Pro plan's weekly usage. *Early estimate, being confirmed: one sweep, the heaviest run, uses roughly a tenth of Pro's weekly usage on Sonnet.* Start with two sweeps a week and adjust. |
-| **Gmail** | For job-alert emails. If you'd rather not use your main address, make a free Gmail just for job alerts. No Gmail at all? It still works: the sweep reads job sites and company pages directly, and alert-only sites become ones you check yourself. |
-| **Claude in Chrome** | The browser extension. Setup uses it to create your job alerts on LinkedIn and other sites, in your own signed-in browser. |
-| **Your CV** | As a Word file (.docx), plus a cover letter if you have one. |
-| **LinkedIn connections export** *(optional)* | For Warm routes: people you know at the companies you want. LinkedIn takes about a day to send it, so request it early: LinkedIn › Settings › Data privacy › Get a copy of your data › Connections. |
+<!-- VIDEO: in GitHub's editor, drag the video file onto this line. -->
 
-**Time:** installation about 30 minutes. Setup about 3 to 5 hours of your time over a day or two, in a guided
-wizard on the board; Claude does its parts in the background while you carry on.
+## Try it
 
----
+**[Open the demo board](https://stephenpollock79.github.io/next-role/demo/)**: the real board, with made-up data
+for a made-up product designer. No sign-in. Click anything; your changes stay in your own browser, and Reset
+puts it back. The parts where Claude does the work are switched off in the demo.
 
-## Install
+## Install it
 
-Do these in order. Claude does most of the work; you do the parts marked **You**.
+You'll need a paid Claude plan (Pro or above), Gmail for job alerts, the Claude in Chrome extension and your CV.
+About 30 minutes to install, then a guided setup on the board.
 
-1. **You: make a Claude Project** called *Next Role* (claude.ai › Projects › New project). Everything to do with
-   your search happens in chats inside this project.
-2. **You: connect Gmail** to Claude (Settings › Connectors › Gmail), and **install Claude in Chrome**
-   ([how](https://support.claude.com/en/articles/12012173-get-started-with-claude-in-chrome)).
-3. **You: start a chat in the project** and paste this:
-
+1. Make a Claude Project called *Next Role*.
+2. Start a chat in it and paste:
    ```
    Install Next Role from https://github.com/stephenpollock79/next-role
    Follow CLAUDE-INSTRUCTIONS.md in that repo, step by step.
    ```
+3. When Claude's done, open your board and press **Set up the board**.
 
-4. **Claude takes it from there.** It gives you your own copy of this checklist and ticks off each step as it's
-   done:
-   - **Publishes your board**: your own private copy, in your account.
-   - **You: open the board once** when Claude says. It makes its starting records.
-   - **Writes the reference material** onto the board, and saves the board's own link on it.
-   - **Installs the 11 Next Role skills.** **You:** press Save on each skill card Claude shows you.
-   - **Gives you the project instructions and the board's code guide.** **You:** paste the instructions into
-     the project's instructions, and add the guide to the project's files if Claude asks you to.
-   - **Makes your job-alerts label in Gmail**, and checks Claude in Chrome works.
-   - **Runs the installation check**, a list of everything above, each marked done or not.
-5. **You: open the board and press *Set up the board*.** The setup wizard walks you through the rest: your CV,
-   what you want, the companies, where roles come from, a test sweep, your job alerts, and when Claude runs.
+**[Full installation guide](INSTALL.md)**: what you'll need, usage, each step, what to do if one goes wrong,
+how a week works, and changing or updating your board.
 
-### If a step goes wrong
+## How I built it
 
-- **Claude can't reach GitHub:** download this repo as a ZIP (green *Code* button › Download ZIP), attach it to
-  the chat, and say "install from the attached ZIP instead".
-- **A skill card didn't save:** say "show me the next-role skill cards again".
-- **The installation check shows something not done:** say "fix the failed installation steps". Claude redoes
-  just those.
-- **Anything else:** ask in the project chat. Claude can read this repo and the board, and fix most things.
+**Process.** Built for my own search first, one feature at a time, used daily from the start → a feature
+freeze and a full QA pass → personal details moved out of the code and into the board's data → a test board,
+a guided setup wizard and this demo → packaged here so anyone can install their own.
 
----
+**Scale.** About 18,000 lines of JavaScript in 52 files, 11 Claude skills, over 600 published versions, and
+about 560 automated checks in the QA pass.
 
-## How a week works
+**How it's tested.** Every change runs the real board code headless against real data with a mocked Claude,
+and compares every page before and after. A personal-data scan runs before anything is published.
 
-- **The sweep** (twice a week, evenings): Claude reads your job alerts, job sites and the companies' own jobs
-  pages, screens every role against your deal-breakers, and puts the rest on your **Longlist**.
-- **You** score each Longlist role for **Fun** and **Shot** (about a minute a role) and send the good ones on.
-- **The morning run** (daily): Claude checks roles are still open, researches what you shortlisted, drafts CVs
-  and cover letters for roles at **To apply**, and preps your interviews.
-- **You** decide, apply, and go to interviews. **Insights** and **Search review** show what to change when the
-  search stalls.
+The full phase-by-phase story, including what didn't work: **[My project workflow](https://github.com/stephenpollock79/stephenpollock79/blob/main/playbook/project-workflow.md)**.
+
+**Tools.**
+
+| Tool | Used for |
+| --- | --- |
+| Claude | the build itself, and the product: the board is a Claude artifact with its own database |
+| Claude skills | the 11 `next-role-*` skills that do the work: sweep, research, Role Fit, CV packs, interview prep |
+| Claude scheduled tasks | the twice-weekly sweep, the morning run and the weekly checks |
+| Claude in Chrome | creating job alerts on LinkedIn and other sites during setup |
+| Gmail | job-alert emails, read by the sweep |
+| Playwright and headless Chromium | regression testing every change |
+| GitHub | source, and the demo (GitHub Pages) |
+
+## What it cost
+
+| Item | Cost |
+| --- | --- |
+| Claude subscription | Max, 5× tier. Next Role uses nothing else |
+| Hosting, database, APIs | None: it all runs inside Claude |
+
+## What I learned
+
+The practices and rules that came out of my builds are written up in my playbook:
+
+- [Best practices](https://github.com/stephenpollock79/stephenpollock79/blob/main/playbook/best-practices.md): what I'd recommend and what I'd avoid
+- [My AI rules](https://github.com/stephenpollock79/stephenpollock79/blob/main/playbook/ai-rules.md): how I set up AI to act on its own and stop when it should
+
+## What's next
+
+An end-to-end install on a brand-new Claude account to confirm the usage estimate, then setting up job alerts
+from inside the board rather than through a copied request to Claude.
 
 ## What's in this repo
 
 | | |
 | --- | --- |
-| `CLAUDE-INSTRUCTIONS.md` | What Claude follows to install Next Role, including the installation check |
+| [`INSTALL.md`](INSTALL.md) | The installation guide |
+| [`CLAUDE-INSTRUCTIONS.md`](CLAUDE-INSTRUCTIONS.md) | What Claude follows to install Next Role, including the installation check |
 | `board/` | The board itself: `index.html`, `js/`, `css/` |
 | `skills/` | The 11 `next-role-*` skills Claude uses |
-| `install/` | Reference material written onto your board at installation: the rules Claude follows on the board (`brief.json`), the skills list, job-site reading notes, and the CV-editing script |
-| `install/project-instructions.md` | The text for your Claude Project's instructions |
+| `install/` | Reference material written onto your board at installation, and the project instructions |
 | `examples/scheduled-tasks.md` | The four scheduled tasks setup creates, for reference |
-| `docs/board-architecture.md` | How the board's code is organised, for anyone changing it |
-| `docs/demo/`, `demo/`, `tools/` | The public demo board and how it's built |
+| `docs/board-architecture.md` | How the board's code is organised: the guide Claude reads before changing it |
+| `docs/demo/`, `demo/`, `tools/` | The demo board and how it's built |
 
 ## Licence
 
-[PolyForm Noncommercial 1.0.0](LICENSE.md): **free for personal use**, including your own job search. You can't
+[PolyForm Noncommercial 1.0.0](LICENSE.md): free for personal use, including your own job search. You can't
 sell it or build a paid product or service on it. Not open source.
 
-Made by Stephen Pollock.
+---
+
+Built by [Stephen Pollock](https://github.com/stephenpollock79).

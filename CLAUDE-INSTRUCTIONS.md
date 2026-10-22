@@ -20,7 +20,7 @@ ticked, after each step. Tick each step only when its check passes.
 [ ] 9. Installation check
 ```
 
-They should be in a chat inside a Claude Project made for this (the README's first step). If they aren't, ask
+They should be in a chat inside a Claude Project made for this (step 1 of INSTALL.md). If they aren't, ask
 them to make one called *Next Role*, then paste the install request again in a chat there.
 
 ## 1. Get the files

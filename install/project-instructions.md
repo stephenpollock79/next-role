@@ -8,7 +8,8 @@ truth, not memory.
 
 Changing the board itself (fixes, new features): before changing any board code, read `board-architecture.md` in
 this project's files, then fetch only the board files you need. After a change, update that doc (and its
-"Changes on this board" list) in the same task, and say so.
+"Changes on this board" list) in the same task, and say so. To update to a newer Next Role, follow the
+"newer version" steps in CLAUDE-INSTRUCTIONS.md in the GitHub repo.
 
 Words: the pipeline is Longlist → Shortlist → To apply → Applied.
 
