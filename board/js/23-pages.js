@@ -120,7 +120,7 @@ function pgRailPin(){
   if(!window.matchMedia("(min-width:1201px)").matches){ r.style.top=""; PGPIN.cur=null; return; }
   var hh=layoutVars(), top0=hh+(RAILPIN.pt!=null? RAILPIN.pt : 22);
   Array.prototype.forEach.call(sec.querySelectorAll(":scope > .pagehead, :scope > .toolbar"),function(x){ var cs=getComputedStyle(x); if(cs.position==="sticky") top0=Math.max(top0, (parseFloat(cs.top)||0)+x.offsetHeight+12); });
-  var min=window.innerHeight-r.offsetHeight-16, y=window.scrollY, d=y-PGPIN.last; PGPIN.last=y;
+  var z=pgZoom(), min=window.innerHeight/z-r.offsetHeight-16, y=window.scrollY/z, d=y-PGPIN.last; PGPIN.last=y;
   if(min>=top0 || PGPIN.cur==null) PGPIN.cur=top0; else PGPIN.cur=Math.max(min, Math.min(top0, PGPIN.cur-d));
   r.style.top=PGPIN.cur+"px";
 }

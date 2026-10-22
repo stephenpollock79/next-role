@@ -861,7 +861,7 @@ function tabSheetOpen(){
         (c? '<span class="ct'+(hot?" hot":"")+'"'+(src.dataset.note? ' title="'+esc(src.dataset.note)+'"' : "")+'>'+esc(c)+'</span>' : "")+'</button>';
     }).join("");
   }).join("");
-  sh.style.top=((h? h.getBoundingClientRect().bottom : 0)+6)+"px";
+  sh.style.top=((h? h.getBoundingClientRect().bottom/pgZoom() : 0)+6)+"px";
   sh.hidden=false; sh.scrollTop=0; el("tabselbtn").setAttribute("aria-expanded","true");
 }
 function tabSheetClose(){ var sh=el("tabsheet"); if(sh.hidden) return; sh.hidden=true; el("tabselbtn").setAttribute("aria-expanded","false"); }

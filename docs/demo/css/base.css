@@ -666,6 +666,10 @@ details.rcard[open] > summary .scorechip, details.rcard[open] > summary .livechi
    unless told otherwise, and that pushed Compare off the side of the screen. Fields and grid cells may
    shrink; the page itself clips anything that still overflows (clip keeps the sticky header working). */
 html, body{max-width:100%; overflow-x:clip}
+/* Desktop sizing: everything 10% larger on wide screens. Breakpoints are all at or under 1100px, so from
+   1210px (1100 x 1.1) every layout is the same as without it. Code that places things by screen position
+   divides by pgZoom() (01-core.js). */
+@media (min-width:1210px){ html{ zoom:1.1 } }
 select, input, textarea{max-width:100%; min-width:0}
 .fld{min-width:0}
 .fld select, .fld input, .fld textarea{width:100%}

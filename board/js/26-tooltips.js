@@ -18,10 +18,10 @@ function ttShow(){
   var t=TT.el; if(!t || !t.isConnected) return ttHide();
   var txt=t.getAttribute("data-tt"); if(!txt) return;
   var b=ttBox(); b.textContent=txt; b.hidden=false;
-  var r=t.getBoundingClientRect(), bw=b.offsetWidth, bh=b.offsetHeight, vw=document.documentElement.clientWidth, gap=8;
+  var z=pgZoom(), r=t.getBoundingClientRect(), br=b.getBoundingClientRect(), bw=br.width, bh=br.height, vw=document.documentElement.clientWidth*z, gap=8*z;
   var x=Math.min(Math.max(8, r.left+r.width/2-bw/2), vw-bw-8);
   var y=r.bottom+gap; if(y+bh>window.innerHeight-8) y=Math.max(8, r.top-bh-gap);
-  b.style.left=Math.round(x)+"px"; b.style.top=Math.round(y)+"px";
+  b.style.left=Math.round(x/z)+"px"; b.style.top=Math.round(y/z)+"px";
 }
 if(window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches){
   document.addEventListener("mouseover",function(ev){

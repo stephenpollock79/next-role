@@ -296,6 +296,9 @@ function fieldTerm(){ var P=(typeof PROFILE!=="undefined"&&PROFILE)||{}; return 
 /* Before the profile loads, product (so a product board never flashes generic wording); a profile with no profession yet is generic. */
 function isProductField(){ if(typeof PROFILE==="undefined" || !PROFILE) return true; return fieldTerm()==="product"; }
 /* The board's own link, from profile/settings board.url, for the requests copied to Claude. */
+/* The page zoom on wide screens (base.css): screen positions (getBoundingClientRect, clientX) are in screen
+   pixels, but styles set on the page are multiplied by the zoom, so divide by this first. 1 when unzoomed. */
+function pgZoom(){ var z=parseFloat(getComputedStyle(document.documentElement).zoom); return z>0? z : 1; }
 function boardRef(){ var u=SETTINGS&&SETTINGS.board&&SETTINGS.board.url; return u? " ("+u+")" : ""; }
 var channels=[], srcs=[];   /* declared early: the manual-pass chips render at start-up */
 /* Falls back to this list until the manual sites channel ("Sites I check", id manual) exists on the board. */

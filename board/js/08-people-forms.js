@@ -293,7 +293,7 @@ function rselSize(e){
   var m=document.createElement("span"), cs=getComputedStyle(e);
   m.style.cssText="position:absolute;visibility:hidden;white-space:nowrap;font:"+cs.fontWeight+" "+cs.fontSize+" "+cs.fontFamily;
   m.textContent=(e.options[e.selectedIndex]||{}).text||""; document.body.appendChild(m);
-  e.style.width=Math.ceil(m.getBoundingClientRect().width+28)+"px"; m.remove();
+  e.style.width=Math.ceil(m.getBoundingClientRect().width/pgZoom()+28)+"px"; m.remove();
 }
 function pillFix(e){
   if(e.tagName==="SELECT") rselSize(e);

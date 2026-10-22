@@ -155,6 +155,14 @@ It loads the stylesheets in the order base, theme, shell, insights, rules, then 
 - **Edit, then remove.** Notes (meeting notes and plain notes) show only Edit; removing lives inside the edit form.
 - **Lists are rows.** Deal-breakers, My criteria and a role's questions are one item per row, each edited or removed on its own, with an add button — never one text box for the whole list.
 - **Hidden markup has a live renderer.** Markup that starts hidden is either toggled by code (folds, dialogs, panels, `#screened-detail`) or written by a renderer while hidden: the Closed page's `.clgrid2` (`#cl-where`, `#cl-how`) and `#cl-three` are filled by `renderRejected` (06), and 29 uses `#cl-where` as that page's lazy-render host. Remove or rename such an id only together with the code that writes to it.
+- **Desktop sizing.** `base.css` sets `html{zoom:1.1}` from 1210px wide (every layout breakpoint is at or under
+  1100px, so from 1210px each layout is unchanged; phones and narrow windows are unzoomed). Screen positions
+  (`getBoundingClientRect`, `clientX`, `innerWidth`, `innerHeight`, `scrollY`) are in screen pixels, but styles set on
+  the page are multiplied by the zoom: any code that places something by screen position divides by `pgZoom()`
+  (01-core.js) first, as the tooltips (26), flags pop-up (42), side-panel drag, header height, + New alignment and
+  rail pins (18, 23) and the phone menu (12) do.
+- **Shortlist › Parked** shows only when something parked is showing: `mixEmpty` (18) hides the heading and list
+  when nothing is parked, or nothing parked matches the filter.
 
 ## Data (database collections)
 

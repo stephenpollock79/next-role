@@ -383,13 +383,14 @@ var MIX_MEANING={
   ll:"Nothing you scored low on both.", un:"Everything here is scored."
 };
 /* After the lists render: one filtered empty state in place of the stage's own empty message, and the
-   Parked section hidden while a filter is on and nothing parked matches. */
+   Parked section hidden when nothing parked is showing (nothing parked at all, or nothing matching the filter). */
 function mixEmpty(){
   ["gate1","gate2","toapply","inplay"].forEach(function(t){
     var k=MIXF[t], host=el({gate1:"g1-list", gate2:"g2-list", toapply:"toapply-list", inplay:"inplay-list"}[t]); if(!host) return;
     if(t==="gate2"){
       var pl=el("park-list"), ph=pl && pl.previousElementSibling;
-      var pn=k? roles.filter(function(r){ return r.stage==="parked" && mixKeyOf(r)===k; }).length : 1;
+      /* No filter: shown only when something is parked (22 Oct); no "Nothing parked" card on an empty section. */
+      var pn=k? roles.filter(function(r){ return r.stage==="parked" && mixKeyOf(r)===k; }).length : (pl && !pl.querySelector(".card.empty")? 1 : 0);
       if(pl) pl.hidden=!pn; if(ph) ph.hidden=!pn;
     }
     if(!k) return;
@@ -428,7 +429,7 @@ document.addEventListener("keydown",function(ev){ if((ev.key==="Enter"||ev.key==
 var RAILPIN={cur:null, last:0, raf:0};
 function layoutVars(){
   var root=document.documentElement, h=document.querySelector("header.top");
-  var hh=h? Math.round(h.getBoundingClientRect().height) : 0;
+  var hh=h? Math.round(h.getBoundingClientRect().height/pgZoom()) : 0;
   root.style.setProperty("--hdr", hh+"px");
   var sec=el("tab-"+tab), ph=sec && sec.querySelector(":scope > .pagehead");
   /* Include the gap under the page header (4 Oct): the toolbar pins below it and the header's shadow covers
@@ -452,14 +453,14 @@ function alignNew(){
   if(rr && getComputedStyle(rr).display!=="none" && rr.offsetWidth) right=Math.max(right, rr.getBoundingClientRect().right);
   if(!right) return;
   var d=nm.getBoundingClientRect().right-right;
-  if(d>0) nm.style.marginRight=Math.round(d)+"px";
+  if(d>0) nm.style.marginRight=Math.round(d/pgZoom())+"px";
 }
 function railPin(){
   alignNew();
   var r=el("wrail"); if(!r) return;
   var hh=layoutVars();
   if(document.body.dataset.page!=="rail" || !window.matchMedia("(min-width:1600px)").matches){ r.style.top=""; RAILPIN.cur=null; return; }
-  var top0=hh+(RAILPIN.pt!=null? RAILPIN.pt : 22), min=window.innerHeight-r.offsetHeight-16, y=window.scrollY, d=y-RAILPIN.last;
+  var top0=hh+(RAILPIN.pt!=null? RAILPIN.pt : 22), z=pgZoom(), min=window.innerHeight/z-r.offsetHeight-16, y=window.scrollY/z, d=y-RAILPIN.last;
   RAILPIN.last=y;
   if(min>=top0 || RAILPIN.cur==null) RAILPIN.cur=top0;
   else RAILPIN.cur=Math.max(min, Math.min(top0, RAILPIN.cur-d));
@@ -739,7 +740,7 @@ function spBuild(){
       '<div id="wkpop-body" class="wkpopb"></div></dialog>');
   var grip=document.querySelector("#sidepanel .spgrip");
   grip.addEventListener("mousedown",function(e){ e.preventDefault();
-    function mv(ev){ var w=Math.max(420, Math.min(window.innerWidth-320, window.innerWidth-ev.clientX)); document.documentElement.style.setProperty("--spw",w+"px"); }
+    function mv(ev){ var z=pgZoom(), vw=window.innerWidth/z, w=Math.max(420, Math.min(vw-320, vw-ev.clientX/z)); document.documentElement.style.setProperty("--spw",w+"px"); }
     function up(){ document.removeEventListener("mousemove",mv); document.removeEventListener("mouseup",up);
       try{ localStorage.setItem("nr-spw",getComputedStyle(document.documentElement).getPropertyValue("--spw").trim()); }catch(err){} }
     document.addEventListener("mousemove",mv); document.addEventListener("mouseup",up); });

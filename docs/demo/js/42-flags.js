@@ -56,10 +56,10 @@ function flgOpen(b){
     return '<div class="flgi '+x.k+'"><span class="flgd"></span><span>'+esc(x.t)+
       (x.k==="dup"? '<br><a href="#" data-flggo="1">Same role or not? Decide in Data health →</a>' : "")+'</span></div>'; }).join("");
   document.body.appendChild(p);
-  var rc=b.getBoundingClientRect(), w=Math.min(320, window.innerWidth-24);
+  var z=pgZoom(), rc=b.getBoundingClientRect(), w=Math.min(320, window.innerWidth/z-24);
   p.style.width=w+"px";
-  var left=Math.max(12, Math.min(rc.left+window.scrollX, window.scrollX+window.innerWidth-w-12));
-  p.style.left=left+"px"; p.style.top=(rc.bottom+window.scrollY+6)+"px";
+  var left=Math.max(12*z, Math.min(rc.left+window.scrollX, window.scrollX+window.innerWidth-w*z-12*z));
+  p.style.left=(left/z)+"px"; p.style.top=((rc.bottom+window.scrollY+6*z)/z)+"px";
 }
 ["mousedown","pointerdown","keydown"].forEach(function(evt){ document.addEventListener(evt,function(ev){
   var b=ev.target.closest && ev.target.closest("[data-flg]");
