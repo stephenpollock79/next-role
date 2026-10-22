@@ -246,7 +246,7 @@ Where each ATS gives the most for one call:
 
 | ATS | Read with | Notes |
 | --- | --- | --- |
-| Greenhouse | `boards-api.greenhouse.io/v1/boards/<board>/jobs/<id>` | The board name can differ from the company name (Plata's is `platacard`). Take it from a `gh_jid` or `job-boards` link |
+| Greenhouse | `boards-api.greenhouse.io/v1/boards/<board>/jobs/<id>` | The board name can differ from the company name (e.g. a company called Acme may use `acmecard`). Take it from a `gh_jid` or `job-boards` link |
 | Lever | `api.lever.co/v0/postings/<company>/<id>` (`api.eu.lever.co` for EU boards) | The full ad, including salary when posted |
 | Ashby | `api.ashbyhq.com/posting-api/job-board/<company>?includeCompensation=true` | Ashby job pages only load with JavaScript, so always use this API |
 | Workday | The job page itself, one try | Often errors. On a failure, leave the role unread |

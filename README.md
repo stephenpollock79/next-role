@@ -4,7 +4,7 @@
 researches the ones you shortlist, drafts tailored CVs and cover letters, and preps your interviews, on a
 schedule, while you make the decisions. Free for personal use.
 
-- **See it first:** [the demo board](DEMO_LINK) (made-up data; nothing you do there is saved).
+- **See it first:** [the demo board](https://stephenpollock79.github.io/next-role/demo/) (made-up data for a made-up designer; your changes stay in your own browser, and Reset puts it back).
 - **What it does:** finds roles from job-alert emails, job sites and the companies you want; screens every
   role against your deal-breakers; gives each one a Role Fit score against your CV; researches roles and
   companies; drafts a tailored CV and cover letter as tracked changes; preps each interview round, with mock
@@ -91,6 +91,7 @@ Do these in order. Claude does most of the work; you do the parts marked **You**
 | `install/project-instructions.md` | The text for your Claude Project's instructions |
 | `examples/scheduled-tasks.md` | The four scheduled tasks setup creates, for reference |
 | `docs/board-architecture.md` | How the board's code is organised, for anyone changing it |
+| `docs/demo/`, `demo/`, `tools/` | The public demo board and how it's built |
 
 ## Licence
 

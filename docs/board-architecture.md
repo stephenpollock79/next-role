@@ -247,6 +247,19 @@ locally with a mock `window.claude.use("db")`, and diff against the live version
 and a look at the live board. The cloud workspace can't reach jsdelivr, so test Markdown preview by serving
 marked and DOMPurify locally.
 
+## The demo
+
+`docs/demo/` is a public copy of the board with made-up data, served by GitHub Pages. It needs no Claude account.
+
+- `demo/00-demo.js` is the only demo-only file. It loads before `js/01-core.js` and provides: a fixed date
+  (`DAY`), a data store in the browser's localStorage seeded from `demo-fixture.json`, a stand-in for
+  `window.claude.use` (db only; every other capability is unavailable), a banner with Reset, and a Copy for
+  Claude that explains there's no Claude. **Never load it on a real board.**
+- `demo/demo-fixture.json` is the demo's data: one object per collection, documents keyed by id.
+- `tools/build-demo.sh` rebuilds `docs/demo/` from `board/` and `demo/`. Run it after any board change, then
+  commit `docs/demo/`.
+- When the fixture changes, bump `VERSION` in `00-demo.js`, so visitors' saved copies are replaced.
+
 ## Keeping this doc current
 
 After any change that adds, removes, renames or moves a section, function group, file, data field, wrapper
