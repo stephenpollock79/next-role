@@ -8,7 +8,7 @@ Everything you need to install Next Role in your own Claude account and get it r
 | | |
 | --- | --- |
 | **A paid Claude plan** | Pro or above. Next Role runs as scheduled tasks and uses Claude in Chrome, both on paid plans. |
-| **Usage** | A normal week is two sweeps, a morning run every day and one weekly check. The aim is for that to fit in about half of a Pro plan's weekly usage. *Early estimate, being confirmed: one sweep, the heaviest run, uses roughly a tenth of Pro's weekly usage on Sonnet.* Start with two sweeps a week and adjust. |
+| **Usage** | In testing, a normal week (two sweeps, a morning run every day and one weekly check) used about half of a Pro plan's weekly allowance, on a busy board. Expect less on a new board, with the sweep on Sonnet. Pro leaves little room for other Claude use, so if you already use Claude a lot, consider Max. Running the morning run on weekdays only saves about a fifth. |
 | **Gmail** | For job-alert emails. If you'd rather not use your main address, make a free Gmail just for job alerts. No Gmail at all? It still works: the sweep reads job sites and company pages directly, and alert-only sites become ones you check yourself. |
 | **Claude in Chrome** | The browser extension. Setup uses it to create your job alerts on LinkedIn and other sites, in your own signed-in browser. |
 | **Your CV** | As a Word file (.docx), plus a cover letter if you have one. |
