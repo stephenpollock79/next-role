@@ -301,7 +301,7 @@ SU_R.plan=function(){
       return '<li><b>'+esc(s.n)+'</b><span>'+esc(s.t)+'</span><small>'+esc(SU_WHY[s.k])+'</small></li>'; }).join("")+'</ol>'+
     '<p class="lede" style="font-size:12.5px">Claude drafts every step from your CV and your answers; you check and correct. Nothing is ever applied for or sent.</p>';
 };
-SU_MAIN.plan=function(){ return suBtn("plan:tomorrow","Remind me tomorrow")+suBtn("next:plan","Start now",true); };
+SU_MAIN.plan=function(){ return suBtn("next:plan","Start now",true); };
 
 SU_R.cv=function(){
   var cv=suTpl("cv"), lt=suTpl("letter"), paste=SU.doc && SU.doc.cvPaste;
@@ -1051,7 +1051,6 @@ document.addEventListener("click",function(ev){
   if(act==="close"){ suClose(); return; }
   if(act==="next"){ suFinishStep(arg); return; }
   if(act==="skip"){ suFinishStep(arg,"skipped"); return; }
-  if(act==="plan"){ suTomorrow(); return; }
   if(act==="cvpaste"){ var t=((el("su-cvpaste")||{}).value||"").trim(); if(t.length<200){ toast("That looks too short for a CV",true); return; } suSave({cvPaste:t.slice(0,30000)}).then(function(){ toast("Saved. Claude will draft from it"); suPaint(); }); return; }
   if(act==="draft"){ if(arg==="about") suDraftAbout(); else if(arg==="skills") suDraftSkills(); else if(arg==="want") suDraftWant(); return; }
   if(act==="save"){ if(arg==="about") suSaveAbout(); else if(arg==="skills") suSaveSkills(); else if(arg==="want") suSaveWant(); else if(arg==="rhythm") suSaveRhythm(); return; }
@@ -1082,15 +1081,6 @@ document.addEventListener("click",function(ev){
 document.addEventListener("keydown",function(ev){
   if(ev.target && ev.target.id==="su-chatin" && ev.key==="Enter" && (ev.metaKey||ev.ctrlKey)){ ev.preventDefault(); var v=ev.target.value.trim(); if(v && !SU.busy) suChat(v); }
 });
-async function suTomorrow(){
-  if(!DB) return; var d=addDays(today(),1);
-  try{
-    await DB.doc("commitments/setup-continue").set({item:"task", type:"othertask", kind:"own", court:"me", title:"Carry on setting up Next Role", detail:"Open the board and press Resume setup.",
-      forKind:"none", forId:"", roleId:"", tagRoles:[], personIds:[], person:"", org:"", state:"booked", date:d, time:"", duration:"", createdAt:today(), createdVia:"setup"});
-    await suSetStatus("plan","done",{step:"cv"});
-    suClose(); toast("Reminder added to Week ahead for tomorrow");
-  }catch(e){ toast("Couldn't add the reminder — try again",true); }
-}
 
 /* ---------- outside the pop-up: Resume button, Overview card, How to use › Set up, About me ---------- */
 function suPaintOutside(){
