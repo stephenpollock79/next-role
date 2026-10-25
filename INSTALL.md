@@ -26,7 +26,9 @@ Do these in order. Claude does most of the work; you do the parts marked **You**
 1. **You: make a Claude Project** called *Next Role* (claude.ai › Projects › New project). Everything to do with
    your search happens in chats inside this project. Only give it a name: leave the description, instructions and
    files empty. Claude gives you the instructions to paste, and the file to add, in step 4.
-2. **You: connect Gmail** to Claude (click your initials at the bottom left › Settings › Connectors › Gmail), and **install Claude in Chrome**
+2. **You: connect Gmail** to Claude (click your initials at the bottom left › Settings › Connectors › Gmail), and **install Claude in Chrome**.
+   Claude in Chrome is a Chrome extension, not a connector, so it won't show up in a Connectors search. Install it
+   from the Chrome Web Store in the Chrome you'll use for your search, and sign it in with the same Claude account
    ([how](https://support.claude.com/en/articles/12012173-get-started-with-claude-in-chrome)).
 3. **You: start a chat in the project** and paste this:
 
