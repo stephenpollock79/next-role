@@ -53,7 +53,8 @@ Do these in order. Claude does most of the work; you do the parts marked **You**
    - **You: open the board once** from the link Claude gives you, in Chrome, and bookmark it. It makes its
      starting records, then shows Overview with a *Setup 0 of 12* card.
    - **Writes the reference material** onto the board, and saves the board's own link on it.
-   - **Installs the 11 Next Role skills.** **You:** press Save on each skill card Claude shows you.
+   - **Installs the 11 Next Role skills.** **You:** press Save on each skill card Claude shows you. A card may need
+     Save pressed twice: it's saved when the card changes to say so.
    - **Gives you the project instructions and the board's code guide.** **You:** paste the instructions into
      the project's instructions, and add the guide to the project's files if Claude asks you to.
    - **Makes your job-alerts label in Gmail**, and checks Claude in Chrome works.

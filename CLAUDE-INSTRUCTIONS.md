@@ -84,7 +84,8 @@ the commit.
 
 Install each skill in `skills/` (11 of them, all named `next-role-*`) in their account. Propose each one with the
 `propose_skills` tool as a **new** skill: its `name` and `description` from the file's front matter, and its
-whole `SKILL.md` as the text. At most three per call, so four calls. Tell them to press **Save** on each card.
+whole `SKILL.md` as the text. At most three per call, so four calls. Tell them to press **Save** on each card, and that a card may need
+**Save** pressed twice: it's saved when the card changes to say so.
 
 If `propose_skills` isn't available, zip each skill folder (`next-role-sweep.zip` containing
 `next-role-sweep/SKILL.md`), send them the zips, and ask them to add each one in Claude's settings
