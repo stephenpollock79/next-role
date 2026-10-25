@@ -53,7 +53,8 @@ function suStepIx(k){ for(var i=0;i<SU_STEPS.length;i++) if(SU_STEPS[i].k===k) r
 function suStepOf(k){ return SU_STEPS[suStepIx(k)]; }
 function suNDone(){ return SU_STEPS.filter(function(s){ var x=suStatus(s.k); return x==="done"||x==="skipped"; }).length; }
 function suNextOpen(){ var s=SU_STEPS.find(function(s){ var x=suStatus(s.k); return x!=="done" && x!=="skipped"; }); return s? s.k : "done"; }
-function suPhone(){ return !!(window.matchMedia && window.matchMedia("(max-width: 760px)").matches); }
+// A phone is narrow AND touch-first: a narrow window or side panel on a computer is not a phone.
+function suPhone(){ return !!(window.matchMedia && window.matchMedia("(max-width: 760px) and (pointer: coarse)").matches); }
 /* A board is fresh when nothing has been set up: no roles, no name, no deal-breakers. */
 function suFresh(){
   var P=PROFILE||{}, F=PREFS||{};
