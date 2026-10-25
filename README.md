@@ -38,6 +38,8 @@ changing or updating your board.
 
 ## How I built it
 
+**Time.** About three weeks, part time.
+
 **Process.** Built for my own search first, one feature at a time, used daily from the start → a feature
 freeze and a full QA pass → personal details moved out of the code and into the board's data → a test board,
 a guided setup wizard and this demo → packaged here so anyone can install their own.
@@ -60,7 +62,8 @@ and compares every page before and after. A personal-data scan runs before anyth
 | Playwright and headless Chromium | regression testing every change |
 | GitHub | source, and the demo (GitHub Pages) |
 
-## What it cost
+**What it cost me to build.** This is the build, not what you'd pay to use it: for that, see
+[what you'll need](INSTALL.md#what-youll-need).
 
 | Item | Cost |
 | --- | --- |
