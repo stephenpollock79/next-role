@@ -24,7 +24,9 @@ wizard on the board; Claude does its parts in the background while you carry on.
 
 Do these in order. Claude does most of the work; you do the parts marked **You**.
 
-1. **You: make a Claude Project** called *Next Role* (in the Claude desktop app: Projects › New project). Everything to do with
+1. **You: install the Claude desktop app and make a Claude Project.** Download the app from
+   [claude.ai/download](https://claude.ai/download), install it and sign in. Do the rest of installation and setup
+   in the app, not claude.ai in a browser. Then make a Project called *Next Role* (Projects › New project). Everything to do with
    your search happens in chats inside this project. Only give it a name: leave the description, instructions and
    files empty. Claude gives you the instructions to paste, and the file to add, in step 4.
 2. **You: connect Gmail and install Claude in Chrome.**
