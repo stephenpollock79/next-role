@@ -237,6 +237,11 @@ straight away, which tasks need **Automatically approve** turned on in their set
 they confirm. Say the same in one line of your last message, naming the tasks; never promise a setting the
 results didn't confirm.
 
+**Check they all exist.** After creating them, list the scheduled tasks with the scheduling tools and confirm each of
+the four is there, with its name, schedule and model; create or fix any that aren't. If there's no tool to list them,
+ask the person to open **Scheduled** in the left-hand menu and confirm the four Next Role tasks are listed. Only then
+mark the step done.
+
 **Test board:** show the four tasks with their prompts and times, but don't create them; mark the step done
 with the summary "Shown only: this is a test board."
 

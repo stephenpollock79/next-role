@@ -91,7 +91,12 @@ If `propose_skills` isn't available, zip each skill folder (`next-role-sweep.zip
 `next-role-sweep/SKILL.md`), send them the zips, and ask them to add each one in Claude's settings
 (their initials at the bottom left › Settings › Capabilities › Skills › Upload).
 
-Check: ask them to confirm all 11 are saved. If a skill tool listing is available to you, confirm the names.
+**Check that all 11 are saved; never take it on trust**, because a missed Save is easy. If you have a tool that lists
+the account's skills, use it and compare against the 11 names. Otherwise ask them to open **their initials › Settings ›
+Skills** and check the list against these names, which you show them: next-role-apply-pack, next-role-daily-check,
+next-role-fix, next-role-interview-prep, next-role-longlist-research, next-role-meetings, next-role-role-fit,
+next-role-setup, next-role-shortlist, next-role-sweep, next-role-sweep-check. For any that's missing, propose just
+those again and check again. Don't go on to step 6 until all 11 are there.
 
 ## 6. Project instructions and the board's code guide
 
@@ -153,7 +158,7 @@ Show this list, each line ✓ or ✗ with a few words:
 1. Board published, with its link
 2. Board opened, starting records made
 3. Brief and the three reference documents on the board; `board.url` set
-4. All 11 skills saved
+4. All 11 skills saved (checked again now, the same way as step 5; name any missing)
 5. Project instructions pasted, and `board-architecture.md` in the project's files
 6. Gmail connected and the job-alerts label made (or skipped on purpose)
 7. Claude in Chrome answering (or to do before setup's Job alerts step)
