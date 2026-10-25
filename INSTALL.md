@@ -26,10 +26,13 @@ Do these in order. Claude does most of the work; you do the parts marked **You**
 1. **You: make a Claude Project** called *Next Role* (claude.ai › Projects › New project). Everything to do with
    your search happens in chats inside this project. Only give it a name: leave the description, instructions and
    files empty. Claude gives you the instructions to paste, and the file to add, in step 4.
-2. **You: connect Gmail** to Claude (click your initials at the bottom left › Settings › Connectors › Gmail), and **install Claude in Chrome**.
-   Claude in Chrome is a Chrome extension, not a connector, so it won't show up in a Connectors search. Install it
-   from the Chrome Web Store in the Chrome you'll use for your search, and sign it in with the same Claude account
-   ([how](https://support.claude.com/en/articles/12012173-get-started-with-claude-in-chrome)).
+2. **You: connect Gmail and set up Claude in Chrome.** Click your initials at the bottom left › Settings, then:
+   - **Gmail:** Connectors › Gmail › Connect, with the Gmail address you'll use for job alerts.
+   - **Claude in Chrome:** the **Claude in Chrome** item in Settings' left-hand list (not a Connectors search): check
+     *Enable Claude in Chrome* is on. Leave *Default for all sites* as it is.
+   - **The extension:** install Claude in Chrome from the Chrome Web Store, in the Chrome you'll use for your search,
+     and sign it in with the same Claude account
+     ([how](https://support.claude.com/en/articles/12012173-get-started-with-claude-in-chrome#h_install-claude-in-chrome)).
 3. **You: start a chat in the project** and paste this:
 
    ```
