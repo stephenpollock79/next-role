@@ -58,7 +58,7 @@ only that field; never touch `status`, `step`, `drafts` or anything else on the 
    `h_<step>: {status: "working", reqId: "<the Request id>", startedAt: "<ISO time now>"}`.
    The wizard switches to "Claude is working on this".
 2. **When done:** update `h_<step>: {status: "done", reqId, startedAt, doneAt: "<ISO time>", summary: "<one line>"}`.
-   The summary is one plain sentence under 140 characters with the numbers, e.g. "22 companies proposed
+   The summary is one plain sentence under 140 characters with the numbers (the test sweep's may be two), e.g. "22 companies proposed
    across 5 sectors; 9 need a LinkedIn alert." The wizard shows it under **Complete**.
 3. **If it can't be finished:** update `h_<step>: {status: "failed", reqId, startedAt, error: "<what went wrong, and what the user should do>"}`.
    Keep any work already written; say in `error` what's left.
@@ -144,7 +144,10 @@ and sources that came back empty or blocked. For each blocked or login-only sour
 `alerts` and its `channelId` to `alerts` if the site offers email job alerts (so the Job alerts step picks it up),
 otherwise to `manual`.
 
-Summary: "Read <n> listings from <m> sources: <k> on your longlist, <x> screened out; <y> sources blocked or empty."
+Summary, as a funnel whose parts add up to the total, from the run record (`found` = `offSearch` + `seen` + `out` +
+`proposed`; this step's summary may run to two sentences): "<found> listings read from <m> sources: <offSearch> didn't match
+your search terms, <seen> already seen, <out> screened out by your deal-breakers, <proposed> on your longlist. <y> sources
+were blocked or empty: the Job alerts step picks those up." Leave out a part that is 0 (usually "already seen" on a first sweep).
 
 ### `alerts`: Job alerts
 

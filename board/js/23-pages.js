@@ -15,12 +15,24 @@ function rlBar(lab,n,max,extra,cls){
 }
 
 /* ---------- Sourcing › Auto sweep: sweep status ---------- */
+/* A sweep's numbers as a funnel that adds up: read = didn't match + already seen + screened out + to longlist.
+   Older run records have no offSearch / seen: the rest is shown together as "not a match or already seen". */
+function runFunnel(r){
+  var read=+r.found||0, out=+r.out||0, to=+r.proposed||0, f={read:read, out:out, to:to, parts:[]};
+  if(r.offSearch!=null || r.seen!=null){ f.off=+r.offSearch||0; f.seen=+r.seen||0;
+    f.parts=[[f.off,"didn't match your search"],[f.seen,"already seen"]]; }
+  else { f.rest=Math.max(0, read-out-to); f.parts=[[f.rest,"not a match or already seen"]]; }
+  f.parts=f.parts.concat([[out,"screened out by your deal-breakers"],[to,"to your longlist"]]).filter(function(x){ return x[0]>0; });
+  return f;
+}
+function runFunnelLine(r){ var f=runFunnel(r); return '<b>'+f.read+'</b> read: '+f.parts.map(function(x){ return '<b>'+x[0]+'</b> '+esc(x[1]); }).join(" · "); }
 function srcRailStatus(){
   var box=el("src-rail-status"); if(!box) return;
   var S=sweepState(), sw=runs.filter(function(r){return r.type==="sweep";}).sort(function(a,b){return a.date<b.date?1:-1;}), last=sw[0];
   var warn= S.warn? '<p class="rlwarn">'+esc(S.warn)+'</p>' : "";
   box.innerHTML=rlCard("Sweep status", S.last? "Last run "+esc(niceShort(S.last))+" · "+esc(nextSweepTxt(S))+(S.usual? " · usually every "+S.usualTxt : "") : "No sweep yet",
-    (last? '<div class="rltiles"><div><b>'+(+last.found||0)+'</b><span>found</span></div><div><b>'+(+last.proposed||0)+'</b><span>to longlist</span></div><div><b>'+(+last.out||0)+'</b><span>cut by rules</span></div></div>' : "")+warn);
+    (last? '<div class="rltiles"><div><b>'+(+last.found||0)+'</b><span>read</span></div><div><b>'+(+last.out||0)+'</b><span>screened out</span></div><div><b>'+(+last.proposed||0)+'</b><span>to longlist</span></div></div>'+
+      '<p class="rls">'+runFunnelLine(last)+'</p>' : "")+warn);
 }
 /* Recent runs, compact (3 Oct): replaces the old run log in the rail, which scrolled inside the rail. */
 function srcRailRuns(){
@@ -30,7 +42,7 @@ function srcRailRuns(){
   box.innerHTML=rlCard("Recent runs", plural(runs.length,"run")+" recorded",
     rs.length? '<ul class="rlruns">'+rs.map(function(r){ var ty=r.type||"sweep";
       return '<li><span class="rld">'+esc(niceShort(r.date))+'</span><span class="rlk2 k-'+esc(ty)+'">'+esc(K[ty]||ty)+'</span>'+
-        (ty==="sweep"? '<span class="rln"><b>'+(+r.found||0)+'</b> found · <b>'+(+r.proposed||0)+'</b> to longlist · <b>'+(+r.out||0)+'</b> cut</span>'
+        (ty==="sweep"? '<span class="rln"><b>'+(+r.found||0)+'</b> read · <b>'+(+r.out||0)+'</b> screened out · <b>'+(+r.proposed||0)+'</b> to longlist</span>'
           : '<span class="rln">'+(ty==="manual"? '<b>'+(+r.proposed||0)+'</b> added' : 'no new roles, by design')+'</span>')+'</li>'; }).join("")+'</ul>' : '<p class="rlempty">No runs yet.</p>');
 }
 /* ---------- Sourcing › Manual: what's planned ---------- */

@@ -372,7 +372,7 @@ different.
 ```
 runs/<id>
   type: "sweep",            // "verify" for a pass that only re-checks existing rows; it never writes found or proposed
-  date, prefsVersion, channels, found, out, proposed, note,
+  date, prefsVersion, channels, found, offSearch, seen, out, proposed, note,
   sources: [ { id, name, read, passed, found, status: "ok"|"empty"|"blocked"|"error", note } ],   // every source tried, even empty ones
   companiesChecked, boardsMoved, boardsSkipped, boardsNotDue, atsJson, atsHtml, endpointFails,
   minutes, toolCalls, subagents,
@@ -387,6 +387,11 @@ listings but passed none for four sweeps (a keep-or-drop decision for the user).
 - `passed`: how many of them reached the longlist (or were matched to a role already on the board as the
   same seat — count those in the note, not here).
 - `found`: always equal to `read` (older board code reads it).
+- **The run's totals add up**, and the board shows them as a funnel: `found` (every listing read, all sources) =
+  `offSearch` (didn't match their search terms or role shape: other jobs on the same pages) + `seen` (already on
+  the board, turned down before, or a duplicate within this run) + `out` (matched, then screened out by a
+  deal-breaker: the `screened` doc's `count`) + `proposed` (added to the longlist). Check the sum before writing;
+  if it's off, put the difference in `seen` and say why in `note`.
 - `status: "ok"` only when the source was actually read and returned listings. Not read this run (not due,
   skipped for budget, unchanged) is `"empty"` with the reason in `note`; no alert email since the last
   sweep is `"empty"`, note "No email since last sweep"; a fetch that failed or was refused is `"error"` or
