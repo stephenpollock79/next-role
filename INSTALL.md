@@ -95,15 +95,10 @@ repo and your board, and redo just the step that failed.
 
 ---
 
-## How a week works
+## How it works
 
-- **The sweep** (twice a week, evenings): Claude reads your job alerts, job sites and the companies' own jobs
-  pages, screens every role against your deal-breakers, and puts the rest on your **Longlist**.
-- **You** score each Longlist role for **Fun** and **Shot** (about a minute a role) and send the good ones on.
-- **The morning run** (daily): Claude checks roles are still open, researches what you shortlisted, drafts CVs
-  and cover letters for roles at **To apply**, and preps your interviews.
-- **You** decide, apply, and go to interviews. **Insights** and **Search review** show what to change when the
-  search stalls.
+Full instructions are in the board itself: **How to use**, at the bottom left of the screen. It covers how a week
+runs, every page, and an FAQ you can search or ask Claude about.
 
 ---
 
