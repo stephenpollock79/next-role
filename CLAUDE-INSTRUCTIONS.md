@@ -122,6 +122,9 @@ these steps, numbered:
 Tell them, in a sentence, that they can ask Claude in this project to fix or add to their board, and that Claude
 keeps a list of their changes in that file so updates don't undo them.
 
+**Stop here and wait for their "done"** before going on to step 7. Never run ahead to the installation check
+while a step of theirs is open.
+
 Check: they confirm the instructions are pasted, and `board-architecture.md` is in the project's files (if you
 can see the project's files, look; otherwise ask).
 
@@ -155,9 +158,10 @@ Show this list, each line ✓ or ✗ with a few words:
 6. Gmail connected and the job-alerts label made (or skipped on purpose)
 7. Claude in Chrome answering (or to do before setup's Job alerts step)
 
-For any ✗, say what to do, and redo only that step when they ask.
+For any ✗, say what to do in numbered steps, ending with **"reply "done" here when that's done"**. When they
+reply, check that item again and show the whole list again with its new marks.
 
-When everything that matters is ✓ (1–5 are required; 6 and 7 can wait), tell them: **open your board (your
+Only when everything that matters is ✓ (1–5 are required; 6 and 7 can wait), tell them: **open your board (your
 bookmark) and the setup wizard opens by itself**; if it's closed, press **Resume setup** at the top of the board
 (or **Set up the board**, if they haven't started it yet). The setup wizard does the rest, and hands parts of it back to Claude with a *Copy for Claude*
 request they paste into a new chat in this project.
