@@ -47,10 +47,16 @@ succeeded and the result lists the files.
 
 ## 3. They open the board once
 
-Ask them to open the board (the card in the chat) and wait until it says **Your board is ready to set up**. The
-board makes its own starting records the first time it opens: settings, empty profile records and the standard
-channels. **Write nothing to the board before this**: the board only makes its starting records on a board
-with nothing on it.
+Give them the board's link as a plain URL (the `url` from the publish result), and ask them to:
+
+1. **Open it in Chrome**, in the Chrome they'll use for their search (the one with Claude in Chrome), full width.
+2. **Bookmark it** (the star at the right of the address bar), so they can always find their board.
+3. **Wait a few seconds** until the board shows **Overview** with a **Setup 0 of 12** card (a small "Your board
+   is ready to set up" note also flashes at the bottom), then reply "done".
+
+Say this as numbered steps, in those words. The board makes its own starting records the first time it opens:
+settings, empty profile records and the standard channels. **Write nothing to the board before this**: the board
+only makes its starting records on a board with nothing on it.
 
 Check: read `profile/settings` with ArtifactData (`get`). If it's missing, wait for them and read again.
 

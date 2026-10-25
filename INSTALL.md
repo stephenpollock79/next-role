@@ -50,7 +50,8 @@ Do these in order. Claude does most of the work; you do the parts marked **You**
 4. **Claude takes it from there.** It gives you your own copy of this checklist and ticks off each step as it's
    done:
    - **Publishes your board**: your own private copy, in your account.
-   - **You: open the board once** when Claude says. It makes its starting records.
+   - **You: open the board once** from the link Claude gives you, in Chrome, and bookmark it. It makes its
+     starting records, then shows Overview with a *Setup 0 of 12* card.
    - **Writes the reference material** onto the board, and saves the board's own link on it.
    - **Installs the 11 Next Role skills.** **You:** press Save on each skill card Claude shows you.
    - **Gives you the project instructions and the board's code guide.** **You:** paste the instructions into
