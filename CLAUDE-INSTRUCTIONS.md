@@ -82,7 +82,7 @@ whole `SKILL.md` as the text. At most three per call, so four calls. Tell them t
 
 If `propose_skills` isn't available, zip each skill folder (`next-role-sweep.zip` containing
 `next-role-sweep/SKILL.md`), send them the zips, and ask them to add each one in Claude's settings
-(Settings › Capabilities › Skills › Upload).
+(their initials at the bottom left › Settings › Capabilities › Skills › Upload).
 
 Check: ask them to confirm all 11 are saved. If a skill tool listing is available to you, confirm the names.
 
@@ -109,7 +109,7 @@ If Gmail is connected (the Gmail tools are available; load them with ToolSearch)
 in `profile/settings` `alerts.gmailLabel` (default `Job Alerts`) exists, and create it if not. Setup's Job alerts
 step later adds the filter that files alert emails under it.
 
-If Gmail isn't connected, tell them how (Settings › Connectors › Gmail), and that they can carry on without it:
+If Gmail isn't connected, tell them how (their initials at the bottom left › Settings › Connectors › Gmail), and that they can carry on without it:
 the sweep then reads job sites and companies' pages directly, and sites that only send alerts become ones they
 check themselves.
 
