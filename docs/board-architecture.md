@@ -261,7 +261,7 @@ marked and DOMPurify locally.
 
 - `demo/00-demo.js` is the only demo-only file. It loads before `js/01-core.js` and provides: a fixed date
   (`DAY`), a data store in the browser's localStorage seeded from `demo-fixture.json`, a stand-in for
-  `window.claude.use` (db only; every other capability is unavailable), a strip across the top with Reset, and
+  `window.claude.use` (db only; every other capability is unavailable), a note in the sidebar above About me with Reset (a small pill at the bottom left on phones; a strip across the top would push the page down and misplace the side panel), and
   Copy for Claude boxes and buttons that say there's no Claude in the demo. **Never load it on a real board.**
 - `demo/demo-fixture.json` is the demo's data: one object per collection, documents keyed by id.
 - `tools/build-demo.sh` rebuilds `docs/demo/` from `board/` and `demo/`. Run it after any board change, then
