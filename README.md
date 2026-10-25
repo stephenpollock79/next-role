@@ -11,8 +11,10 @@ while you make the decisions.
   Fit score against your CV.
 - **Researches** the roles you shortlist and their companies.
 - **Helps you apply** with a CV and cover letter tailored to each role, as tracked changes you accept or reject.
-- **Prepares you for interviews**: prep for each round, mock interviews and a one-page cheat sheet.
+- **Prepares you for interviews**: prep for each round and a one-page cheat sheet.
 - **Shows what's working**: analytics on your search funnel, with suggestions to improve it.
+- **Tools** to plan your week, find people who could recommend you, compare roles side by side and run mock
+  interviews.
 
 **How it works**
 
