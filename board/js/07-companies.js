@@ -355,7 +355,10 @@ function parseJobUrl(raw){
     return out;
   }
   out.url=u.origin+u.pathname+(u.searchParams.get("gh_jid")? "?gh_jid="+u.searchParams.get("gh_jid") : "");
-  out.key=out.url.replace(/\/+$/,"").toLowerCase();
+  /* The key keeps query values that name the job (id=, jk=, jobId=, req=…), so ads served from one path with
+     ?id=123 don't all share a key (25 Oct: nine different roles were flagged as duplicates of each other). */
+  var idq=[]; u.searchParams.forEach(function(v,k){ if(/^(gh_jid|id|jk|vjk|jobid|job_id|job|jid|req|reqid|requisitionid|posting|postingid|vacancy|vacancyid|ref|pid)$/i.test(k) && v) idq.push(k.toLowerCase()+"="+v); });
+  out.key=(u.origin+u.pathname).replace(/\/+$/,"").toLowerCase()+(idq.length? "?"+idq.sort().join("&").toLowerCase() : "");
   var sub=h.split(".")[0], csl="";
   if(/greenhouse\.io$/.test(h)||/lever\.co$/.test(h)||/ashbyhq\.com$/.test(h)) csl=path[0]||"";
   else if(/workable\.com$/.test(h)) csl= path[0]==="j"? "" : (path[0]||"");

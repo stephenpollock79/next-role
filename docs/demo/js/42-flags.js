@@ -128,6 +128,92 @@ hyItem=(function(orig){ return function(x){
     '<button type="button" class="btn sm ghost" data-dup="not" data-id="'+esc(b.id)+'">Not the same</button></span></div>';
 }; })(hyItem);
 
+/* Merge role r into role a: a keeps its stage and decisions, takes r's link if better and any blank listing facts;
+   r's meetings, notes and materials move to a; r is deleted. Resolves to an undo function. */
+function flgMergeInto(r,a){
+  var copy=Object.assign({},r); delete copy.id;
+  var take=r.url && (!a.url || (r.linkChecked && r.linkMethod && !a.linkChecked));
+  var patch={mergedFrom:r.id, mergedAt:today(), altUrls:(a.altUrls||[]).concat(r.url && r.url!==a.url? [r.url] : [])};
+  if(take){ patch.url=r.url; patch.linkChecked=r.linkChecked||""; patch.linkMethod=r.linkMethod||""; patch.altUrls=(a.altUrls||[]).concat(a.url? [a.url] : []); }
+  ["closing","salary","postingAge"].forEach(function(f){ if(!a[f] && r[f]) patch[f]=r[f]; });
+  var aBefore=flgSnap(a,Object.keys(patch));
+  /* Meetings, notes and materials on the merged role move to the kept one (QA 14 Oct). */
+  var moves=[];
+  commitments.forEach(function(c){ var p={}, b={};
+    if(c.roleId===r.id){ p.roleId=a.id; b.roleId=r.id; }
+    if(c.forKind==="role" && c.forId===r.id){ p.forId=a.id; b.forId=r.id; }
+    if((c.tagRoles||[]).indexOf(r.id)>=0){ p.tagRoles=c.tagRoles.map(function(x){ return x===r.id? a.id : x; }); b.tagRoles=c.tagRoles.slice(); }
+    if(Object.keys(p).length) moves.push({coll:"commitments", id:c.id, p:p, b:b}); });
+  conversations.forEach(function(c){ if(c.roleId===r.id) moves.push({coll:"conversations", id:c.id, p:{roleId:a.id}, b:{roleId:r.id}}); });
+  (typeof materials!=="undefined"? materials : []).forEach(function(m){ if(m.roleId===r.id) moves.push({coll:"materials", id:m.id, p:{roleId:a.id}, b:{roleId:r.id}}); });
+  function mv(back){ return Promise.all(moves.map(function(m){ return DB.doc(m.coll+"/"+m.id).update(back? m.b : m.p); })); }
+  return DB.doc("roles/"+a.id).update(patch).then(function(){ return mv(false); }).then(function(){ return DB.doc("roles/"+r.id).delete(); }).then(function(){
+    return function(){ return DB.doc("roles/"+r.id).set(copy).then(function(){ return DB.doc("roles/"+a.id).update(aBefore); }).then(function(){ return mv(true); }).catch(function(e){ console.warn(e); }); };
+  });
+}
+
+/* ---------- Data health: Possible duplicate roles, as groups (25 Oct) ----------
+   17's check listed every role on its own. Here the roles that share a link, or a company and title, are grouped,
+   and each group is decided in one go: Keep this one (the others merge into it) or Not the same (each records the
+   others in notSameAs, so the group doesn't come back). A shared link at different companies is never a group. */
+function dgCo(r){ return String(r.companyId || r.company || "").toLowerCase().replace(/[^a-z0-9]/g,""); }
+function dgNot(a,b){ return (a.notSameAs||[]).indexOf(b.id)>=0 || (b.notSameAs||[]).indexOf(a.id)>=0; }
+function dgGroups(){
+  /* Two roles join a group when they share a link (at the same company) or the same company and title; groups chain. */
+  var covered={}; try{ matchPairs().forEach(function(x){ covered[x.a.id]=1; covered[x.b.id]=1; }); }catch(e){}
+  var rs=rawRoles.filter(function(r){ return !DEAD[r.stage] && !covered[r.id]; }), par={}, firstBy={};
+  function find(x){ while(par[x]!==x){ par[x]=par[par[x]]; x=par[x]; } return x; }
+  rs.forEach(function(r){ par[r.id]=r.id; });
+  rs.forEach(function(r){
+    var ks=[], lk=""; try{ lk=roleKey(r); }catch(e){}
+    if(lk) ks.push("u|"+lk+"|"+dgCo(r));
+    if(r.company && r.title) ks.push("t|"+slug(r.company+"-"+r.title));
+    ks.forEach(function(k){ if(firstBy[k]){ if(!dgNot(firstBy[k],r)) par[find(r.id)]=find(firstBy[k].id); } else firstBy[k]=r; });
+  });
+  var by={}; rs.forEach(function(r){ var k=find(r.id); (by[k]=by[k]||[]).push(r); });
+  return Object.keys(by).map(function(k){ return by[k]; }).filter(function(g){ return g.length>=2; });
+}
+var DG_STAGE_ORDER={proposed:1, consideration:2, parked:2, prep:3, applied:4, offer:5};
+hygiene=(function(orig){ return function(){
+  var out=orig();
+  out.forEach(function(x){ if(x.title==="Possible duplicate roles"){
+    x.items=dgGroups().map(function(g){
+      g=g.slice().sort(function(a,b){ return (DG_STAGE_ORDER[b.stage]||0)-(DG_STAGE_ORDER[a.stage]||0) || String(a.seen||"").localeCompare(String(b.seen||"")); });
+      return {k:"dgroup", id:g[0].id, roles:g, label:g.map(function(r){ return (r.ref? "#"+r.ref+" " : "")+(r.title||""); }).join(" / ")}; });
+  } });
+  return out;
+}; })(hygiene);
+if(typeof HY_PLAIN!=="undefined") HY_PLAIN["Possible duplicate roles"]=["Possible duplicate roles","Roles with the same link, or the same company and title, grouped. Keep one and the others merge into it, or say they're different.","you"];
+hyItem=(function(orig){ return function(x){
+  if(!x || x.k!=="dgroup") return orig(x);
+  var ids=x.roles.map(function(r){ return r.id; }).join(",");
+  return '<div class="dgrp"><div class="dgrph">'+x.roles.length+' roles that may be the same</div>'+x.roles.map(function(r){
+      var st=(typeof HY_STG!=="undefined" && HY_STG[r.stage])||r.stage;
+      return '<div class="dgrow">'+flgAdRole(r)+'<span class="dgn"><a href="#" data-act="role_go" data-id="'+esc(r.id)+'"><b>'+esc(refTxt(r)+(r.title||""))+'</b></a> · '+esc(r.company||"")+' — '+esc(st)+(r.seen? ' · found '+esc(niceShort(r.seen)) : "")+'</span>'+
+        '<button type="button" class="btn sm" data-dg="keep" data-id="'+esc(r.id)+'" data-ids="'+esc(ids)+'" title="Keep this one; the others merge into it">Keep this one</button></div>'; }).join("")+
+    '<div class="dgacts"><button type="button" class="btn sm ghost" data-dg="not" data-ids="'+esc(ids)+'">Not the same</button></div></div>';
+}; })(hyItem);
+document.addEventListener("click",function(ev){
+  var b=ev.target.closest && ev.target.closest("[data-dg]"); if(!b || !DB) return;
+  ev.preventDefault(); ev.stopPropagation();
+  var ids=String(b.dataset.ids||"").split(",").filter(Boolean), rs=ids.map(function(id){ return rawRoles.find(function(x){ return x.id===id; }); }).filter(Boolean);
+  if(rs.length<2) return; b.disabled=true;
+  function fail(e){ console.warn("dup group",e); b.disabled=false; toast("Couldn't save — try again",true); }
+  if(b.dataset.dg==="not"){
+    var befores=rs.map(function(r){ return {id:r.id, v:flgSnap(r,["notSameAs"])}; });
+    Promise.all(rs.map(function(r){ var add=rs.filter(function(o){ return o!==r; }).map(function(o){ return o.id; });
+      return DB.doc("roles/"+r.id).update({notSameAs:(r.notSameAs||[]).concat(add.filter(function(i){ return (r.notSameAs||[]).indexOf(i)<0; }))}); }))
+      .then(function(){ toastUndo(rs.length+" roles kept as different roles", function(){ befores.forEach(function(x){ DB.doc("roles/"+x.id).update(x.v).catch(function(e){ console.warn(e); }); }); }); })
+      .catch(fail);
+    return;
+  }
+  var a=rs.find(function(r){ return r.id===b.dataset.id; }); if(!a) return;
+  var others=rs.filter(function(r){ return r!==a; }), undos=[];
+  others.reduce(function(p,r){ return p.then(function(){ return flgMergeInto(r,a).then(function(u){ undos.push(u); }); }); }, Promise.resolve())
+    .then(function(){ toastUndo(others.length+(others.length===1?" role":" roles")+" merged into "+(a.ref? "#"+a.ref : "the one you kept"), function(){ undos.reverse().reduce(function(p,u){ return p.then(u); }, Promise.resolve()); }); })
+    .catch(fail);
+},true);
+
 function flgEnded(o){ if(o.folded) return {by:o.by||"me", reason:o.reason||""}; var e=endOf(o.role); return e? {by:e.by, reason:e.reason||""} : null; }
 function flgSnap(r,keys){ var s={}; keys.forEach(function(k){ s[k]=(r[k]===undefined)? null : r[k]; }); return s; }
 document.addEventListener("click",function(ev){
@@ -148,26 +234,7 @@ document.addEventListener("click",function(ev){
   /* Same role */
   var a=o.folded? null : o.role, live=a && FLG_LIVE[a.stage];
   if(live){
-    var copy=Object.assign({},r); delete copy.id;
-    var take=r.url && (!a.url || (r.linkChecked && r.linkMethod && !a.linkChecked));
-    var patch={mergedFrom:r.id, mergedAt:today(), altUrls:(a.altUrls||[]).concat(r.url && r.url!==a.url? [r.url] : [])};
-    if(take){ patch.url=r.url; patch.linkChecked=r.linkChecked||""; patch.linkMethod=r.linkMethod||""; patch.altUrls=(a.altUrls||[]).concat(a.url? [a.url] : []); }
-    ["closing","salary","postingAge"].forEach(function(f){ if(!a[f] && r[f]) patch[f]=r[f]; });
-    var aBefore=flgSnap(a,Object.keys(patch));
-    /* Meetings, notes and materials on the merged role move to the kept one (QA 14 Oct). */
-    var moves=[];
-    commitments.forEach(function(c){ var p={}, b={};
-      if(c.roleId===r.id){ p.roleId=a.id; b.roleId=r.id; }
-      if(c.forKind==="role" && c.forId===r.id){ p.forId=a.id; b.forId=r.id; }
-      if((c.tagRoles||[]).indexOf(r.id)>=0){ p.tagRoles=c.tagRoles.map(function(x){ return x===r.id? a.id : x; }); b.tagRoles=c.tagRoles.slice(); }
-      if(Object.keys(p).length) moves.push({coll:"commitments", id:c.id, p:p, b:b}); });
-    conversations.forEach(function(c){ if(c.roleId===r.id) moves.push({coll:"conversations", id:c.id, p:{roleId:a.id}, b:{roleId:r.id}}); });
-    (typeof materials!=="undefined"? materials : []).forEach(function(m){ if(m.roleId===r.id) moves.push({coll:"materials", id:m.id, p:{roleId:a.id}, b:{roleId:r.id}}); });
-    function mv(back){ return Promise.all(moves.map(function(m){ return DB.doc(m.coll+"/"+m.id).update(back? m.b : m.p); })); }
-    DB.doc("roles/"+a.id).update(patch).then(function(){ return mv(false); }).then(function(){ return DB.doc("roles/"+r.id).delete(); }).then(function(){
-      toastUndo(tag+"merged into "+(a.ref? "#"+a.ref : "the earlier role"), function(){
-        DB.doc("roles/"+r.id).set(copy).then(function(){ return DB.doc("roles/"+a.id).update(aBefore); }).then(function(){ return mv(true); }).catch(function(e){ console.warn(e); }); });
-    }).catch(fail);
+    flgMergeInto(r,a).then(function(undo){ toastUndo(tag+"merged into "+(a.ref? "#"+a.ref : "the earlier role"), undo); }).catch(fail);
     return;
   }
   var e=flgEnded(o)||{by:"me", reason:""};
@@ -195,6 +262,8 @@ document.addEventListener("click",function(ev){
     ".flgh{font-weight:600;margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}"+
     ".flgi{display:flex;gap:8px;align-items:flex-start;padding:3px 0}.flgd{flex:none;width:8px;height:8px;border-radius:50%;margin-top:6px;background:#D97706}.flgi.close .flgd{background:#DC2626}"+
     ".flgi a{color:var(--accent,inherit)}"+
+    ".dgrp{border:1px solid var(--line,#ddd);border-radius:8px;padding:8px 10px;margin:4px 0;width:100%;box-sizing:border-box;display:flex;flex-direction:column;gap:4px}"+
+    ".dgrph{font-size:12px;color:var(--muted,#666)}.dgrow{display:flex;align-items:center;gap:8px}.dgrow .dgn{flex:1;min-width:0}.dgrow .btn.sm,.dgacts .btn.sm{padding:3px 10px;font-size:12px}.dgacts{display:flex;justify-content:flex-end}"+
     ".flgad{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;margin-right:6px;vertical-align:-6px;border:1px solid var(--line,#ddd);border-radius:6px;color:var(--accent,inherit);background:transparent;padding:0;gap:0}"+
     "a.flgad:hover{background:var(--line,#eee)}.flgad>span{display:none}.flgad.none,.flgad.nolink{opacity:.35;cursor:default}";
   document.head.appendChild(st); })();
