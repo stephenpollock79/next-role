@@ -903,7 +903,7 @@ function suNoGmailHtml(){
   return '<p class="sulede">Some job sites need a login or block automated reading, so the sweep reads their job-alert emails instead. Without Gmail connected to Claude it can\'t, so you check those sites yourself.</p>'+
     (moved? '<div class="sunote"><b>'+(list.length? list.length+(list.length===1?' site moved':' sites moved')+' to Sites I check' : 'No alert-only sites to move')+'</b>'+
         (list.length? '<p>'+list.map(function(x){ return esc(x.name||x.id)+(x.url? ' (<a href="'+esc(x.url)+'" target="_blank" rel="noopener">open</a>)' : ""); }).join(", ")+'.</p>'+
-          '<p>They\'re in Sourcing › Manual. The next step, Your rhythm, offers a weekly reminder to check them; add any roles you find with + New.</p>' : "")+'</div>'
+          (SU.doc.noGmailCos? '<p>So are the jobs pages of '+SU.doc.noGmailCos+(SU.doc.noGmailCos===1?' company':' companies')+' you rated that only LinkedIn alerts would have reached.</p>' : '')+'<p>They\'re in Sourcing › Manual. The next step, Your rhythm, offers a weekly reminder to check them; add any roles you find with + New.</p>' : "")+'</div>'
       : '<div class="notice warn">Without Gmail, sites that only send alerts become ones you check by hand. '+suBtn("nogmailmove","Move them to Sites I check",true)+'</div>')+
     '<p class="lede" style="font-size:12.5px">Connected Gmail since? <button type="button" class="linkbtn" data-su="gmailback">I\'ve connected Gmail now</button> moves the sites back and sets up the alerts.</p>';
 }
@@ -917,7 +917,8 @@ async function suNoGmailMove(){
       var before=JSON.parse(JSON.stringify(src)); await suLog("sources/"+src.id, before, "Moved to Sites I check (no Gmail)");
       await DB.doc("sources/"+src.id).update({channelId:"manual", setup:Object.assign({}, src.setup||{}, {read:"manual", movedFrom:{channelId:src.channelId||"alerts", read:(src.setup||{}).read||"alerts"}})});
       ids.push(src.id); }
-    await suSave({noGmail:true, noGmailMoved:ids}); toast(ids.length? ids.length+(ids.length===1?" site":" sites")+" moved to Sites I check" : "Nothing to move");
+    var nCo=0; try{ nCo=await coSelfCheckAll(); }catch(e){}
+    await suSave({noGmail:true, noGmailMoved:ids, noGmailCos:nCo}); toast((ids.length+nCo)? (ids.length? ids.length+(ids.length===1?" site":" sites") : "")+(ids.length&&nCo? " and " : "")+(nCo? nCo+(nCo===1?" company jobs page":" company jobs pages") : "")+" moved to Sites I check" : "Nothing to move");
   }catch(e){ toast("Couldn't move them — try again",true); }
   suPaint();
 }

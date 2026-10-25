@@ -102,3 +102,40 @@ document.addEventListener("click",function(ev){
   st.textContent=".hyrate{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;width:100%;padding:4px 0}"+
     ".hyrate .hyrbtns{display:inline-flex;flex-wrap:wrap;gap:6px}.hyrate .btn.sm{padding:3px 10px;font-size:12px}";
   document.head.appendChild(st); })();
+
+/* I'll check it myself (25 Oct): for someone who doesn't use LinkedIn or Gmail alerts. The company stops needing
+   an alert (boardAts "manual-check"), and its jobs page joins Sites I check, so the weekly "Check the sites you
+   search yourself" task covers it. Its rating, and so its place in the search, stays as it is. Undo puts both back.
+   52's no-Gmail move calls coSelfCheckAll for every rated company that needed an alert. */
+function coSelfUrl(c){ return c.boardUrl || c.careersUrl || c.url || c.website || ""; }
+async function coSelfCheck(c,quiet){
+  var before={boardAts:c.boardAts||"", boardNeedsAlert:!!c.boardNeedsAlert, boardStatus:c.boardStatus||"", boardAlert:c.boardAlert||""};
+  var u=coSelfUrl(c), sid="co-"+c.id+"-jobs", made=false;
+  await DB.doc("companies/"+c.id).update({boardAts:"manual-check", boardNeedsAlert:false, boardStatus:"manual", boardAlert:"You check its jobs page yourself (set "+today()+")"});
+  if(!(srcs||[]).some(function(s){ return s.id===sid; })){
+    await DB.doc("sources/"+sid).set({name:(c.name||c.id)+" jobs page", url:u, channelId:"manual", status:"active", why:"You check this company's jobs page yourself", note:u? "" : "No jobs page link yet: search for it",
+      order:(srcs||[]).length+1, companyId:c.id, createdVia:"selfcheck", addedAt:today()}); made=true; }
+  var undo=async function(){ await DB.doc("companies/"+c.id).update(before); if(made) await DB.doc("sources/"+sid).delete(); };
+  if(!quiet) toastUndo((c.name||c.id)+" added to Sites I check: you check its jobs page yourself",function(){ undo().catch(function(){}); });
+  return undo;
+}
+async function coSelfCheckAll(){
+  var cs=companies.filter(function(c){ return !coOff(c) && c.boardNeedsAlert && c.boardAts!=="linkedin-alert" && (c.priority==="high"||c.priority==="medium"); }), n=0;
+  for(var i=0;i<cs.length;i++){ try{ await coSelfCheck(cs[i],true); n++; }catch(e){} }
+  return n;
+}
+hygiene=(function(orig){ return function(){
+  var out=orig();
+  out.forEach(function(x){ if(x.title==="Companies that need a LinkedIn alert") x.items.forEach(function(it){ it.selfchk=1; }); });
+  return out;
+}; })(hygiene);
+hyItem=(function(orig){ return function(x){
+  var h=orig(x); if(!x || !x.selfchk) return h;
+  return '<div class="hyrate">'+h+'<span class="hyrbtns"><button type="button" class="btn sm ghost" data-coself="'+esc(x.id)+'" title="No LinkedIn? The company joins Sites I check instead; its rating stays as it is">I\'ll check it myself</button></span></div>';
+}; })(hyItem);
+document.addEventListener("click",function(ev){
+  var b=ev.target.closest && ev.target.closest("[data-coself]"); if(!b || !DB) return;
+  ev.preventDefault(); ev.stopPropagation();
+  var c=companies.find(function(x){ return x.id===b.dataset.coself; }); if(!c) return; b.disabled=true;
+  coSelfCheck(c).catch(function(){ b.disabled=false; toast("Couldn't save — try again",true); });
+},true);

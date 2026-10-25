@@ -75,10 +75,10 @@ function coRailHtml(){
   var unr=live.filter(function(x){ return !x.c.priority || x.c.priority==="unrated"; });
   var bestC=rlCard("Live roles, not rated yet", unr.length? plural(unr.length,"company","companies")+" with live roles have no priority. Your rating orders the queue." : "Every company with a live role has your rating.",
     rlList(unr.slice(0,6).map(function(x){ return '<li><a href="#" data-act="co_go" data-id="'+esc(x.c.id)+'">'+esc(x.c.name||x.c.id)+'</a><span>'+plural(x.n,"role")+'</span></li>'; }),"None."));
-  var blind=w.filter(function(c){ return c.boardAts==="linkedin-alert" || !c.boardUrl; });
+  var blind=w.filter(function(c){ return c.boardAts==="linkedin-alert" || c.boardAts==="manual-check" || !c.boardUrl; });
   var cant=rlCard("Can't be read directly", plural(blind.length,"watched company","watched companies")+" the sweep can't read on their own site",
     '<p class="rls">Their roles only reach you through alert emails, so check them yourself now and then.</p>'+
-    rlList(blind.slice(0,6).map(function(c){ return '<li><a href="#" data-act="co_go" data-id="'+esc(c.id)+'">'+esc(c.name||c.id)+'</a><span>'+(c.boardAts==="linkedin-alert"? "alerts only" : "no board found")+'</span></li>'; }),"None.")+
+    rlList(blind.slice(0,6).map(function(c){ return '<li><a href="#" data-act="co_go" data-id="'+esc(c.id)+'">'+esc(c.name||c.id)+'</a><span>'+(c.boardAts==="linkedin-alert"? "alerts only" : c.boardAts==="manual-check"? "you check it" : "no board found")+'</span></li>'; }),"None.")+
     (blind.length>6? '<p class="rlmore">and '+(blind.length-6)+' more</p>' : ""));
   var warmC=companies.filter(function(c){ return c.warm || people.some(function(p){return p.companyId===c.id;}); });
   var warm=rlCard("Warm routes", plural(warmC.length,"company","companies")+" where you know someone",

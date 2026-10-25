@@ -56,8 +56,8 @@ Fixed limits: **one fetch per company board, no retries** (a failure goes in `en
 **never search for a company's board for sourcing** (in step 4 a company with no `boardUrl` is skipped
 and named in the run note; the daily check finds boards). The one exception is step 5: a survivor's own
 posting may be looked up on its employer's board, found by search if need be (see "Read the ad on the
-employer's own site"). **Never fetch a board with `boardAts: linkedin-alert` or `boardNeedsAlert: true`**
-for sourcing (its roles arrive by email); reading one survivor's posting there is allowed.
+employer's own site"). **Never fetch a board with `boardAts: linkedin-alert` or `manual-check`, or `boardNeedsAlert: true`**
+for sourcing (its roles arrive by email, or the user checks its jobs page by hand from Sites I check); reading one survivor's posting there is allowed.
 
 **A sweep that hits a limit stops, writes `screened` and `runs`, and reports a partial run.** That is a
 correct outcome. Work in this order so the budget runs out on the cheapest work to skip: alert inbox,
