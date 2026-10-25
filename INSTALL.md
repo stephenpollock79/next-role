@@ -3,6 +3,10 @@
 Everything you need to install Next Role in your own Claude account and get it running. Back to the
 [overview](README.md).
 
+> **Do this on a computer** (Mac or Windows), not a phone or tablet. Installation and setup use the Claude desktop
+> app and Chrome, and the setup wizard only opens on a computer. Once it's running, you can check your board
+> from your phone.
+
 ## What you'll need
 
 | | |
