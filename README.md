@@ -29,19 +29,12 @@ puts it back. The parts where Claude does the work are switched off in the demo.
 
 ## Install it
 
-You'll need a paid Claude plan (Pro or above; a normal week used about half of Pro's weekly allowance in testing), Gmail for job alerts, the Claude in Chrome extension and your CV.
-About 30 minutes to install, then a guided setup on the board.
+**[Follow the installation guide](INSTALL.md)**, step by step, on a computer.
 
-1. Install the [Claude desktop app](https://claude.ai/download) and, in it, make a Claude Project called *Next Role*. Just the name for now: Claude gives you its instructions later.
-2. Start a chat in it and paste:
-   ```
-   Install Next Role from https://github.com/stephenpollock79/next-role
-   Follow CLAUDE-INSTRUCTIONS.md in that repo, step by step.
-   ```
-3. When Claude's done, open your board: the setup wizard opens by itself.
-
-**[Full installation guide](INSTALL.md)**: what you'll need, usage, each step, what to do if one goes wrong,
-how a week works, and changing or updating your board.
+You'll need a paid Claude plan (Pro or above; a normal week used about half of Pro's weekly allowance in testing),
+the Claude desktop app, Gmail for job alerts, the Claude in Chrome extension and your CV. About 30 minutes to install,
+then a guided setup on the board. The guide covers each step, what to do if one goes wrong, how a week works, and
+changing or updating your board.
 
 ## How I built it
 
