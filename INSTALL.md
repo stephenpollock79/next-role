@@ -3,9 +3,29 @@
 Everything you need to install Next Role in your own Claude account and get it running. Back to the
 [overview](README.md).
 
-> **Do this on a computer** (Mac or Windows), not a phone or tablet. Installation and setup use the Claude desktop
-> app and Chrome, and the setup wizard only opens on a computer. Once it's running, you can check your board
-> from your phone.
+## Before you install
+
+- **Try the demo first.** [The demo board](https://stephenpollock79.github.io/next-role/demo/) is the real board
+  with made-up data, no sign-in needed. Have a look before you commit the time.
+- **It takes a few hours to set up.** Installing takes about 30 minutes. Setup then takes about 3 to 5 hours of your
+  time over a day or two, in a guided wizard on the board, while Claude does its parts in the background. That
+  time goes into tailoring it to you (your CV, what you want, the companies you'd like) and setting up where your
+  roles come from: job sites, company careers pages and job alerts.
+- **Do it on a computer** (Mac or Windows), in the Claude desktop app, not on a phone or tablet. Once it's
+  running, you can check your board from anywhere, your phone included.
+- **Expect to tune it in the first week or two.** The first sweeps will let through some roles you don't want
+  and miss some you do. Each time you turn a role down you say why, and the board uses that, plus a weekly check
+  of what it screened out, to suggest changes to your preferences and rules. Accept the ones that fit.
+- **Your data stays yours.** Your CV, preferences and roles live only in your own Claude account, private to
+  you unless you choose to share the board. Nothing is sent to me, or to any service beyond Claude itself.
+- **It never applies or sends anything for you.** It finds, researches and drafts; you decide and send.
+- **It's free.** The only cost is a paid Claude plan (Pro or above; see the usage note below). It's free for
+  personal, non-commercial use under the [licence](LICENSE.md).
+- **It's not a supported product.** It won't get regular updates, fixes or new features. It's yours to change,
+  though: ask Claude in your Next Role project to fix something or add a feature, and it changes your copy.
+- **Built for product roles, works for others.** I built and tested it for my own product-management search. It
+  asks your profession at setup and words everything to suit, but expect to adjust more for other fields.
+  The board and its drafts are in English (UK or US).
 
 ## What you'll need
 
@@ -18,9 +38,6 @@ Everything you need to install Next Role in your own Claude account and get it r
 | **Claude in Chrome** | The browser extension. Setup uses it to create your job alerts on LinkedIn and other sites, in your own signed-in browser. |
 | **Your CV** | As a Word file (.docx), plus a cover letter if you have one. |
 | **LinkedIn connections export** *(optional)* | For Warm routes: people you know at the companies you want. LinkedIn takes about a day to send it, so request it early: LinkedIn › Settings › Data privacy › Get a copy of your data › Connections. |
-
-**Time:** installation about 30 minutes. Setup about 3 to 5 hours of your time over a day or two, in a guided
-wizard on the board; Claude does its parts in the background while you carry on.
 
 ---
 
