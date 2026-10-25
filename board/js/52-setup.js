@@ -252,7 +252,9 @@ var SU_HAND_HOW={
     "If a task would stop to ask your approval on each run, Claude says so here, and you turn on Automatically approve for it straight away, once. Then the runs never wait for you.",
     "TEST:This is a test board, so Claude only lists the tasks it would create."]
 };
-function suHowHtml(k,shut){ var h=(SU_HAND_HOW[k]||[]).filter(function(x){ return x.indexOf("TEST:")!==0 || suIsTest(); }).map(function(x){ return x.replace(/^TEST:/,""); }); if(!h.length) h=null; return h? '<details class="enrich suhow"'+(shut?"":" open")+'><summary>How this step works</summary><ol>'+h.map(function(x){ return '<li>'+esc(x)+'</li>'; }).join("")+'</ol></details>' : ""; }
+// Every step Claude does a part of: the chat asks for permission a lot; say so as the second line.
+var SU_HAND_PERM="Claude asks your permission many times while it works (to read and write your board, search the web, open sites). Allow each one; when it offers to always allow a tool, choose that so it asks less. It waits while a request is unanswered, so if nothing moves here, check the chat.";
+function suHowHtml(k,shut){ var h=(SU_HAND_HOW[k]||[]).filter(function(x){ return x.indexOf("TEST:")!==0 || suIsTest(); }).map(function(x){ return x.replace(/^TEST:/,""); }); if(h.length) h.splice(1,0,SU_HAND_PERM); if(!h.length) h=null; return h? '<details class="enrich suhow"'+(shut?"":" open")+'><summary>How this step works</summary><ol>'+h.map(function(x){ return '<li>'+esc(x)+'</li>'; }).join("")+'</ol></details>' : ""; }
 function suHandHtml(k){ return suHandBox(k); }
 function suHandBox(k){
   var h=suHand(k), q=suReq(k), st=h && (!q || h.reqId===q.reqId || !h.reqId)? h.status : "", t=SU_HAND_TIME[k]||"";

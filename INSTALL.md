@@ -47,7 +47,9 @@ Do these in order. Claude does most of the work; you do the parts marked **You**
    Follow CLAUDE-INSTRUCTIONS.md in that repo, step by step.
    ```
 
-4. **Claude takes it from there.** It gives you your own copy of this checklist and ticks off each step as it's
+4. **Claude takes it from there.** It asks your permission many times as it works (to read GitHub, write to your
+   board, search the web): allow each one, and when it offers to always allow a tool, choose that so it asks less.
+   It gives you your own copy of this checklist and ticks off each step as it's
    done:
    - **Publishes your board**: your own private copy, in your account.
    - **You: open the board once** from the link Claude gives you, in Chrome, and bookmark it. It makes its
