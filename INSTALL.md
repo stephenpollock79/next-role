@@ -10,7 +10,8 @@ Everything you need to install Next Role in your own Claude account and get it r
 - **It takes a few hours to set up.** Installing takes about 30 minutes. Setup then takes about 3 to 5 hours of your
   time over a day or two, in a guided wizard on the board, while Claude does its parts in the background. That
   time goes into tailoring it to you (your CV, what you want, the companies you'd like) and setting up where your
-  roles come from: job sites, company careers pages and job alerts.
+  roles come from: job sites, company careers pages and job alerts. Setup uses about 10% of a Pro plan's
+  weekly allowance.
 - **Do it on a computer** (Mac or Windows), in the Claude desktop app, not on a phone or tablet. Once it's
   running, you can check your board from anywhere, your phone included.
 - **Expect to tune it in the first week or two.** The first sweeps will let through some roles you don't want
