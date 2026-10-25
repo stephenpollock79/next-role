@@ -158,6 +158,7 @@ function suPaint(){
   var fn=SU_R[s.k];
   /* How this step works sits at the top of every step Claude does a part of; it folds shut once that part is done. */
   var hk= s.k==="rhythm"? "schedule" : (s.hand? s.k : ""), hh=hk? suHand(hk) : null;
+  if(s.k==="alerts" && SU.doc && SU.doc.noGmail) hk="";   /* no Gmail: Claude does nothing here, so no How this step works */
   el("su-body").innerHTML=(SU.err? '<div class="notice warn suerr">'+esc(SU.err)+'</div>' : "")+(hk? suHowHtml(hk, (hh && hh.status==="done") || (hk==="schedule" && SU.doc && SU.doc.schedSelf)) : "")+(fn? fn() : "");
   el("su-foot").innerHTML=suFootHtml(s.k);
 }
@@ -872,8 +873,7 @@ function suAlertList(){
 }
 SU_R.alerts=function(){
   var noG=SU.doc && SU.doc.noGmail, h=suHand("alerts"), q=suReq("alerts"), started=h||q;
-  if(noG) return '<p class="sulede">Some job sites need a login or block automated reading, so the sweep reads their job-alert emails instead.</p>'+
-    '<div class="notice warn">You said you don\'t use Gmail with Claude. Without it the sweep can\'t read alert emails, so sites like these become ones you check by hand. Connect Gmail later and come back to this step.</div>';
+  if(noG) return suNoGmailHtml();
   var need=(suAlertSites().filter(function(x){ var p=suAlertProg()[x.id]; return p && (p.status==="signin"); }));
   var gate= started || suAlertsAllReady(), hasTags=!!(h && (h.sites||[]).length);
   return '<p class="sulede">Some job sites need a login or block automated reading, so the sweep reads their job-alert emails instead. You sign up to each site here first; then Claude creates the alerts in your browser and a Gmail filter that files them under your job-alerts label. Each site stays on Trial until its first alert arrives.</p>'+
@@ -886,6 +886,40 @@ SU_R.alerts=function(){
     '</div>'+
     '<p class="lede" style="font-size:12.5px"><button type="button" class="linkbtn" data-su="nogmail">I don\'t have Gmail connected to Claude</button></p>';
 };
+/* No Gmail: the alert-only sites (LinkedIn included) move to Sites I check, so they're checked by hand, and move back if Gmail is connected later. */
+function suNoGmailHtml(){
+  var moved=(SU.doc&&SU.doc.noGmailMoved)||null, list=(srcs||[]).filter(function(x){ return moved && moved.indexOf(x.id)>=0; });
+  return '<p class="sulede">Some job sites need a login or block automated reading, so the sweep reads their job-alert emails instead. Without Gmail connected to Claude it can\'t, so you check those sites yourself.</p>'+
+    (moved? '<div class="sunote"><b>'+(list.length? list.length+(list.length===1?' site moved':' sites moved')+' to Sites I check' : 'No alert-only sites to move')+'</b>'+
+        (list.length? '<p>'+list.map(function(x){ return esc(x.name||x.id)+(x.url? ' (<a href="'+esc(x.url)+'" target="_blank" rel="noopener">open</a>)' : ""); }).join(", ")+'.</p>'+
+          '<p>They\'re in Sourcing › Manual. The next step, Your rhythm, offers a weekly reminder to check them; add any roles you find with + New.</p>' : "")+'</div>'
+      : '<div class="notice warn">Without Gmail, sites that only send alerts become ones you check by hand. '+suBtn("nogmailmove","Move them to Sites I check",true)+'</div>')+
+    '<p class="lede" style="font-size:12.5px">Connected Gmail since? <button type="button" class="linkbtn" data-su="gmailback">I\'ve connected Gmail now</button> moves the sites back and sets up the alerts.</p>';
+}
+async function suNoGmailMove(){
+  if(!DB) return; var ids=[], sites=suAlertSites();
+  try{
+    for(var i=0;i<sites.length;i++){ var x=sites[i], src=(srcs||[]).find(function(s){ return s.id===x.id || (x.id==="linkedin" && /linkedin/i.test((s.id||"")+" "+(s.name||""))); });
+      if(!src){ if(x.id!=="linkedin") continue;
+        await DB.doc("sources/linkedin").set({name:"LinkedIn", url:x.url, channelId:"manual", status:"trial", why:"Check it yourself: no Gmail for its alerts", note:"", order:(srcs||[]).length+1,
+          setup:{read:"manual", movedFrom:{channelId:"alerts", read:"alerts"}}, createdVia:"setup", addedAt:today()}); ids.push("linkedin"); continue; }
+      var before=JSON.parse(JSON.stringify(src)); await suLog("sources/"+src.id, before, "Moved to Sites I check (no Gmail)");
+      await DB.doc("sources/"+src.id).update({channelId:"manual", setup:Object.assign({}, src.setup||{}, {read:"manual", movedFrom:{channelId:src.channelId||"alerts", read:(src.setup||{}).read||"alerts"}})});
+      ids.push(src.id); }
+    await suSave({noGmail:true, noGmailMoved:ids}); toast(ids.length? ids.length+(ids.length===1?" site":" sites")+" moved to Sites I check" : "Nothing to move");
+  }catch(e){ toast("Couldn't move them — try again",true); }
+  suPaint();
+}
+async function suGmailBack(){
+  if(!DB) return; var ids=(SU.doc&&SU.doc.noGmailMoved)||[];
+  try{
+    for(var i=0;i<ids.length;i++){ var src=(srcs||[]).find(function(s){ return s.id===ids[i]; }); if(!src) continue; var mf=(src.setup||{}).movedFrom||{channelId:"alerts", read:"alerts"};
+      var st=Object.assign({}, src.setup||{}, {read:mf.read||"alerts"}); delete st.movedFrom;
+      await DB.doc("sources/"+src.id).update({channelId:mf.channelId||"alerts", setup:st}); }
+    await suSave({noGmail:false, noGmailMoved:null}); toast(ids.length? "Sites moved back to alert emails" : "Back to setting up alerts");
+  }catch(e){ toast("Couldn't move them back — try again",true); }
+  suPaint();
+}
 SU_MAIN.alerts=function(){ var h=suHand("alerts"); return suBtn("next:alerts","Continue",true,!(h && h.status==="done") && !(SU.doc&&SU.doc.noGmail)); };
 
 /* Your rhythm */
@@ -1102,7 +1136,8 @@ document.addEventListener("click",function(ev){
   if(act==="aready"){ var rr=Object.assign({},suAlertReady()); rr[arg]=!rr[arg]; suSave({alertsReady:rr}).then(suPaint); return; }
   if(act==="agoahead"){ suSave({alertsGoAhead:true}).then(suPaint); return; }
   if(act==="copyrest"){ var pg=suAlertProg(); SU.alertsOnly=suAlertSites().filter(function(x){ var p=pg[x.id]; return p && p.status==="signin"; }).map(function(x){ return x.name; }); suCopy("alerts").then(function(){ SU.alertsOnly=null; }); return; }
-  if(act==="nogmail"){ suSave({noGmail:true}).then(suPaint); return; }
+  if(act==="nogmail" || act==="nogmailmove"){ suNoGmailMove(); return; }
+  if(act==="gmailback"){ suGmailBack(); return; }
   if(act==="finish"){ suSave({doneAt:new Date().toISOString(), step:"done", status:Object.assign({},SU.doc.status||{},{done:"done"})}).then(function(){ suClose(); showTab("overview"); toast("Setup done. Your first sweep runs on schedule"); }); return; }
 });
 document.addEventListener("keydown",function(ev){
