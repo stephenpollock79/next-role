@@ -56,7 +56,8 @@ Do these in order. Claude does most of the work; you do the parts marked **You**
    - **Installs the 11 Next Role skills.** **You:** press Save on each skill card Claude shows you. A card may need
      Save pressed twice: it's saved when the card changes to say so.
    - **Gives you the project instructions and the board's code guide.** **You:** paste the instructions into
-     the project's instructions, and add the guide to the project's files if Claude asks you to.
+     the project's instructions, and add the guide to the project's files if Claude asks you to. Claude tells you
+     where to click; both are on the right of the project's page.
    - **Makes your job-alerts label in Gmail**, and checks Claude in Chrome works.
    - **Runs the installation check**, a list of everything above, each marked done or not.
 5. **You: open the board and press *Set up the board*.** The setup wizard walks you through the rest: your CV,

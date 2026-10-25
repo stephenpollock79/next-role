@@ -96,13 +96,28 @@ Check: ask them to confirm all 11 are saved. If a skill tool listing is availabl
 ## 6. Project instructions and the board's code guide
 
 **Instructions.** Fill `install/project-instructions.md` with their board's link in place of `<BOARD LINK>` and
-show it to them in a code block. Ask them to paste it into the project's instructions. These tell every chat and
-scheduled run in the project where their board is, which skills do what, and how to change the board itself.
+show it to them in a code block. These tell every chat and scheduled run in the project where their board is,
+which skills do what, and how to change the board itself. Assume they've never used project instructions, and
+give these steps, numbered, after the code block:
+
+1. Click **Copy** at the top right of the box above.
+2. Open the project: **Projects** in the left-hand menu › **Next Role**.
+3. On the project's page, find **Instructions** on the right and click it (or its pencil or **+**).
+4. Paste into the box (Cmd + V on a Mac, Ctrl + V on Windows) and click **Save**.
+5. Come back to this chat (it's listed on the project's page) and reply "done".
+
+Claude's screens change from time to time: if something doesn't look like this, tell them to describe what they
+see, and help them from that.
 
 **Code guide.** Next Role is theirs to fix and extend by asking Claude, and `docs/board-architecture.md` is the
 map Claude reads before changing the board's code. It must be in their project's files, named
-`board-architecture.md`. If you can add files to the project yourself, do; otherwise send them the file and ask
-them to add it to the project's files.
+`board-architecture.md`. If you can add files to the project yourself, do. Otherwise send them the file and give
+these steps, numbered:
+
+1. Download the file: click the file card in this chat, then **Download**.
+2. On the project's page, find **Files** on the right and click **+** › **Upload from device**.
+3. Pick `board-architecture.md` from your Downloads folder.
+4. Come back to this chat and reply "done".
 
 Tell them, in a sentence, that they can ask Claude in this project to fix or add to their board, and that Claude
 keeps a list of their changes in that file so updates don't undo them.
