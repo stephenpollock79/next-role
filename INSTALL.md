@@ -26,13 +26,17 @@ Do these in order. Claude does most of the work; you do the parts marked **You**
 1. **You: make a Claude Project** called *Next Role* (claude.ai › Projects › New project). Everything to do with
    your search happens in chats inside this project. Only give it a name: leave the description, instructions and
    files empty. Claude gives you the instructions to paste, and the file to add, in step 4.
-2. **You: connect Gmail and set up Claude in Chrome.** Click your initials at the bottom left › Settings, then:
-   - **Gmail:** Connectors › Gmail › Connect, with the Gmail address you'll use for job alerts.
-   - **Claude in Chrome:** the **Claude in Chrome** item in Settings' left-hand list (not a Connectors search): check
-     *Enable Claude in Chrome* is on. Leave *Default for all sites* as it is.
-   - **The extension:** install Claude in Chrome from the Chrome Web Store, in the Chrome you'll use for your search,
-     and sign it in with the same Claude account
-     ([how](https://support.claude.com/en/articles/12012173-get-started-with-claude-in-chrome)).
+2. **You: connect Gmail and install Claude in Chrome.**
+   - **Gmail:** click your initials at the bottom left › Settings › Connectors › Gmail › Connect, and sign in with
+     the Gmail address you'll use for job alerts.
+   - **Claude in Chrome:** in Chrome (the browser, or Chrome profile, you'll use for your search), open the Chrome
+     Web Store, search for **Claude** and pick the one by **Anthropic** › Add to Chrome. Pin it (the jigsaw icon at
+     the top right of Chrome › the pin next to Claude), click it and sign in with the same Claude account.
+     Nothing to turn on in Claude: it's on by default (Settings › Claude in Chrome, if you want to check).
+
+   Claude's settings screens change from time to time, so if a step doesn't look like this, ask Claude in a chat
+   ("how do I connect Gmail?") or see Anthropic's
+   [Claude in Chrome guide](https://support.claude.com/en/articles/12012173-get-started-with-claude-in-chrome).
 3. **You: start a chat in the project** and paste this:
 
    ```
