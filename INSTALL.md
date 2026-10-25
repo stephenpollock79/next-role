@@ -60,7 +60,8 @@ Do these in order. Claude does most of the work; you do the parts marked **You**
      where to click; both are on the right of the project's page.
    - **Makes your job-alerts label in Gmail**, and checks Claude in Chrome works.
    - **Runs the installation check**, a list of everything above, each marked done or not.
-5. **You: open the board and press *Set up the board*.** The setup wizard walks you through the rest: your CV,
+5. **You: open the board.** The setup wizard opens by itself (if you've closed it, press *Resume setup* at
+   the top of the board). It walks you through the rest: your CV,
    what you want, the companies, where roles come from, a test sweep, your job alerts, and when Claude runs.
 
 ### If a step goes wrong

@@ -38,7 +38,7 @@ About 30 minutes to install, then a guided setup on the board.
    Install Next Role from https://github.com/stephenpollock79/next-role
    Follow CLAUDE-INSTRUCTIONS.md in that repo, step by step.
    ```
-3. When Claude's done, open your board and press **Set up the board**.
+3. When Claude's done, open your board: the setup wizard opens by itself.
 
 **[Full installation guide](INSTALL.md)**: what you'll need, usage, each step, what to do if one goes wrong,
 how a week works, and changing or updating your board.

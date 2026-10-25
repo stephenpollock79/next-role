@@ -157,8 +157,9 @@ Show this list, each line ✓ or ✗ with a few words:
 
 For any ✗, say what to do, and redo only that step when they ask.
 
-When everything that matters is ✓ (1–5 are required; 6 and 7 can wait), tell them: **open your board and press
-Set up the board**. The setup wizard does the rest, and hands parts of it back to Claude with a *Copy for Claude*
+When everything that matters is ✓ (1–5 are required; 6 and 7 can wait), tell them: **open your board (your
+bookmark) and the setup wizard opens by itself**; if it's closed, press **Resume setup** at the top of the board
+(or **Set up the board**, if they haven't started it yet). The setup wizard does the rest, and hands parts of it back to Claude with a *Copy for Claude*
 request they paste into a new chat in this project.
 
 ## If they come back later
