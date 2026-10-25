@@ -517,7 +517,7 @@ async function suChat(text){
       "Two kinds of limit, and say which you are asking about: a DEAL-BREAKER means the sweep screens the role out and they never see it (where they'll work, right to work, minimum pay, contract, titles and sectors they won't take); "+
       "a CONCERN is a warning only: the role still reaches them, flagged. Ask about deal-breakers first. When you ask about concerns, say in a few words that these roles still reach them with a warning, "+
       "and never ask again about something they've already given as a deal-breaker. If they repeat one, say it's already a deal-breaker and move on. Briefly acknowledge an answer before the next question. "+
-      "When you have enough, say so in one sentence, tell them to press Draft my criteria, and set done to true.\n\n"+suWantContext()+(cur? "\n\nThey already have these criteria; ask what to change, add or drop:\n"+cur : "")+
+      "Before you finish, ALWAYS ask one open last question, in your own words: is there anything else they'd want in a role, or wouldn't want, that hasn't come up? Follow up once if the answer needs it. Only after that, when you have enough, say so in one sentence, tell them to press Draft my criteria, and set done to true.\n\n"+suWantContext()+(cur? "\n\nThey already have these criteria; ask what to change, add or drop:\n"+cur : "")+
       "\n\nThe conversation so far:\n"+(w.chat.length? w.chat.map(function(m){ return (m.role==="you"? "THEM: " : "YOU: ")+m.text; }).join("\n") : "(none yet: open with a one-line welcome and your first question)")+
       '\n\nReply with JSON only: {"say":"your next message","done":false}',"default");
     w.chat.push({role:"claude", text:String(j.say||"")}); w.done=!!j.done; suKeepDrafts();
