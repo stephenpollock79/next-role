@@ -90,12 +90,8 @@ Do these in order. Claude does most of the work; you do the parts marked **You**
 
 ### If a step goes wrong
 
-- **Claude can't reach GitHub:** download this repo as a ZIP (green *Code* button › Download ZIP), attach it to
-  the chat, and say "install from the attached ZIP instead".
-- **A skill card didn't save:** say "show me the next-role skill cards again".
-- **The installation check shows something not done:** say "fix the failed installation steps". Claude redoes
-  just those.
-- **Anything else:** ask in the project chat. Claude can read this repo and the board, and fix most things.
+Tell Claude in the install chat what happened, or paste a screenshot, and ask it to help fix it. It can read this
+repo and your board, and redo just the step that failed.
 
 ---
 
