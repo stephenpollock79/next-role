@@ -50,15 +50,13 @@ changing or updating your board.
 
 **Time.** About three weeks, part time.
 
-**Process.** Built for my own search first, one feature at a time, used daily from the start → a feature
-freeze and a full QA pass → personal details moved out of the code and into the board's data → a test board,
-a guided setup wizard and this demo → packaged here so anyone can install their own.
+**Process.** Built by dogfooding it: I used it for my own job search every day, and fixed bugs and added
+features as I hit them, over the three weeks. Then it was packaged so anyone can install their own copy.
 
 **Scale.** About 18,000 lines of JavaScript in 52 files, 11 Claude skills, over 600 published versions, and
 about 560 automated checks in the QA pass.
 
-**How it's tested.** Every change runs the real board code headless against real data with a mocked Claude,
-and compares every page before and after. A personal-data scan runs before anything is published.
+**How it's tested.** Automated tests, manual testing, and a scan that checks no personal data is in the code.
 
 **Tools.**
 
