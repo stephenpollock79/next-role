@@ -489,13 +489,15 @@ function suWantChat(w){
     '<div class="suchat" id="su-chat">'+log+(SU.busy==="chat"? '<div class="sumsg cl">'+suBusyHtml("Thinking…")+'</div>' : "")+'</div>'+
     '<div class="suchatin"><textarea id="su-chatin" rows="3" placeholder="Your answer. Ctrl/⌘ + Enter sends."'+(SU.busy?" disabled":"")+'></textarea>'+suBtn("chat","Send",false,SU.busy)+'</div>'+
     (!w.chat.length && !SU.busy? '<p>'+suBtn("chatstart","Start the conversation",true)+'</p>' : "")+
-    (w.criteria? '<p class="lede" style="font-size:12.5px">Your conversation so far is kept. Drafting again replaces the rows, including any edits you made to them. <button type="button" class="linkbtn" data-su="wantreview">Back to the drafted rows</button></p>' : "");
+    (w.criteria? '<p class="lede" style="font-size:12.5px">Your conversation so far is kept. <b>Update my criteria</b> keeps your rows and your edits, and only changes what you add here. <button type="button" class="linkbtn" data-su="wantreview">Back to the drafted rows</button> · '+
+      '<button type="button" class="linkbtn" data-su="wantfresh">'+(SU.freshArm? 'Click again to redraft every row from scratch: your edits will be lost' : 'Start again from scratch')+'</button></p>' : "");
 }
 SU_MAIN.want=function(){
   var w=suWant(), phase=SU.wantPhase || (w.criteria? "review" : "chat");
   if(phase==="review") return suBtn("wantchat","Add to the conversation")+suBtn("save:want","Save my criteria",true,SU.busy);
   var answered=(w.chat||[]).filter(function(m){return m.role==="you";}).length;
   if(SU.busy==="draft") return suBtn("draft:want","Drafting…",true,true);
+  if(w.criteria) return suBtn("draft:want","Update my criteria",true, SU.busy || (w.chat||[]).length<=(w.draftN||0));
   return suBtn("draft:want",w.done? "Draft my criteria" : "Draft my criteria now",!!w.done || answered>=6, SU.busy || !answered);
 };
 function suWantContext(){
@@ -530,10 +532,28 @@ function suCurrentCriteriaText(){
     scored:(F.scored||[]).map(function(s){ return {id:s.id,name:s.name,bands:s.bands,basis:s.basis||"",stage:s.stage||"",type:s.type||""}; }),
     red:F.red||[], upside:F.upside||[], roleShape:F.roleShape||[], searchTerms:F.searchTerms||[]});
 }
-async function suDraftWant(){
-  var w=suWant(); SU.busy="draft"; SU.err=""; suPaint();
+// Redrafting after Add to the conversation keeps the person's rows and edits (merge); fresh=true redrafts every row from the conversation.
+function suWantRowsText(c){
+  var out={}, off=[];
+  SU_WANT_SECS.forEach(function(k){
+    out[k]=(c[k]||[]).filter(function(x){ return x.keep!==false; }).map(function(x){ var o={}; Object.keys(x).forEach(function(f){ if(f!=="keep") o[f]=x[f]; }); return k==="roleShape"? o.text : o; });
+    (c[k]||[]).forEach(function(x){ if(x.keep===false) off.push(x.name||x.text||x.terms||""); });
+  });
+  return {rows:JSON.stringify(out), off:off.filter(Boolean)};
+}
+var SU_WANT_SECS=["hardRules","scored","red","upside","roleShape","searchTerms","reasons"];
+function suWantKeepOff(prev,next){
+  SU_WANT_SECS.forEach(function(k){
+    var have={}; (next[k]||[]).forEach(function(x){ have[String(x.name||x.text||x.terms||"").toLowerCase()]=1; });
+    (prev[k]||[]).forEach(function(x){ if(x.keep===false && !have[String(x.name||x.text||x.terms||"").toLowerCase()]) (next[k]=next[k]||[]).push(x); });
+  });
+  return next;
+}
+async function suDraftWant(fresh){
+  var w=suWant(); SU.busy="draft"; SU.err=""; SU.freshArm=false; suPaint();
+  var merge=!!(w.criteria && !fresh), prev=w.criteria, since=merge? (w.draftN||0) : 0;
   try{
-    var cur=suCurrentCriteriaText(), coreR=SU_CORE_ME.concat(END_CORE.me||[]);
+    var cur=suCurrentCriteriaText(), coreR=SU_CORE_ME.concat(END_CORE.me||[]), mine=merge? suWantRowsText(prev) : null;
     var j=await suAsk("Turn this job-search conversation into criteria a job sweep can apply.\n\n"+
       "hardRules are deal-breakers: a role that fails one is screened out. Each: name (2 to 4 words); rule (what's out, and what stays in, one or two sentences); "+
       "type, one of: "+RULE_TYPES.map(function(t){return t[0];}).join(", ")+"; firm: fixed (a fact of their life or the law: right to work, where they can live, how far they will travel), "+
@@ -555,11 +575,15 @@ async function suDraftWant(){
       "reasons: 3 to 5 personal reasons they might turn a role down, suggested by what they said, that the sweep can't check cleanly (judgement calls, not one per rule), each {name (2 to 5 words), gloss (what it means, one line)}. "+
       "Don't repeat these standard ones: "+coreR.join(", ")+".\n"+
       (suPersonalNow().length? "Their current personal reasons, keep those still relevant: "+suPersonalNow().join(", ")+".\n" : "")+
-      (cur? "\nTheir current criteria are below, with ids. Keep the id on a row you keep or change; leave id empty on a new row; leave out rows they no longer want.\n"+cur+"\n" : "")+
-      "\n"+suWantContext()+"\n\nThe conversation:\n"+(w.chat||[]).map(function(m){ return (m.role==="you"? "THEM: " : "YOU: ")+m.text; }).join("\n")+
+      (merge? "\nTHEY ALREADY HAVE A DRAFT they have checked and edited (below, JSON by section). Return EVERY row of it word for word, with its id, unless something they said after the line \"--- NEW SINCE THE LAST DRAFT ---\" changes it. "+
+        "Change only the rows that new part affects, add rows only for new ideas in it, and remove a row only if they ask. Their wording wins over yours.\n"+mine.rows+"\n"+
+        (mine.off.length? "They turned these down; leave them out unless the new part asks for them: "+mine.off.join("; ")+".\n" : "")
+      : (cur? "\nTheir current criteria are below, with ids. Keep the id on a row you keep or change; leave id empty on a new row; leave out rows they no longer want.\n"+cur+"\n" : ""))+
+      "\n"+suWantContext()+"\n\nThe conversation:\n"+(w.chat||[]).map(function(m,i){ return (merge && i===since? "--- NEW SINCE THE LAST DRAFT ---\n" : "")+(m.role==="you"? "THEM: " : "YOU: ")+m.text; }).join("\n")+
       '\n\nReply with JSON only: {"hardRules":[{"id":"","name":"","rule":"","type":"","firm":"","fires":"","basis":"","check":"","floor":null}],"scored":[{"id":"","name":"","bands":"","basis":"","stage":"","type":""}],'+
       '"red":[{"name":"","note":""}],"upside":[{"name":"","note":""}],"roleShape":[""],"searchTerms":[{"group":"","terms":""}],"reasons":[{"name":"","gloss":""}]}');
-    w.criteria=suCleanCriteria(j); SU.wantPhase="review"; suKeepDrafts();
+    var nc=suCleanCriteria(j); w.criteria=merge? suWantKeepOff(prev,nc) : nc; w.draftN=(w.chat||[]).length; SU.wantPhase="review"; suKeepDrafts();
+    if(merge) toast("Updated. Your other rows and edits are kept");
   }catch(e){ SU.err=rvErr(e); }
   SU.busy=""; suPaint();
 }
@@ -1059,7 +1083,8 @@ document.addEventListener("click",function(ev){
   if(act==="chatstart"){ suChat(""); return; }
   if(act==="chat"){ var ti=el("su-chatin"), v=ti? ti.value.trim() : ""; if(v) suChat(v); return; }
   if(act==="wantreview"){ SU.wantPhase="review"; suPaint(); return; }
-  if(act==="wantchat"){ SU.wantPhase="chat"; suPaint(); suChatScroll(); return; }
+  if(act==="wantchat"){ var ww=suWant(); if(ww.criteria && ww.draftN==null){ ww.draftN=(ww.chat||[]).length; suKeepDrafts(); } SU.wantPhase="chat"; SU.freshArm=false; suPaint(); suChatScroll(); return; }
+  if(act==="wantfresh"){ if(!SU.freshArm){ SU.freshArm=true; suPaint(); return; } suDraftWant(true); return; }
   if(act==="addrow"){ suAddRow(arg); return; }
   if(act==="copy"){ suCopy(arg); return; }
   if(act==="showreq"){ SU.showReq= SU.showReq===arg? null : arg; suPaint(); return; }
