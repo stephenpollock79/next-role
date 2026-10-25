@@ -32,7 +32,7 @@ puts it back. The parts where Claude does the work are switched off in the demo.
 You'll need a paid Claude plan (Pro or above; a normal week used about half of Pro's weekly allowance in testing), Gmail for job alerts, the Claude in Chrome extension and your CV.
 About 30 minutes to install, then a guided setup on the board.
 
-1. Make a Claude Project called *Next Role*.
+1. Make a Claude Project called *Next Role*. Just the name for now: Claude gives you its instructions later.
 2. Start a chat in it and paste:
    ```
    Install Next Role from https://github.com/stephenpollock79/next-role
