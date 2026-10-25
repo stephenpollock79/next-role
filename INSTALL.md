@@ -32,7 +32,7 @@ Do these in order. Claude does most of the work; you do the parts marked **You**
      *Enable Claude in Chrome* is on. Leave *Default for all sites* as it is.
    - **The extension:** install Claude in Chrome from the Chrome Web Store, in the Chrome you'll use for your search,
      and sign it in with the same Claude account
-     ([how](https://support.claude.com/en/articles/12012173-get-started-with-claude-in-chrome#h_install-claude-in-chrome)).
+     ([how](https://support.claude.com/en/articles/12012173-get-started-with-claude-in-chrome)).
 3. **You: start a chat in the project** and paste this:
 
    ```
