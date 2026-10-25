@@ -5,6 +5,7 @@ Setup (step 11, Your rhythm) creates these four in your Claude account from the 
 - Attach Gmail to the sweep only; nothing to the others.
 - Run the sweep on Sonnet (it uses much less of your allowance); the others on your default model.
 - Turn on **Automatically approve** in each task's settings, or every run stops and waits for you.
+- Leave **Require this computer** off (Advanced settings), so the tasks run in the cloud even when your computer is asleep.
 - Copy each prompt exactly: the run records in them are what the board's Data health reads.
 
 ## Next Role sweep

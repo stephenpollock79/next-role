@@ -110,6 +110,7 @@ installation) before touching any code, and keeps a list of your changes in it.
 
 ## Updating to a newer version
 
-Ask Claude in your project: "update Next Role from https://github.com/stephenpollock79/next-role". It replaces
+If a newer version is published here, ask Claude in your project: "update Next Role from
+https://github.com/stephenpollock79/next-role". It replaces
 the files you never changed, merges the ones you did (keeping your changes, and showing you before it
 publishes), and offers the updated skills for you to save. Your data is never touched.
