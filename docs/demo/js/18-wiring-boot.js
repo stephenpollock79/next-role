@@ -936,8 +936,10 @@ renderCounts=(function(orig){ return function(){ orig();
   var c=el("tc-roles"); if(c){ c.textContent=sum? String(sum) : ""; c.title=sum? sum+" waiting on you" : ""; }
   /* App headline: one number, the same as the badge and the funnel's "on you" lines added up. */
   var hl=el("apphl"); if(hl){ hl.hidden=false;
-    el("apphl-t").textContent= sum? sum+(sum===1? " role needs you" : " roles need you") : "You\u2019re all up to date";
-    var nx=""; if(!sum && typeof sweepState==="function"){ var S=sweepState(); nx= S.k==="Stale"? "The sweep is overdue" : S.next? "Next sweep "+niceShort(S.next) : ""; }
+    /* A board still being set up says so, rather than "all up to date" (25 Oct). */
+    var setting=!sum && typeof suOn==="function" && suOn();
+    el("apphl-t").textContent= sum? sum+(sum===1? " role needs you" : " roles need you") : setting? "Let\u2019s set up your board" : "You\u2019re all up to date";
+    var nx=""; if(!sum && !setting && typeof sweepState==="function"){ var S=sweepState(); nx= S.k==="Stale"? "The sweep is overdue" : S.next? "Next sweep "+niceShort(S.next) : ""; }
     el("apphl-s").textContent=nx; el("apphl-s").hidden=!nx; hl.classList.toggle("zero",!sum); }
   paintRolesNav();
 }; })(renderCounts);

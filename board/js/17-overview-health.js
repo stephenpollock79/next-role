@@ -216,6 +216,8 @@ function mixInsight(Q,M){
   return {cls:"strong", q:q.hh? "hh" : "", pre:plural(q.hh,"role"), t:" you'd enjoy and could win. "+(tab==="gate1"? "Review" : "Decide")+" "+itThem(q.hh)+" first."};
 }
 function funnelVerdict(L){
+  /* Before setup is done there is nothing to judge yet (25 Oct): no "below your band" warning on a new board. */
+  if(typeof suOn==="function" && suOn()) return {cls:"", t:"Your funnel shows here once setup is done and the first sweep has run."};
   var und=roles.filter(function(r){return r.stage==="consideration" && !g2Pending(r);}).length;
   var ready=roles.filter(function(r){return r.stage==="prep" && packReady(r);}).length;
   var ll=roles.filter(function(r){return r.stage==="proposed";}).length, S=sweepState();

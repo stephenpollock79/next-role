@@ -51,7 +51,7 @@ changing or updating your board.
 **Time.** About three weeks, part time.
 
 **Process.** Built by dogfooding it: I used it for my own job search every day, and fixed bugs and added
-features as I hit them, over the three weeks. Then it was packaged so anyone can install their own copy.
+features as I hit them. Then it was packaged so anyone can install their own copy.
 
 **Scale.** About 18,000 lines of JavaScript in 52 files, 11 Claude skills, over 600 published versions, and
 about 560 automated checks in the QA pass.
