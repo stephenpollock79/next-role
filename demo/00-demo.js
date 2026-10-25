@@ -7,7 +7,7 @@
      localStorage on first visit; every change stays in this browser and Reset puts the fixture back;
    - no Claude: every other capability (sample, assets, downloads) is unavailable, so the board shows its own
      "not available" states, and Copy for Claude explains what it would do on a real board;
-   - a small banner saying all this, with Reset.
+   - a small note in the sidebar (a pill on phones) saying all this, with Reset.
    Nothing here is sent anywhere. Never load this file on a real board. */
 (function(){
   var KEY="nextrole-demo", DAY="2026-11-03", VERSION=1;
@@ -63,14 +63,22 @@
   function reset(){ try{ localStorage.removeItem(KEY); }catch(e){} location.reload(); }
   window.addEventListener("load",function(){
     var nice=new RealDate(+p[0], +p[1]-1, +p[2]).toLocaleDateString("en-GB",{weekday:"short", day:"numeric", month:"short", year:"numeric"});
-    /* A slim strip across the top of the page, in the page's flow so it covers nothing. */
-    var b=document.createElement("div"); b.id="demo-banner";
-    b.setAttribute("style","background:#1f2a2e;color:#fff;padding:7px 16px;font:13px/1.4 'IBM Plex Sans',system-ui,sans-serif;display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;justify-content:center;text-align:center");
-    b.innerHTML='<span><b>Next Role demo</b> · made-up data for a made-up designer · the date is fixed to '+nice+' · your changes stay in this browser only</span>'+
-      '<span><button type="button" id="demo-reset" style="background:#fff;color:#1f2a2e;border:0;border-radius:6px;padding:2px 10px;font:inherit;cursor:pointer">Reset</button> '+
-      '<button type="button" id="demo-hide" style="background:transparent;color:#cfe3e0;border:0;font:inherit;cursor:pointer;text-decoration:underline">Hide</button></span>';
-    document.body.insertBefore(b, document.body.firstChild);
-    b.querySelector("#demo-reset").onclick=reset; b.querySelector("#demo-hide").onclick=function(){ b.remove(); };
+    /* The demo note and Reset sit in the sidebar, above About me: a strip across the top pushed the page down and
+       broke the side panel's position (25 Oct). On a phone, where the sidebar is hidden, a small pill does the same. */
+    var css=document.createElement("style");
+    css.textContent="#demo-box{margin:8px 10px 10px;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.08);color:#e8efed;font:12px/1.45 'IBM Plex Sans',system-ui,sans-serif}"+
+      "#demo-box b{color:#fff}#demo-box button,#demo-pill button{background:#fff;color:#1f2a2e;border:0;border-radius:6px;padding:3px 10px;font:600 12px 'IBM Plex Sans',system-ui,sans-serif;cursor:pointer;margin-top:8px}"+
+      "#demo-pill{display:none;position:fixed;left:12px;bottom:12px;z-index:60;background:#1f2a2e;color:#fff;border-radius:999px;padding:4px 6px 4px 12px;font:12px 'IBM Plex Sans',system-ui,sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.25)}"+
+      "#demo-pill button{margin:0 0 0 8px}@media (max-width:760px){#demo-pill{display:block}#demo-box{display:none}}";
+    document.head.appendChild(css);
+    var box=document.createElement("div"); box.id="demo-box";
+    box.innerHTML='<b>Demo</b> · made-up data for a made-up designer. The date is fixed to '+nice+'. Your changes stay in this browser only.<br><button type="button" class="demo-reset">Reset the demo</button>';
+    var about=document.querySelector('aside [data-tab="about"]');
+    if(about && about.parentNode) about.parentNode.insertBefore(box, about); else document.body.appendChild(box);
+    var pill=document.createElement("div"); pill.id="demo-pill";
+    pill.innerHTML='Demo<button type="button" class="demo-reset">Reset</button>';
+    document.body.appendChild(pill);
+    Array.prototype.forEach.call(document.querySelectorAll(".demo-reset"),function(x){ x.onclick=reset; });
     /* Copy for Claude has no Claude to hand to here: copying explains that, and every Copy for Claude box says so at the top. */
     window.fxClip=function(txt,ok){ try{ toast("On your own board this copies a request for Claude to do the work. The demo has no Claude connected."); }catch(e){} };
     var NOTE='<p class="hfi" style="background:#fff4d6;border-radius:8px;padding:8px 10px;margin:0 0 10px"><b>Demo:</b> there&rsquo;s no Claude here. On your own board you&rsquo;d paste this into a chat in your Next Role project, and Claude does the work and updates the board.</p>';
