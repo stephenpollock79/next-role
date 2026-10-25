@@ -213,10 +213,21 @@ var SU_HAND_ASK={
     "Include the companies I've already added. Research each company: its own jobs page and how many office days it asks for. Mark those whose roles can only be read through a LinkedIn alert."]; },
   sources:function(){ return ["Recommend the job sites, recruitment agencies and careers-site searches for my level, field and location. Label each job site: read automatically, through alert emails (only if the site offers them), or I check it by hand. Add them to the board as Trial for me to choose."]; },
   testsweep:function(){ return ["Run one sweep now as a test, with next-role-sweep, on everything it can read. Then summarise what it found per source, which sources came back empty or blocked, and what each deal-breaker cut."].concat(suIsTest()? ["This is a test board: read the alert emails only."] : []); },
-  alerts:function(){ return ["Set up job alerts: LinkedIn job alerts for each of my search terms, for the places my Where I can work rule allows (my area, remote, or both), the sources the test sweep couldn't read and the ones marked as needing alert emails, plus a LinkedIn company alert for companies whose job page can't be read. "+
-    "Check my Gmail first for alerts I already get, and don't duplicate them. "+
-    "I've signed up to the sites on the board's checklist and I'm signed in to them in Chrome. Create the alerts there with Claude in Chrome, and set up the Gmail filter into my job-alerts label (or give me exact steps if you can't create the filter). "+
-    "Don't wait for me in the chat: if I'm not signed in to a site, skip it and mark it on the board as needing me to sign in. Show each site's progress on the board as you go."].concat(SU.alertsOnly && SU.alertsOnly.length? ["Only these sites this time (the others are done): "+SU.alertsOnly.join(", ")+"."] : []).concat(suIsTest()? ["This is a test board, so a dry run: list the alerts and the filter you would create, but don't sign up, create alerts, change Gmail or open the browser to change anything."] : []); },
+  alerts:function(){
+    /* The request names only the sites the person ticked as signed up; the rest are marked as needing them, without being opened. */
+    var test=suIsTest(), ready=(SU.doc&&SU.doc.alertsReady)||{}, all=suAlertSites(), only=SU.alertsOnly && SU.alertsOnly.length? SU.alertsOnly : null;
+    var pick= only? all.filter(function(x){ return only.indexOf(x.name)>=0; }) : test? all : all.filter(function(x){ return ready[x.id]; });
+    if(!pick.length) pick=all;
+    var rest=all.filter(function(x){ return pick.indexOf(x)<0; }), li=pick.filter(function(x){ return x.id==="linkedin"; }).length, other=pick.filter(function(x){ return x.id!=="linkedin"; });
+    var what=[];
+    if(li) what.push("LinkedIn: a job alert for each of my search terms, for the places my Where I can work rule allows (my area, remote, or both), plus a LinkedIn company alert for each company whose job page can't be read");
+    if(other.length) what.push(other.map(function(x){ return x.name; }).join(", ")+": saved searches for my search terms");
+    return ["Set up job alerts on "+(pick.length===1? "this site" : "these "+pick.length+" sites")+" only, which I've signed up to and am signed in to in Chrome: "+what.join("; ")+". "+
+      "Check my Gmail first for alerts I already get, and don't duplicate them. Create the alerts with Claude in Chrome, and set up the Gmail filter into my job-alerts label for their senders (or give me exact steps if you can't create the filter). "+
+      "Don't wait for me in the chat: if I'm not signed in after all, skip that site and mark it on the board as needing me to sign in. Show each site's progress on the board as you go."]
+      .concat(rest.length? [(only? "Leave the other sites as they are on the board: " : "I haven't signed up to these yet, so don't open them; just mark them on the board as needing me to sign in: ")+rest.map(function(x){ return x.name; }).join(", ")+"."] : [])
+      .concat(only? ["Only these sites this time: "+pick.map(function(x){ return x.name; }).join(", ")+"."] : [])
+      .concat(test? ["This is a test board, so a dry run: list the alerts and the filter you would create, but don't sign up, create alerts, change Gmail or open the browser to change anything."] : []); },
   schedule:function(){ var r=(SU.doc&&SU.doc.rhythm)||SU.draft.rhythm||{};
     return ["Create my scheduled tasks: "+suRhythmText(r)+"."].concat(r.sweepModel!=="same"? ["I want the sweep task to run on Sonnet, to save my usage: set its model to Sonnet once it's created."] : []).concat(suIsTest()? ["This is a test board: show me the scheduled tasks you would create, with their prompts, but don't create them."] : []); }
 };
