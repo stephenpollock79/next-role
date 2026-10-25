@@ -1,13 +1,21 @@
 # Next Role
 
-**A job-search board that runs inside Claude.** Claude finds roles, screens them against your deal-breakers,
-researches the ones you shortlist, drafts tailored CVs and cover letters, and preps your interviews, on a
-schedule, while you make the decisions.
+**An app that helps you find the right role, apply for it and prepare for the interviews.** It lives in your
+own Claude account: you open it in your browser or the Claude app, and Claude does the legwork on a schedule
+while you make the decisions.
 
-- **What it does:** finds roles from job-alert emails, job sites and the companies you want; screens every
-  role against your deal-breakers; gives each one a Role Fit score against your CV; researches roles and
-  companies; drafts a tailored CV and cover letter as tracked changes; preps each interview round, with mock
-  interviews and cheat sheets; and tells you, every week, where your search is stuck.
+**What it does**
+
+- **Finds roles** from your job-alert emails, job sites and the companies you want to work for.
+- **Screens them against your preferences**, so the roles that reach you fit what you want, each with a Role
+  Fit score against your CV.
+- **Researches** the roles you shortlist and their companies.
+- **Helps you apply** with a CV and cover letter tailored to each role, as tracked changes you accept or reject.
+- **Prepares you for interviews**: prep for each round, mock interviews and a one-page cheat sheet.
+- **Shows what's working**: analytics on your search funnel, with suggestions to improve it.
+
+**How it works**
+
 - **What it never does:** apply for you, send anything, or decide for you. You score every role, choose what
   to apply for, and send everything yourself.
 - **No server, no app to host.** The board is a page in your own Claude account, its data lives there too,
