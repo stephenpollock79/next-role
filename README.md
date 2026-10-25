@@ -74,11 +74,6 @@ The practices and rules that came out of my builds are written up in my playbook
 - [Best practices](https://github.com/stephenpollock79/stephenpollock79/blob/main/playbook/best-practices.md): what I'd recommend and what I'd avoid
 - [My AI rules](https://github.com/stephenpollock79/stephenpollock79/blob/main/playbook/ai-rules.md): how I set up AI to act on its own and stop when it should
 
-## What's next
-
-An end-to-end install on a brand-new Claude account to confirm the usage estimate, then setting up job alerts
-from inside the board rather than through a copied request to Claude.
-
 ## What's in this repo
 
 | | |
