@@ -107,6 +107,12 @@ emails. Merge onto the existing `roles` document; never create a second.
 An alert gives title, company, location and often salary: enough for the search-stage rules. It does
 not prove the role is open, and its links are usually tracking redirects. Verify in step 5.
 
+**Keep every role's own link.** From each alert card take that job's link, cleaned of tracking: LinkedIn
+as `https://www.linkedin.com/jobs/view/<id>` (the id is in the card's `/jobs/view/<id>` link or its
+`jobid_<id>` tracking value; a digest email holds several cards, so take the id from that role's own card).
+Other sites: the job page's own address with tracking parameters removed. Never fetch it (step 5). This
+link is the role's `sourceUrl`, and its `url` until the employer's own posting is found.
+
 ## 3. Run every automatic channel
 
 Run every channel with `kind: "auto"` and `status` `active` or `trial`. Channels with `kind: "manual"`
@@ -176,7 +182,7 @@ pre-filtered like an alert, so a large employer lists every office it has.
 
 **Not roles:** an evergreen talent-pool page (always open, no team or scope) is logged in `screened` as
 `talent pool`. A role with no page of its own (a careers search page, a board's front page) is logged
-as `no role link`. `url` must be the employer's page for that one role.
+as `no role link`. A board or search find's `url` must be the page for that one role.
 
 ## 5. Verify every survivor
 
@@ -195,8 +201,9 @@ browser evidence.
 - Reached it and the role isn't listed → don't write it; log in `screened` as `gone from employer board`
   with both URLs.
 - Couldn't reach it (no board, browser-only site, a block or login) → write it with `liveCheck: "you"`
-  and the red flag *"Check it's live — couldn't reach <company>'s job board"*.
-- Listed → set `url` to the employer's posting; keep the aggregator link as `sourceId`.
+  and the red flag *"Check it's live — couldn't reach <company>'s job board"*. `url` and `sourceUrl`
+  stay the aggregator's link for that one role.
+- Listed → set `url` to the employer's posting; keep the aggregator link in `sourceUrl`.
 
 Roles from `boardAts: linkedin-alert` companies arrive with `linkChecked: ""` and `liveCheck: "you"`.
 
@@ -259,11 +266,14 @@ another role's facts.
 **When found:**
 - Its facts are confirmed: drop the "per <source>, unconfirmed" wording.
 - Write `pay` (`source: "The ad"`), `salary`, `office`, `closing` and the contract type.
-- Set `url` to the employer's posting and keep the alert link as `sourceId`.
+- Set `url` to the employer's posting and keep the alert link in `sourceUrl`.
 - If the company row has no `boardAts`/`boardUrl`, write them there so later sweeps go straight to step 1.
   This pass still never creates company rows.
 
 **When not found** within the 3 calls: `office: "not read"` and the "Check it's live" red flag as before.
+`url` and `sourceUrl` are both the alert's cleaned link for that role (step 2). **Never write a role with
+an empty `url` when its alert or listing linked to that one role**: the card, the morning research and
+the daily check all start from it.
 Name how many survivors were read this way, and how many weren't, in the run note.
 
 Reading one survivor's posting is not a board fetch for sourcing. It doesn't change the rating table in
@@ -348,7 +358,8 @@ that row's `notSameAs` already lists the advert. Name every possible match in th
 
 ```
 title, company, companyId,
-url, source: "agent", seen: "<YYYY-MM-DD>",
+url, sourceUrl,                 // url: the employer's posting, else the alert or listing link for this role; sourceUrl: the alert or listing link
+source: "agent", seen: "<YYYY-MM-DD>",
 channelId, sourceId,            // required: channel doc id; sources doc id, or co:<companyId>, or flag:<term-slug>
 searchTerm: "",                 // the prefs search term that surfaced it, exactly as listed; "" otherwise
 stage: "proposed",
