@@ -142,7 +142,8 @@ function scRowHtml(x){
     (V? '<div class="wscview v-'+V[1]+'"><span class="wscvl">Claude: '+esc(V[0])+'</span>'+(x.why? '<span class="wscvw">'+esc(x.why)+'</span>' : "")+'</div>' : "")+
     (x.live===false? '<p class="wscgone">The ad had closed when Claude checked it.</p>' : "")+
     '<div class="wscbtns">'+btns+
-      (canAdd? (added? '<span class="wscadded">On your longlist</span>' : '<button type="button" class="btn sm primary" data-swc="add:'+esc(x.id)+'">Add to longlist</button>') : "")+'</div>'+
+      (canAdd? (added? '<span class="wscadded">On your longlist</span>' : '<button type="button" class="btn sm primary" data-swc="add:'+esc(x.id)+'">Add to longlist</button>') : "")+
+      (out==="unverified"? '<span class="wscnocount" title="No spot-check is saved, so it doesn\'t count either way">Not counted</span>' : "")+'</div>'+
     other+flag+'</li>';
 }
 /* Suggestions for any rule this week's answers touch, worked out from every check since the rule last changed. */

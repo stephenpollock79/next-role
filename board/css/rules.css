@@ -569,7 +569,8 @@ kbd{font:600 11.5px "IBM Plex Mono",monospace; background:var(--surface-2); bord
 /* Screen-out check outcomes and flags (5 Oct, second pass) */
 .ruckb.o-wrong.on{background:var(--warn); border-color:var(--warn); color:#fff}
 .ruckb.o-other.on{background:var(--ink-2); border-color:var(--ink-2); color:#fff}
-.ruckb.o-unverified.on{background:var(--surface-2); border-color:var(--line-2); color:var(--ink)}
+.ruckb.o-unverified.on{background:var(--muted); border-color:var(--muted); color:var(--surface)}
+.wscnocount{font-size:12px; font-weight:600; color:var(--muted)}
 .wscother{display:flex; flex-wrap:wrap; align-items:center; gap:6px; font-size:12px; color:var(--ink-2)}
 .wscother select{font:inherit; font-size:12px; padding:3px 6px; border:1px solid var(--line); border-radius:6px; background:var(--surface); max-width:100%}
 .wscflag{display:flex; flex-wrap:wrap; align-items:center; gap:6px}
