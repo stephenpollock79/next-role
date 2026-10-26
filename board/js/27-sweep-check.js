@@ -133,8 +133,8 @@ function scRowHtml(x){
   var flag="";
   if(out==="correct" && !scFixed(x.rule)){
     flag='<div class="wscflag'+(x.revisit? " on" : "")+'"><button type="button" class="wscflagb" data-swc="flag:'+esc(x.id)+'" aria-pressed="'+(x.revisit?"true":"false")+'"'+dis+
-      ' title="The role stays screened out. This counts towards revisiting the rule.">'+(x.revisit? "✓ " : "")+'Rule worth revisiting</button>'+
-      (x.revisit? '<input type="text" class="wscnote" data-swcnote="'+esc(x.id)+'" maxlength="200" placeholder="Why you\'d have wanted it (optional)" value="'+esc(x.revisitNote||"")+'">' : "")+'</div>';
+      ' title="The cut was right under the rule as written, but the rule may be too broad. The role stays screened out; three flags prompt you to review the rule.">'+(x.revisit? "✓ " : "")+'Rule worth revisiting</button>'+
+      (x.revisit? '<input type="text" class="wscnote" data-swcnote="'+esc(x.id)+'" maxlength="200" placeholder="What should the rule let through? (optional)" value="'+esc(x.revisitNote||"")+'">' : "")+'</div>';
   }
   return '<li class="wscrow'+(done? " done" : "")+'">'+
     '<div class="wsctop"><b>'+esc(x.title||"Untitled")+'</b><span>'+esc(x.company||"")+(x.date? " · "+esc(niceShort(x.date)) : "")+'</span>'+link+'</div>'+
