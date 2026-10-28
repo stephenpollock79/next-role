@@ -29,7 +29,7 @@ Clone the repository into your working directory:
 `git clone --depth 1 https://github.com/stephenpollock79/next-role`. If that's refused, ask them to download the
 repo as a ZIP (green *Code* button › Download ZIP) and attach it; unzip it and carry on from that copy.
 
-Check: `board/index.html`, `board/js/` (52 files), `board/css/`, `skills/` (11 folders) and `install/` are there.
+Check: `board/index.html`, `board/js/` (53 files), `board/css/`, `skills/` (11 folders) and `install/` are there.
 Note the commit you cloned (`git rev-parse HEAD`): it's the version they're installing.
 
 ## 2. Publish their board

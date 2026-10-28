@@ -53,7 +53,7 @@ changing or updating your board.
 **Process.** Built by dogfooding it: I used it for my own job search every day, and fixed bugs and added
 features as I hit them. Then it was packaged so anyone can install their own copy.
 
-**Scale.** About 18,000 lines of JavaScript in 52 files, 11 Claude skills, over 600 published versions, and
+**Scale.** About 18,000 lines of JavaScript in 53 files, 11 Claude skills, over 600 published versions, and
 about 560 automated checks in the QA pass.
 
 **How it's tested.** Automated tests, manual testing, and a scan that checks no personal data is in the code.
