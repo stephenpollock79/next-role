@@ -59,6 +59,12 @@ posting may be looked up on its employer's board, found by search if need be (se
 employer's own site"). **Never fetch a board with `boardAts: linkedin-alert` or `manual-check`, or `boardNeedsAlert: true`**
 for sourcing (its roles arrive by email, or the user checks its jobs page by hand from Sites I check); reading one survivor's posting there is allowed.
 
+**There is no time limit.** The only limits are the four above. Never stop, skip a channel or cut a run short
+because you think time is running out or the run has gone on long: a scheduled run has no clock to beat, and
+a sweep that stops early leaves sources unread and shows on the board as a fault. Keep going until every
+alert email, due company board, public board, recruiter site and search is done, or one of the four limits
+is reached. `capped` and `partial` mean only that a limit above was reached; `cappedNote` names which one.
+
 **A sweep that hits a limit stops, writes `screened` and `runs`, and reports a partial run.** That is a
 correct outcome. Work in this order so the budget runs out on the cheapest work to skip: alert inbox,
 boards with a recorded endpoint, searches.
@@ -67,7 +73,10 @@ boards with a recorded endpoint, searches.
 move to step 5 (checking survivors and reading postings), then write. A run that finds a lot and checks
 none of it hands all the checking to the user.
 
-Measure honestly: `toolCalls` and `subagents` counted, `minutes` from the first and last timestamps.
+Measure honestly: `toolCalls` and `subagents` counted. **Time is read from a clock, never estimated:** before
+step 1, run `date -u +%Y-%m-%dT%H:%M:%SZ` in the shell (or use a current-time tool) and keep the result as
+`startedAt`; read it again just before writing the run doc as `endedAt`. `minutes` is the difference between
+the two, rounded. If no clock is available, leave `minutes` out rather than guess.
 
 ## 1. Read the criteria
 
@@ -386,7 +395,9 @@ runs/<id>
   date, prefsVersion, channels, found, offSearch, seen, out, proposed, note,
   sources: [ { id, name, read, passed, found, status: "ok"|"empty"|"blocked"|"error", note } ],   // every source tried, even empty ones
   companiesChecked, boardsMoved, boardsSkipped, boardsNotDue, atsJson, atsHtml, endpointFails,
-  minutes, toolCalls, subagents,
+  startedAt, endedAt,       // real clock readings (ISO), see Budget
+  minutes, toolCalls, subagents, model,
+  capped: false, cappedNote, left,   // capped only when a settings limit stopped the run; left = sources and boards not reached
   partial: false            // true when a limit stopped the run; say which in note
 ```
 
