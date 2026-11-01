@@ -152,7 +152,7 @@ body[data-page="rail"] .wrail{display:grid; gap:14px; grid-template-columns:repe
 
 /* Long titles stop before the job-ad icon, so it never sits under the Me gauge (2 Oct test pass). */
 @media (min-width:761px){
-  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay) details.rcard:not([open]) > summary .rsum-title{max-width:calc(100% - 226px)}
+  :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay) details.rcard:not([open]) > summary .rsum-title{max-width:calc(100% - 270px)}
 }
 
 /* Bigger funnel in the top bar, plus the All / On me count toggle (2 Oct). */
@@ -228,7 +228,7 @@ details.rcard[open] > summary .fspips{display:none}
 }
 
 /* Pips only where the card is wide enough for them and a readable title (2 Oct): below 1100px of card the
-   row goes back to title + gauges. The title stops 410px short so its ad link never meets the pips.
+   row goes back to title + gauges. The title stops 470px short so its ad link (and a gap) never meets the pips.
    Only while the rail sits beside the list (1600px+): when the rail drops below, the card widens again,
    and the pips must not come back (2 Oct). */
 @media (min-width:1600px){
@@ -236,7 +236,7 @@ details.rcard[open] > summary .fspips{display:none}
     :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay) details.rcard:not([open]) > summary .fspips{
       display:flex; position:absolute; right:calc(var(--rp) + 200px); top:50%; transform:translateY(-50%)}
     :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay) details.rcard:not([open]) > summary .rsum-title,
-    :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay) details.rcard:not([open]) > summary .rsum-sub .rsum-co{max-width:calc(100% - 410px)}
+    :is(#tab-gate1,#tab-gate2,#tab-toapply,#tab-inplay) details.rcard:not([open]) > summary .rsum-sub .rsum-co{max-width:calc(100% - 470px)}
   }
 }
 
