@@ -122,6 +122,19 @@ as `https://www.linkedin.com/jobs/view/<id>` (the id is in the card's `/jobs/vie
 Other sites: the job page's own address with tracking parameters removed. Never fetch it (step 5). This
 link is the role's `sourceUrl`, and its `url` until the employer's own posting is found.
 
+**Count what each alert held against what it showed (added 1 Nov).** A digest email can state more matches
+than it shows: LinkedIn's says "29 new jobs match your preferences" but carries only about 6 cards. The rest
+can't be read here: never follow the "See all jobs" link (it is a linkedin.com page; see step 5). For every
+alert email that states a total, note the total and the cards read, grouped by the saved search the email
+names (LinkedIn: the line "Your job alert for <search> in <place>"). Single-job emails ("X is hiring…") state
+no total; skip them. Then:
+- In that source's entry in `runs` `sources`, add to its `note`: "<shown> of <stated> shown". `read` stays the
+  cards actually read.
+- In the run `note` and the chat report, name each saved search whose emails showed fewer than they stated,
+  with its totals for the run (e.g. `"Design Lead", UK remote: 6 of 29 shown`), and say
+  it needs splitting or narrowing in the job site's own alert settings so each email fits. That fix is the
+  user's; never change an alert from here.
+
 ## 3. Run every automatic channel
 
 Run every channel with `kind: "auto"` and `status` `active` or `trial`. Channels with `kind: "manual"`
@@ -449,7 +462,8 @@ Count its tool calls in `toolCalls` by updating the run doc (pinned) once it's d
 
 Cost first: boards checked (every-sweep and weekly), moved, skipped as unchanged, skipped as not due
 this week, JSON vs HTML, endpoint failures, tool calls against the limit, and survivors whose ad was read
-on the employer's or recruiter's site against those left unread. Then found, removed per rule (named, not numbered), turned down before (count), reached the longlist, possible
+on the employer's or recruiter's site against those left unread. Then alert coverage: each saved search whose
+emails showed fewer roles than they stated, shown against stated (step 2). Then found, removed per rule (named, not numbered), turned down before (count), reached the longlist, possible
 duplicates of roles the user added, possibly the same seat (each pair), and any sourcing gap. Then the longlist research's own report.
 
 If the batch is thin, name the three possible causes (thin flow, tight criteria, wrong channels)

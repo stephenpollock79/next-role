@@ -186,6 +186,12 @@ The board never stores their email address.
      their country if it allows remote, or both. Never add remote, or their area, if the rule rules it out. If
      there's no LinkedIn source, add one: `sources/linkedin`, channel `alerts`, `setup.read: "alerts"`, status
      `trial`. It's usually the biggest source.
+     **Keep each LinkedIn alert narrow (added 1 Nov).** A LinkedIn digest email shows only about 6 roles however
+     many match ("29 new jobs match", 6 shown), and the sweep can't open the rest. So: one term per alert, never
+     terms joined with OR; and a separate alert per place, their area with the Workplace type filter set to
+     on-site and hybrid, and their country with it set to remote. Never one country-wide alert with no workplace
+     filter. Set the location and Workplace type filters on the results page: LinkedIn's search drops them from
+     a pasted link.
    - Sources with `setup.read: "alerts"` or channel `alerts` (and not `dropped`): saved searches from the same
      search terms and places.
    - Companies rated Want it or Would consider with `boardNeedsAlert: true`: a LinkedIn company alert each.
