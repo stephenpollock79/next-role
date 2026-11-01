@@ -93,12 +93,13 @@ flowSelect=(function(orig){ return function(r,st,extra){
   return h.replace("<select ",'<select title="'+esc(tip)+'" ');
 }; })(flowSelect);
 
-/* Every status change records its day. A chase that keeps the same stored status keeps the clock. */
+/* Every status change records its day. A chase that keeps the same stored status keeps the clock.
+   Picking Dormant by hand clears Keep waiting, so the choice sticks. */
 setFlow=(function(orig){ return function(id,next,extra){
   var r=roles.find(function(x){ return x.id===id; });
   var add={};
   if(!r || r.flowStatus!==next) add.flowAt=today();
-  if(!WQ_WAIT[next]) add.quietUntil="";
+  if(!WQ_WAIT[next] || next==="quiet") add.quietUntil="";
   return orig(id,next,Object.assign(add,extra||{}));
 }; })(setFlow);
 
