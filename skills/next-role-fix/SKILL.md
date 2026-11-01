@@ -1,6 +1,6 @@
 ---
 name: "next-role-fix"
-description: "Works Data health fixes on a Next Role board that the board can't do itself: re-checks, scores, company cards, job sites it can't read yet, LinkedIn alerts, stopped runs, sources, scheduled tasks, board errors. Use for a pasted \"Run next-role-fix\" request."
+description: "Works Data health fixes on a Next Role board that the board can't do itself: re-checks, scores, company cards, job sites it can't read yet, LinkedIn alerts, job alerts cut off in their emails, stopped runs, sources, scheduled tasks, board errors. Use for a pasted \"Run next-role-fix\" request."
 ---
 
 # Data health fixes
@@ -45,7 +45,7 @@ Every write merges with `update`, pinned with `if_version` (read the document fi
 never clear `linkChecked`.
 
 **Order.** Do the cheap kinds first (`recheck-link`, `role-fit`, `company-card`, `find-link`,
-`read-posting`), then the browser ones (`site-pattern`, `linkedin-alert`), then the slow ones (`build-pack`,
+`read-posting`), then the browser ones (`site-pattern`, `linkedin-alert`, `alert-split`), then the slow ones (`build-pack`,
 `interview-prep`, `sweep-overdue`, `task-run`), then `run-limits`, then `source-*` and `board-error`. If the list
 is long, say how many there are and go; don't ask first.
 
@@ -134,6 +134,28 @@ companies one alert can hold (in practice about 14).
 
 Only add companies; never delete or rename an alert, never change its keywords or frequency, and never
 apply for anything or message anyone.
+
+### `alert-split` (`<source id> · <saved search>`; from the Highlights card "Job alerts cut off in their emails")
+A digest email shows only a few roles however many match (LinkedIn: about 6), and the sweep can't open the rest.
+Each line names a saved search that showed fewer roles than it stated in the last two sweeps.
+
+1. Use the browser where the user is signed in to that job site (Claude in Chrome unless they say otherwise; read
+   that browser's skill first). If no browser is available, stop this kind and say so.
+2. Read `profile/prefs` `searchTerms` and the where-they-work rule in `hardRules` (type `location`).
+3. Open the site's job alerts and find the saved search. Split it into narrower alerts, one per line of:
+   - **one term per alert**: never terms joined with OR;
+   - **one place per alert**: their area with the Workplace type filter set to on-site and hybrid, and their
+     country with it set to remote, only the places the location rule lets through.
+   Skip any narrower alert that already exists. On LinkedIn, set the location and Workplace type filters on the
+   results page (its search drops them from a pasted link), then turn on "Get job alerts for this search":
+   daily, email and notification. Check each one shows in the alert list with its filter.
+4. Delete the old alert only once all its narrower alerts exist, so roles don't arrive twice.
+5. A search that is already one term in one place can't be split by place. Don't change it: report it, with
+   the choice for the user (narrow it with a filter the site offers, or drop it if it sits outside what they
+   want). Never add a salary filter: roles that don't state pay pass the pay rule as unknown.
+
+Never touch an alert that isn't on the list, and never apply for anything or message anyone. The card clears by
+itself once the next two sweeps show the old search gone or no longer cut off: write nothing on the board.
 
 ### `build-pack` (role ids)
 Run the `next-role-apply-pack` skill for those roles.

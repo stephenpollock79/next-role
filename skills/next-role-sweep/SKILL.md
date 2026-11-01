@@ -126,14 +126,20 @@ link is the role's `sourceUrl`, and its `url` until the employer's own posting i
 than it shows: LinkedIn's says "29 new jobs match your preferences" but carries only about 6 cards. The rest
 can't be read here: never follow the "See all jobs" link (it is a linkedin.com page; see step 5). For every
 alert email that states a total, note the total and the cards read, grouped by the saved search the email
-names (LinkedIn: the line "Your job alert for <search> in <place>"). Single-job emails ("X is hiring…") state
-no total; skip them. Then:
+names (LinkedIn: the line "Your job alert for <search> in <place>"). Judge by the body, not the subject: a
+LinkedIn email titled "X is hiring…" or "<title> at <company>" is usually a digest too. When the body gives no
+number, take it from the subject ("… and 39 other jobs" means 40); "30+" counts as 30. Skip only emails that
+state no total anywhere. Then:
+- Write them to the run record as `alertCoverage`: one entry per saved search, `{source: "<sources id>",
+  search: "<the search as the email names it, with its place>", emails, stated, shown}`, summed over this run's
+  emails. Write every saved search whose emails state a total, cut off or not: the board's Highlights card
+  needs two sweeps in a row of the same search to say it is cut off. Use the same `search` wording each run.
 - In that source's entry in `runs` `sources`, add to its `note`: "<shown> of <stated> shown". `read` stays the
   cards actually read.
 - In the run `note` and the chat report, name each saved search whose emails showed fewer than they stated,
   with its totals for the run (e.g. `"Design Lead", UK remote: 6 of 29 shown`), and say
-  it needs splitting or narrowing in the job site's own alert settings so each email fits. That fix is the
-  user's; never change an alert from here.
+  it needs splitting or narrowing in the job site's own alert settings so each email fits. Never change an
+  alert from here: the board's Highlights card hands the split to `next-role-fix` (kind `alert-split`).
 
 ## 3. Run every automatic channel
 
@@ -411,6 +417,7 @@ runs/<id>
   startedAt, endedAt,       // real clock readings (ISO), see Budget
   minutes, toolCalls, subagents, model,
   capped: false, cappedNote, left,   // capped only when a settings limit stopped the run; left = sources and boards not reached
+  alertCoverage: [ { source, search, emails, stated, shown } ],   // alert emails that state a total (step 2); [] when none did
   partial: false            // true when a limit stopped the run; say which in note
 ```
 
