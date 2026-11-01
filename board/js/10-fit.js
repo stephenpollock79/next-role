@@ -183,10 +183,21 @@ function fitGauges(r,only){
 document.addEventListener("click",function(ev){
   var b=ev.target.closest && ev.target.closest('[data-act="fitg"]'); if(!b) return;
   ev.preventDefault(); ev.stopPropagation();
-  CTAB[b.dataset.id]="fit"; CTAB[b.dataset.id+"/fit"]=b.dataset.k;
-  if(expanded) expanded.add(b.dataset.id);
-  render();
+  fitJump(b);
 },true);
+/* Gauges and Details links press the real Fit tab and sub-tab in the same card, like a "Go to …" link,
+   rather than relying on a redraw (which leaves an open side panel on the old tab). */
+function fitJump(b){
+  var id=b.dataset.id, k=b.dataset.k||"me";
+  CTAB[id]="fit"; CTAB[id+"/fit"]=k;
+  var scope=b.closest(".rbody")||document;
+  var tab=scope.querySelector('.ctabs [data-act="ctab"][data-id="'+cssq(id)+'"][data-k="fit"]');
+  if(!tab){ if(expanded) expanded.add(id); render(); return; }
+  tab.click();
+  var sub=scope.querySelector('.ctabs.sub [data-act="ctab"][data-id="'+cssq(id+"/fit")+'"][data-k="'+cssq(k)+'"]');
+  if(sub) sub.click();
+  var sb=tab.closest(".spb, .wkpopb"); if(sb) sb.scrollTop=0; else tab.scrollIntoView({block:"nearest"});
+}
 function fitDuo(r){
   var m=myCrit(r), x=fitOf(r);
   var a = [ME_CLS[m.state], ME_LAB[m.state]];
@@ -275,7 +286,7 @@ document.addEventListener("click",function(ev){
     var v=el("g2nv-"+b.dataset.id), f=el("g2nf-"+b.dataset.id); if(v) v.hidden=true; if(f){ f.hidden=false; var ta=f.querySelector("textarea"); if(ta) ta.focus(); }
     return;
   }
-  CTAB[b.dataset.id]="fit"; CTAB[b.dataset.id+"/fit"]=b.dataset.k; render();
+  fitJump(b);
 });
 
 /* ---------- About me › Skills (1 Oct) ---------- */
