@@ -1,20 +1,22 @@
 "use strict";
-/* ===== Waiting on Applied: days, chases and Gone quiet (13 Oct) =====
+/* ===== Waiting on Applied: days, chases and Dormant =====
    Every Applied status now carries its age, e.g. "Applied, no reply · 7d", so a role nobody answers is visible
    instead of sitting there for ever. Two waiting states, each with its own clock:
    - Applied, no reply: counted from `appliedAt`. Chase them at 14 days, only when someone is linked to chase
-     (a person at the company, or a referral); otherwise there's no one to nudge. Gone quiet at 30 days.
+     (a person at the company, or a referral); otherwise there's no one to nudge. Dormant at 21 days.
    - Waiting for feedback (after an interview or conversation): counted from when it moved there (`flowAt`).
-     Chase them 10 days after it moved there or after the last chase. Gone quiet at 30 days, or 10 days after a second
+     Chase them 10 days after it moved there or after the last chase. Dormant at 21 days, or 10 days after a second
      chase with no reply.
-   Gone quiet asks rather than closes: Close as no reply (ended by them, reason "Went quiet", with undo) or Keep
+   Dormant roles sit in their own group below Waiting and don't count as live. It asks rather than closes: Close as no reply (ended by them, reason "Went quiet", with undo) or Keep
    waiting (`quietUntil` = 14 days on; it asks again then).
    New fields: `flowAt` (the day the status last changed; written by every setFlow), `chaseDates` (every Chase sent),
    `quietUntil`. Roles from before fall back to the applied date, the last chase, or the last meeting or notes.
    Mark applied now asks for the date you applied (default today). */
-var WQ={noreply:{chase:14, quiet:30}, feedback:{chase:10, quiet:30, chases:2}, snooze:14};
+var WQ={noreply:{chase:14, quiet:21}, feedback:{chase:10, quiet:21, chases:2}, snooze:14};
 var WQ_WAIT={noreply:1, feedback:1, chase:1, quiet:1};
-FLOW.quiet={label:"Gone quiet — close it?", cls:"weak", mine:true};
+FLOW.quiet={label:"Dormant: 3 weeks, no contact", cls:"weak", mine:false};
+/* Dormant (1 Nov): its own group on Applied, below Waiting, and not a live application (01's isLiveApp). */
+function appDormant(r){ var I=null; try{ I=wqInfo(r); }catch(e){} return !!(I && I.k==="quiet"); }
 FLOW_ORDER.splice(FLOW_ORDER.indexOf("writeup")+1,0,"quiet");
 
 function wqMax(a){ return a.filter(Boolean).sort().pop()||""; }
@@ -57,7 +59,7 @@ function wqInfo(r){
 }
 function wqDays(n){ return n+"d"; }
 /* The status pill is narrow (13 Oct): days go first so they never get cut off, with a shorter label. */
-var WQ_SHORT={noreply:"No reply", feedback:"Awaiting feedback", chase:"Chase them", quiet:"Gone quiet", slot:"Awaiting a slot", writeup:"Write it up", offer:"Offer"};
+var WQ_SHORT={noreply:"No reply", feedback:"Awaiting feedback", chase:"Chase them", quiet:"Dormant", slot:"Awaiting a slot", writeup:"Write it up", offer:"Offer"};
 function wqLabel(k,days){ return wqDays(days)+" · "+(WQ_SHORT[k]||(FLOW[k]||{}).label||k); }
 
 flowOf=(function(orig){ return function(r){
@@ -100,7 +102,7 @@ setFlow=(function(orig){ return function(id,next,extra){
   return orig(id,next,Object.assign(add,extra||{}));
 }; })(setFlow);
 
-/* Buttons for Gone quiet: on the card's status line, and in place of the row's quick buttons. */
+/* Buttons for Dormant: on the card's status line, and in place of the row's quick buttons. */
 function wqBtns(id){
   return sbtn("wq_close",id,"Close as no reply","primary",' title="Ends it as They said no — Went quiet. Undo is on the toast."')+
     sbtn("wq_keep",id,"Keep waiting","",' title="Asks again in '+WQ.snooze+' days"');

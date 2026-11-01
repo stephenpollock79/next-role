@@ -309,7 +309,7 @@ function insHlRaw(M,M0,since,act){
     }
     /* New (3 Oct): live applications with a weak Their fit (Role Fit band Stretch or Low). */
     if(to>=4){
-      var lv=roles.filter(function(r){ return r.stage==="applied"||r.stage==="offer"; }), low=lv.filter(function(r){ var f=insFit(r); return f==="Stretch"||f==="Low"; });
+      var lv=roles.filter(isLiveApp), low=lv.filter(function(r){ var f=insFit(r); return f==="Stretch"||f==="Low"; });
       if(lv.length>=3 && low.length>=2 && low.length/lv.length>=0.5)
         add({key:"lowfit", score:19, n:low.length, title:plural(low.length,"live application")+" with a weak Role Fit",
           text:low.length+" of "+lv.length+" live applications are Stretch or Low on Role Fit (your CV against the ad). Prep the gaps before interviews, and weigh it when choosing what to send next.",

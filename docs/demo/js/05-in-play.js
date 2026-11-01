@@ -251,7 +251,8 @@ function renderInPlay(){
     .sort(function(a,b){ return a.st.sort.localeCompare(b.st.sort); });
   var gr=function(x){return x.r;};
   var mine=sortRoles("inplay",live.filter(function(x){return x.st.mine;}),gr);
-  var theirs=sortRoles("inplay",live.filter(function(x){return !x.st.mine;}),gr);
+  var theirs=sortRoles("inplay",live.filter(function(x){return !x.st.mine && x.st.k!=="quiet";}),gr);
+  var dormant=sortRoles("inplay",live.filter(function(x){return !x.st.mine && x.st.k==="quiet";}),gr);
 
   var h=el("inplay-list"); if(!h) return;
   if(!live.length){
@@ -275,7 +276,15 @@ function renderInPlay(){
       '</div>'+
       (theirs.length
         ? '<div class="stack">'+theirs.map(function(x){return playCard(x.r);}).join("")+'</div>'
-        : '<p class="emptyline">Nothing waiting. Every live application needs something from you.</p>');
+        : '<p class="emptyline">Nothing waiting. Every live application needs something from you.</p>')+
+      (dormant.length
+        ? '<div class="sec-head" style="margin:28px 0 12px">'+
+            '<h2 style="font-size:17px">Dormant</h2>'+
+            '<span class="chip">'+dormant.length+'</span>'+
+            '<span class="eyebrow">3 weeks with no contact \u00b7 not counted as live</span>'+
+          '</div>'+
+          '<div class="stack">'+dormant.map(function(x){return playCard(x.r);}).join("")+'</div>'
+        : "");
   }
 
   /* A sector conversation lives on its Sectors card. 29 Sep: this chat "isnt in play right now". */

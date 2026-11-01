@@ -923,3 +923,6 @@ function pips(id,field,val){
    the role's note. 29's reject-box restore calls costopSync after setting the choice back. */
 function costopSync(sel){ if(!sel) return; var b=document.getElementById("costop-"+sel.dataset.id); if(b) b.hidden= sel.value!=="stop"; }
 document.addEventListener("change",function(ev){ var t=ev.target; if(t && t.matches && t.matches('select[data-act="co_after"]')){ costopSync(t); if(t.value==="stop"){ var b=document.getElementById("costop-"+t.dataset.id); if(b) b.focus(); } } });
+/* A live application: at Applied or Offer and not Dormant (3 weeks with no contact; 45's `appDormant`).
+   Used for the application band, Funnel health and every "live applications" count. */
+function isLiveApp(r){ return (r.stage==="applied"||r.stage==="offer") && !(typeof appDormant==="function" && appDormant(r)); }

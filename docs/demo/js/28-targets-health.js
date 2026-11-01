@@ -108,7 +108,7 @@ function srcNoFit(id){
 }
 function insHlExtra(){
   var T=TG(), t=today(), out=[], H=tgHist(), days=typeof insBoardDays==="function"? insBoardDays() : 0;
-  var live=roles.filter(function(r){ return r.stage==="applied"||r.stage==="offer"; });
+  var live=roles.filter(isLiveApp);
   /* --- Outcomes --- */
   /* Below the band, with where the funnel is thin, downstream first: the nearest place more applications can come from. */
   if(live.length<T.band[0]){

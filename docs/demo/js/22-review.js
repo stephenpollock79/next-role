@@ -22,7 +22,7 @@ function rvCur(){ return RV.id? RU.reviews.find(function(r){return r.id===RV.id;
 
 /* ---------- what Claude reads ---------- */
 function rvCounts(){
-  var live=roles.filter(function(r){return r.stage==="applied"||r.stage==="offer";}).length;
+  var live=roles.filter(isLiveApp).length;
   return {roles:rawRoles.length, channels:channels.length, rules:ruRules().length, downs:ruTurnDowns().length, live:live};
 }
 function rvLoopLines(){

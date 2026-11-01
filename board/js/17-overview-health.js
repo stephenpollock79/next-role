@@ -95,7 +95,7 @@ function longlistLine(){
   return '<p class="rwline"><a href="#" data-gotab="gate1">Longlist · '+ll.length+' to review'+(ll.length? " · oldest "+old+"d" : "")+' →</a></p>';
 }
 function loadInfo(){
-  var n=roles.filter(function(r){return r.stage==="applied"||r.stage==="offer";}).length, lo=LOAD_BAND[0], hi=LOAD_BAND[1];
+  var n=roles.filter(isLiveApp).length, lo=LOAD_BAND[0], hi=LOAD_BAND[1];
   var s = n<lo? {cls:"mid", msg:"Below your "+lo+"–"+hi+" band. Push more through to keep the odds up."}
         : n>hi? {cls:"weak", msg:"Above your "+lo+"–"+hi+" band. Prep for each one may suffer."}
         : {cls:"strong", msg:"Inside your "+lo+"–"+hi+" band."};
