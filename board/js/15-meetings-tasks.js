@@ -262,8 +262,14 @@ function interviewsPanel(r){
   /* 4. Tasks */
   var dl=mtDeadlinesOf(r);
   var raLive=(typeof CARD_ACT_ST!=="undefined" && CARD_ACT_ST[r.stage]);
+  /* Done tasks fold away like done interviews once there are more than two. */
+  var tdone=tasks.filter(function(c){return c.state==="done";}), tfold=tdone.length>2,
+      tlive=tfold? tasks.filter(function(c){return c.state!=="done";}) : tasks,
+      liveRows=preps.map(mtPrepRow).join("")+tlive.map(mtTaskRow).join("")+dl.map(mtDeadlineRow).join("");
   var tk='<div class="ivsec">'+head("Tasks for this role","",raLive? "" : addBtn("task","+ Task",""))+
-    ((tasks.length||preps.length||dl.length)? '<div class="mtrows tasklist">'+preps.map(mtPrepRow).join("")+tasks.map(mtTaskRow).join("")+dl.map(mtDeadlineRow).join("")+'</div>'
+    ((tasks.length||preps.length||dl.length)? (liveRows? '<div class="mtrows tasklist">'+liveRows+'</div>' : "")+
+        (tfold? '<details class="stage donefold"'+(MTOPEN["tdone~"+r.id]?" open":"")+' data-mtk="tdone~'+esc(r.id)+'"><summary class="stsum"><span class="stname">Done</span><span class="spill strong ststat">'+tdone.length+'</span></summary>'+
+          '<div class="stbody"><div class="mtrows tasklist">'+tdone.map(mtTaskRow).join("")+'</div></div></details>' : "")
       : '<p class="emptyline">None yet.'+(raLive? ' <button type="button" class="linkbtn" data-act="mt_add" data-item="task" data-fk="role" data-fid="'+esc(r.id)+'">Add a task</button>' : "")+'</p>')+
   '</div>';
 
