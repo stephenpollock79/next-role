@@ -190,7 +190,12 @@ document.addEventListener("click",function(ev){
 function fitJump(b){
   var id=b.dataset.id, k=b.dataset.k||"me";
   CTAB[id]="fit"; CTAB[id+"/fit"]=k;
-  var scope=b.closest(".rbody")||document;
+  var scope=b.closest(".rbody");
+  /* On a collapsed row the gauges open the side panel (or Week ahead's pop-up) straight on Fit and the sub-tab. */
+  if(!scope){ var d=b.closest("details.rcard"), sec=d && d.closest('main section[id^="tab-"]');
+    var tb=sec? sec.id.slice(4) : "", kind = tb==="week"? "wk" : (typeof SP_TABS!=="undefined" && SP_TABS[tb])? "rcard" : null;
+    if(kind){ spOpen(id,kind); scope=el(kind==="wk"? "wkpop-body" : "sp-body"); } }
+  scope=scope||document;
   var tab=scope.querySelector('.ctabs [data-act="ctab"][data-id="'+cssq(id)+'"][data-k="fit"]');
   if(!tab){ if(expanded) expanded.add(id); render(); return; }
   tab.click();
